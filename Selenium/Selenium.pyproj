@@ -11,6 +11,7 @@
     <OutputPath>.</OutputPath>
     <Name>Selenium</Name>
     <RootNamespace>Selenium</RootNamespace>
+    <TestFramework>Pytest</TestFramework>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
