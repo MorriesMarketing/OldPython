@@ -2,16 +2,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>0b49804f-45c1-4362-b181-f423e0617d0e</ProjectGuid>
+    <ProjectGuid>39096207-a6f2-4fc0-89bc-f07ee4d18700</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Selenium.py</StartupFile>
+    <StartupFile>SQL_Main.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
-    <Name>Selenium</Name>
-    <RootNamespace>Selenium</RootNamespace>
-    <TestFramework>Pytest</TestFramework>
+    <Name>SqlQuery</Name>
+    <RootNamespace>SqlQuery</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -22,7 +21,23 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Selenium.py" />
+    <Compile Include="Databases.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SQL_Server.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SQL_Light.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SQL_Main.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Days\Days.pyproj">
+      <Name>Days</Name>
+      <Project>{67ad089e-d1d9-421b-9fb4-9c6c61454fc0}</Project>
+      <Private>True</Private>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

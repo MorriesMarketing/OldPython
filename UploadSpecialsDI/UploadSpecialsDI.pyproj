@@ -2,16 +2,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>0b49804f-45c1-4362-b181-f423e0617d0e</ProjectGuid>
+    <ProjectGuid>8a1da7b5-9537-40db-89c6-7997744510aa</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Selenium.py</StartupFile>
+    <StartupFile>UploadSpecialsDI.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
-    <Name>Selenium</Name>
-    <RootNamespace>Selenium</RootNamespace>
-    <TestFramework>Pytest</TestFramework>
+    <Name>UploadSpecialsDI</Name>
+    <RootNamespace>UploadSpecialsDI</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -22,7 +21,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Selenium.py" />
+    <Compile Include="UploadSpecialsDI.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
