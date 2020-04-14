@@ -17,3 +17,6 @@ class SeleniumDrivers():
         print(f'Navigate To: {Domain}{page}')
         return self.driver.get(f'{Domain}{page}')
 
+    def teardown_method(self):
+        self.driver.quit()
+
