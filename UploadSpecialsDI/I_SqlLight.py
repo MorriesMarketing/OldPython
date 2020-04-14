@@ -16,5 +16,18 @@ class SqlLight():
         
         while True:
             database = Database(SqlQueryConnect, SqlQueryExcecute, Database.FETCHALL, Sql)
-            return database.access_table()          
+            return database.access_table()
+     
+    @staticmethod
+    def VM_OfferTypes_ReadData():
+        Sql = Database.SQLITE3
+        SqlQueryConnect = f"C:\PythonSqlite\Databases\Database1.db"
+        SqlQueryExcecute = f"""
+                        SELECT *               
+                        FROM OfferTypes
+                        """
+        
+        while True:
+            database = Database(SqlQueryConnect, SqlQueryExcecute, Database.FETCHALL, Sql)
+            return database.access_table()     
 
