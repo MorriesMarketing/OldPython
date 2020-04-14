@@ -16,6 +16,14 @@ class Vehicle:
             self.MakeName = 'BMW'
         else:
             self.MakeName = kwargs['Brand']
+
+        if kwargs['Brand'] == 'Chrysler' or kwargs['Brand'] == 'Jeep' or kwargs['Brand'] == 'Dodge' or kwargs['Brand'] == 'Ram' :
+            self.Brand = 'FCA'
+        elif kwargs['Brand'] == 'Gmc' or kwargs['Brand'] == 'Buick':
+            self.Brand = 'GM'
+        else:
+            self.Brand = kwargs['Brand']
+
         self.ModelName = kwargs['Model']
         self.ModelNumber = kwargs['ModelNumber']
         self.Trim = kwargs['Trim']
