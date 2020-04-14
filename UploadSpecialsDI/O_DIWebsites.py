@@ -41,8 +41,7 @@ class DIWebsite():
         print('Running delete_offers')
         while True:
             try:
-                edit = website + domain_dict['website']['page_specials_edit']
-                edit = f'{self.Domain}'
+                edit = f'{self.Domain}{DIWebsite.DI_EDIT}'
                 self.driver.get(edit)
                 break
             except:

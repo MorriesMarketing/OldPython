@@ -1,11 +1,12 @@
-from I_SqlServer import *
-from I_Selenium import *
+from I_Databases import *
 from I_SqlLight import *
+from I_SqlServer import *
 from O_Days import *
 from O_DIOfferTypes import *
 from O_DIWebsites import *
+from O_Offers import *
+from O_Selenium import *
 from O_Vehicles import *
-
 
 class VehicleSpecialsNew():
 
@@ -28,8 +29,47 @@ class VehicleSpecialsNew():
     driver = SeleniumDrivers.CHROME
     Website = SeleniumDrivers(driver)
 
-    def build_special():
-        pass
+    def refresh_post_page(v,driver):
+        driver.get(f'{self.Domain}{DIWebsite.DI_EDIT}')
+        driver.get(f'{self.Domain}{DIWebsite.DI_POST}')
+
+    def populate_vehicle(v, driver):
+        driver.find_element(By.CSS_SELECTOR, ".acf-radio-list > li:nth-child(3)").click() # Click Area Around > Offer Applies To - Stock(one unit)
+        driver.find_element(By.ID, "acf-field_56917bb83947f-stock").click()# Click Offer Applies To - Stock(one unit)
+        driver.find_element(By.ID, "acf-field_56549cefdeb1a").send_keys(f'{v.StockNumber}')# Send Stock Number to Vehicle Stock Text Box
+        driver.find_element(By.ID, "populate_vehicle").click()# Click Populate Stock Number - Image will auto load
+    
+    def populate_title_boxes(v, driver):
+        while True:
+            driver.find_element(By.CSS_SELECTOR, ".acf-radio-list > li:nth-child(3)").click() # Click Area Around > Offer Applies To - Stock(one unit)
+            driver.find_element(By.ID, "acf-field_56917bb83947f-stock").click()# Click Offer Applies To - Stock(one unit)
+            driver.find_element(By.ID, "acf-field_56549cefdeb1a").send_keys(f'{vehicle.StockNumber}')# Send Stock Number to Vehicle Stock Text Box
+            driver.find_element(By.ID, "populate_vehicle").click()# Click Populate Stock Number - Image will auto load
+            try: # Check for if vehicle exists
+                x = driver.find_element(By.NAME, "post_title")# add vehicle title to Title Text Box
+                element = x
+                actions = ActionChains(driver)
+                actions.move_to_element(element).perform()
+                driver.execute_script(f'arguments[0].value = "New {vehicle.Year} {vehicle.MakeName} {vehicle.ModelName} {vehicle.Trim}";', x)
+                driver.find_element(By.ID, "acf-field_5575ca339b200").clear()# clear vehicle title 
+                x = self.driver.find_element(By.ID, "acf-field_5575ca339b200")# replace vehicle title with fixed one
+                driver.execute_script(f'arguments[0].value = "New {vehicle.Year} {vehicle.MakeName} {vehicle.ModelName} {vehicle.Trim}";', x)
+                driver.find_element(By.CSS_SELECTOR, "li:nth-child(2) b").click()# Click Offer Applies To - Inventory
+                driver.find_element(By.ID, "acf-diso_vehicle_stock").send_keys(f'{vehicle.StockNumber}')# Send Keys to Secondary Stock Number Box 
+                break 
+            except:
+                try:
+                    driver.switch_to_alert().accept()
+                    continue
+                except:
+                    assert driver.switch_to.alert.text == "Vehicle Stock or VIN not found"
+                continue
+
+    def build_special(v, driver):
+        refresh_post_page(v,driver)
+        populate_vehicle(v, driver)
+        populate_title_boxes(v, driver)
+
 
     def check_match(v):
         value = None
@@ -52,8 +92,8 @@ class VehicleSpecialsNew():
                 Today.time_taken(DIWebsite.delete_all_specials,None)
 
                 for v in vehicles:
-
-                    if check_match(v) == False:
+                    value = check_match(v)
+                    if value == False:
                         print(f'CHECK BLOCK 1 TRUE: Unable to find matching Make & Dealer Code')
                         continue
                     elif 'N' not in v.StockNumber:
@@ -64,25 +104,14 @@ class VehicleSpecialsNew():
                         continue
                     elif w.Domain == 'https://www.walser.com/' or w.Domain == 'https://www.walserautocampus.com/':
                         print(f'CHECK BLOCK 4 TRUE: Running Specials on {w.Domain}')
-                        build_special()
+                        build_special(v, driver)
                     elif v.Brand != w.Brand:
                         print(f'CHECK BLOCK 5 TRUE: Vehicle Brand: {v.Brand} \nWebsite Brand: {w.Brand}')
                         continue
                     else:
                         print(f'ELSE STATMENT ACTIVE: Running Specials on {w.Domain}')
-                        build_special()
+                        build_special(v, driver)
 
-                    Website.navigate_to(w.Domain,f'{w.DI_INVENTORY_VIN}{v.VIN}')
-                    try:
-                        driver.find_element_by_xpath('//*[@id="edit-vehicle-form"]/div[4]/div/div[2]/div[2]/a')
-                        try:
-                            driver.find_element(By.LINK_TEXT, "Mark as Internet Special").click()
-                        except:
-                            print('Already Marked Special')
-                            driver.find_element(By.CSS_SELECTOR, ".toggle-internet-special > strong")
-                    except:
-                        print("Couldn't Find Element")
-                        sleep(1)
             else:
                 pass
         driver.quit()

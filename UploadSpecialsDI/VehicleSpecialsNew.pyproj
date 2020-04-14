@@ -23,12 +23,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="I_Databases.py" />
+    <Compile Include="O_Offers.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="O_DIOfferTypes.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="O_Days.py" />
     <Compile Include="O_DIWebsites.py" />
-    <Compile Include="I_Selenium.py" />
+    <Compile Include="O_Selenium.py" />
     <Compile Include="I_SqlLight.py" />
     <Compile Include="I_SqlServer.py" />
     <Compile Include="R_VehicleSpecialsNew.py" />
