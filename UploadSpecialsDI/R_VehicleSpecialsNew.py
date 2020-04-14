@@ -7,15 +7,15 @@ from O_Vehicles import *
 
 class VehicleSpecialsNew():
 
-
+    SqlServer.PRD_OfferSpecialsUpload_RefreshCheck()
      #Pull data for Websites to be ran
     data_table = SqlLight.VM_Websites_ReadData()
     data = Database.convert_table_to_dict(data_table)
     websites = Database.create_objects(data, DiWebsite)
     #Pull data for Vehicle to be ran
-    data_table = SqlServer.PRD_ExternalVehicles_AgedUsed_ReadData()
+    data_table = SqlServer.PRD_OfferSpecialsUpload_ReadData()
     data = Database.convert_table_to_dict(data_table)
-    vehicles = Database.create_objects(data, VehicleAged)
+    vehicles = Database.create_objects(data, Vehicle)
     #Setup Driver & Website to be ran
     driver = SeleniumDrivers.CHROME
     Website = SeleniumDrivers(driver)
