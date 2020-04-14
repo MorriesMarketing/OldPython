@@ -1,4 +1,4 @@
-class DiOfferType():
+class DIOfferType():
 
     def __init__(self, **kwargs):
         self.Make = kwargs['Make']

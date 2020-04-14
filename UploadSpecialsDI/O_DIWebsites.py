@@ -1,6 +1,6 @@
 from time import sleep
 
-class DiWebsite():
+class DIWebsite():
     DI_EDIT = 'wp/wp-admin/edit.php?post_type=special_offers'
     DI_POST = 'wp/wp-admin/post-new.php?post_type=special_offers'
     DI_REORDER = 'wp/wp-admin/edit.php?post_type=special_offers&page=order-post-types-special_offers' 

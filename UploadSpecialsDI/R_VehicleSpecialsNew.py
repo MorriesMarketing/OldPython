@@ -2,8 +2,10 @@ from I_SqlServer import *
 from I_Selenium import *
 from I_SqlLight import *
 from O_Days import *
-from O_DIWebsite import *
+from O_DIOfferTypes import *
+from O_DIWebsites import *
 from O_Vehicles import *
+
 
 class VehicleSpecialsNew():
 
@@ -11,11 +13,17 @@ class VehicleSpecialsNew():
      #Pull data for Websites to be ran
     data_table = SqlLight.VM_Websites_ReadData()
     data = Database.convert_table_to_dict(data_table)
-    websites = Database.create_objects(data, DiWebsite)
+    websites = Database.create_objects(data, DIWebsite)
+
+    data_table = SqlLight.VM_OfferTypes_ReadData()
+    data = Database.convert_table_to_dict(data_table)
+    offertypes = Database.create_objects(data, DIOfferType)
+
     #Pull data for Vehicle to be ran
     data_table = SqlServer.PRD_OfferSpecialsUpload_ReadData()
     data = Database.convert_table_to_dict(data_table)
     vehicles = Database.create_objects(data, Vehicle)
+
     #Setup Driver & Website to be ran
     driver = SeleniumDrivers.CHROME
     Website = SeleniumDrivers(driver)
