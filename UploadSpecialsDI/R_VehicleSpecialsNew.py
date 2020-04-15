@@ -29,7 +29,7 @@ class VehicleSpecialsNew():
     driver = SeleniumDrivers.CHROME
     Website = SeleniumDrivers(driver)
 
-    def refresh_post_page(v,driver):
+    def reset_post_page(v,driver):
         driver.get(f'{self.Domain}{DIWebsite.DI_EDIT}')
         driver.get(f'{self.Domain}{DIWebsite.DI_POST}')
 
@@ -167,16 +167,19 @@ class VehicleSpecialsNew():
                 sleep(.1)
 
     def build_special(v, driver):
-        Today.time_taken(refresh_post_page, v, driver)
+        Today.time_taken(reset_post_page, v, driver)
         Today.time_taken(populate_vehicle, v, driver)
         Today.time_taken(populate_title_boxes, v, driver)
         Today.time_taken(use_advanced_options_tab, v, driver)
         Today.time_taken(use_offer_tab, v, driver)
+        #Today.time_taken(populate_special)
 
-    def check_match(v):
+    def check_match(v,offertypes):
+        print('Running Check Match')
         value = None
         for ot in offertypes:
-            print(f'OFFER TYPE: {ot.Make} {ot.DealerCode} \nVEHICLE: {v.MakeName} {v.DealerCode}')
+            print(f'\nOFFER TYPE: {ot.Make} {ot.DealerCode} \nVEHICLE: {v.MakeName} {v.DealerCode}\n')
+            sleep(1)
             if f'{ot.Make} {ot.DealerCode}' == f'{v.MakeName} {v.DealerCode}':
                 value = True
             else:
@@ -191,10 +194,10 @@ class VehicleSpecialsNew():
                 # Login Method
                 w.DI_SignIn()
                 # Delete All Specials 
-                Today.time_taken(DIWebsite.delete_all_specials,None)
+                #Today.time_taken(DIWebsite.delete_all_specials,None)
 
                 for v in vehicles:
-                    value = check_match(v)
+                    value = VehicleSpecialsNew.check_match(v,VehicleSpecialsNew.offertypes)
                     if value == False:
                         print(f'CHECK BLOCK 1 TRUE: Unable to find matching Make & Dealer Code')
                         continue
@@ -217,11 +220,12 @@ class VehicleSpecialsNew():
             else:
                 pass
         driver.quit()
-                    
-    Today.time_taken(run, vehicles, websites, Website, driver)
+    #print('Running Wrong function')               
+    #Today.time_taken(run, vehicles, websites, Website, driver)
 
 def main():
-    VehicleSpecialsUsed.run()
+    print('Running Right function')   
+    Today.time_taken(VehicleSpecialsNew.run, VehicleSpecialsNew.vehicles, VehicleSpecialsNew.websites, VehicleSpecialsNew.Website, VehicleSpecialsNew.driver)
 
 if __name__ == "__main__":
     main()

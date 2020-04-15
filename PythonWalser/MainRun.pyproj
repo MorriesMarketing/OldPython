@@ -27,8 +27,8 @@
     <Compile Include="FileToRun.py" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\UploadSpecialsDI\UploadSpecialsDI.pyproj">
-      <Name>UploadSpecialsDI</Name>
+    <ProjectReference Include="..\UploadSpecialsDI\VehicleSpecialsNew.pyproj">
+      <Name>VehicleSpecialsNew</Name>
       <Project>{8a1da7b5-9537-40db-89c6-7997744510aa}</Project>
       <Private>True</Private>
     </ProjectReference>
