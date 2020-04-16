@@ -1,12 +1,9 @@
-from I_Databases import *
 from I_SqlLight import *
-from I_SqlServer import *
+from I_DigitalMarketing import *
 from O_Days import *
 from O_DIOfferTypes import *
 from O_DIWebsites import *
-from O_Offers import *
 from O_Selenium import *
-from O_Vehicles import *
 
 class VehicleSpecialsNew():
 
@@ -20,16 +17,16 @@ class VehicleSpecialsNew():
     data = Database.convert_table_to_dict(data_table)
     offertypes = Database.create_objects(data, DIOfferType)
 
-    dm_database = DigitalMarketingDatabase()
-    vehicles = dm_database.create_vehicles_from_VehicleSpecialsNew()
+    
+    vehicles = DigitalMarketing.create_vehicles_from_VehicleSpecialsNew()
 
     #Setup Driver & Website to be ran
     driver = SeleniumDrivers.CHROME
     Website = SeleniumDrivers(driver)
 
-    def reset_post_page(v,driver):
-        driver.get(f'{self.Domain}{DIWebsite.DI_EDIT}')
-        driver.get(f'{self.Domain}{DIWebsite.DI_POST}')
+    def reset_post_page(v,driver, w):
+        driver.get(f'{w.Domain}{DIWebsite.DI_EDIT}')
+        driver.get(f'{w.Domain}{DIWebsite.DI_POST}')
 
     def populate_vehicle(v, driver):
         driver.find_element(By.CSS_SELECTOR, ".acf-radio-list > li:nth-child(3)").click() # Click Area Around > Offer Applies To - Stock(one unit)
@@ -164,12 +161,12 @@ class VehicleSpecialsNew():
                 print('Failed')
                 sleep(.1)
 
-    def build_special(v, driver):
-        Today.time_taken(reset_post_page, v, driver)
-        Today.time_taken(populate_vehicle, v, driver)
-        Today.time_taken(populate_title_boxes, v, driver)
-        Today.time_taken(use_advanced_options_tab, v, driver)
-        Today.time_taken(use_offer_tab, v, driver)
+    def build_special(v, driver, w):
+        Today.time_taken(VehicleSpecialsNew.reset_post_page, v, driver, w)
+        Today.time_taken(VehicleSpecialsNew.populate_vehicle, v, driver)
+        Today.time_taken(VehicleSpecialsNew.populate_title_boxes, v, driver)
+        Today.time_taken(VehicleSpecialsNew.use_advanced_options_tab, v, driver)
+        Today.time_taken(VehicleSpecialsNew.use_offer_tab, v, driver)
         #Today.time_taken(populate_special)
 
     def check_match(v,offertypes):
@@ -208,13 +205,13 @@ class VehicleSpecialsNew():
                         
                     elif w.Domain == 'https://www.walser.com/' or w.Domain == 'https://www.walserautocampus.com/':
                         print(f'CHECK BLOCK 4 TRUE: Running Specials on {w.Domain}')
-                        Today.time_taken(build_special, v, driver)
+                        Today.time_taken(VehicleSpecialsNew.build_special, v, driver, w)
                     elif v.Brand != w.Brand:
                         print(f'CHECK BLOCK 5 TRUE: Vehicle Brand: {v.Brand} \nWebsite Brand: {w.Brand}')
                         
                     else:
                         print(f'ELSE STATMENT ACTIVE: Running Specials on {w.Domain}')
-                        Today.time_taken(build_special, v, driver)
+                        Today.time_taken(VehicleSpecialsNew.build_special, v, driver)
 
             else:
                 pass

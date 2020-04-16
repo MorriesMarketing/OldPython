@@ -23,6 +23,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="I_Databases.py" />
+    <Compile Include="I_DigitalMarketing.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="O_Offers.py">
       <SubType>Code</SubType>
     </Compile>

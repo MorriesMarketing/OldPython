@@ -1,6 +1,7 @@
 from I_Databases import *
 
-class SqlServer():
+
+class SqlServer(Database):
     def __init__(self):
         pass
     
