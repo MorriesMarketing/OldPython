@@ -36,49 +36,54 @@ class VehicleSpecialsNew():
     
     def populate_title_boxes(v, driver):
         while True:
-            driver.find_element(By.CSS_SELECTOR, ".acf-radio-list > li:nth-child(3)").click() # Click Area Around > Offer Applies To - Stock(one unit)
-            driver.find_element(By.ID, "acf-field_56917bb83947f-stock").click()# Click Offer Applies To - Stock(one unit)
-            driver.find_element(By.ID, "acf-field_56549cefdeb1a").send_keys(f'{vehicle.StockNumber}')# Send Stock Number to Vehicle Stock Text Box
-            driver.find_element(By.ID, "populate_vehicle").click()# Click Populate Stock Number - Image will auto load
             try: # Check for if vehicle exists
                 x = driver.find_element(By.NAME, "post_title")# add vehicle title to Title Text Box
                 element = x
                 actions = ActionChains(driver)
                 actions.move_to_element(element).perform()
-                driver.execute_script(f'arguments[0].value = "New {vehicle.Year} {vehicle.MakeName} {vehicle.ModelName} {vehicle.Trim}";', x)
+                driver.execute_script(f'arguments[0].value = "New {v.Year} {v.MakeName} {v.ModelName} {v.Trim}";', x)
                 driver.find_element(By.ID, "acf-field_5575ca339b200").clear()# clear vehicle title 
-                x = self.driver.find_element(By.ID, "acf-field_5575ca339b200")# replace vehicle title with fixed one
-                driver.execute_script(f'arguments[0].value = "New {vehicle.Year} {vehicle.MakeName} {vehicle.ModelName} {vehicle.Trim}";', x)
+                x = driver.find_element(By.ID, "acf-field_5575ca339b200")# replace vehicle title with fixed one
+                driver.execute_script(f'arguments[0].value = "New {v.Year} {v.MakeName} {v.ModelName} {v.Trim}";', x)
                 driver.find_element(By.CSS_SELECTOR, "li:nth-child(2) b").click()# Click Offer Applies To - Inventory
-                driver.find_element(By.ID, "acf-diso_vehicle_stock").send_keys(f'{vehicle.StockNumber}')# Send Keys to Secondary Stock Number Box 
+                driver.find_element(By.ID, "acf-diso_vehicle_stock").send_keys(f'{v.StockNumber}')# Send Keys to Secondary Stock Number Box 
                 break 
-            except:
-                try:
-                    driver.switch_to_alert().accept()
-                    continue
-                except:
-                    assert driver.switch_to.alert.text == "Vehicle Stock or VIN not found"
-                continue
+            except Exception as e:
+                sleep(.1)
+                print(f'Failed to find element. \t{e}')
 
-    def use_advanced_options_tab(v, driver):
+    def ao_tab_step1(driver):
+        driver.find_element(By.LINK_TEXT, "Advanced Options").click()
+        driver.find_element(By.LINK_TEXT, "Add Discount").click()
+        driver.find_element(By.LINK_TEXT, "Add Discount").click()
+
+    def offer_path(driver, region, count, table, vehicle): 
+        if vehicle.Brand == 'FCA' and 'https://www.walsercjd.com/' in driver.current_url or 'https://www.walserpolarmazda.com/' in driver.current_url:
+            return f'/html/body/div[1]/div[2]/div[2]/div[1]/div[3]/form/div[2]/div/div[3]/div[1]/div[{Region}]/div/div[36]/div[2]/div/table/tbody/tr[{count}]/td[{table}]/div/div'
+        return f'/html/body/div[1]/div[2]/div[2]/div[1]/div[3]/form/div[2]/div/div[3]/div[1]/div[{Region}]/div/div[37]/div[2]/div/table/tbody/tr[{count}]/td[{table}]/div/div'
+
+    def ao_tab_step2(v, driver, w):
+
+        offer_input = driver.find_element_by_xpath(VehicleSpecialsNew.offer_path(driver, w.RegionID, 1, 2, v))
+        offer_input_css = offer_input.find_element_by_css_selector('input')
+        offer_type_input = driver.find_element_by_xpath(self.offer_path(driver, w.RegionID, 1, 3, v))
+        offer_type_input_css = offer_type_input.find_element_by_css_selector('input')
+        for o in v.Offers:
+            if '10% Down Lease Special' in o.LeaseSpecial or 'OEM' in o.LeaseSpecial:
+                driver.execute_script(f'arguments[0].value = "{o.LeaseOffer}";', offer_input_css)
+                special = f'\<br\>{o.LeaseSpecial}\<br\>{o.DueAtSigning} Due at Signing'
+                driver.execute_script(f'arguments[0].value = "{special}";', offer_type_input_css)
+                
+        offer_input = driver.find_element_by_xpath(self.offer_path(driver, w.RegionID, 2, 2, v))
+        offer_input_css = offer_input.find_element_by_css_selector('input')
+        driver.execute_script('arguments[0].value = "CLICK HERE FOR MORE OFFERS";', offer_input_css)
+        pass
+
+    def use_advanced_options_tab(v, driver, w):
         while True: # Advanced Options Tab
             try:
-                driver.find_element(By.LINK_TEXT, "Advanced Options").click()
-                driver.find_element(By.LINK_TEXT, "Add Discount").click()
-                driver.find_element(By.LINK_TEXT, "Add Discount").click()
-                offer_input = driver.find_element_by_xpath(self.offer_path(Region, 1, 2, vehicle))
-                offer_input_css = offer_input.find_element_by_css_selector('input')
-                offer_type_input = driver.find_element_by_xpath(self.offer_path(Region, 1, 3, vehicle))
-                offer_type_input_css = offer_type_input.find_element_by_css_selector('input')
-                for advanced_options in vehicle.Offers:
-                    if '10% Down Lease Special' in advanced_options.LeaseSpecial or 'OEM' in advanced_options.LeaseSpecial:
-                        driver.execute_script(f'arguments[0].value = "{advanced_options.LeaseOffer}";', offer_input_css)
-                        special = f'\<br\>{advanced_options.LeaseSpecial}\<br\>{advanced_options.DueAtSigning} Due at Signing'
-                        driver.execute_script(f'arguments[0].value = "{special}";', offer_type_input_css)
-                
-                offer_input = driver.find_element_by_xpath(self.offer_path(Region, 2, 2, vehicle))
-                offer_input_css = offer_input.find_element_by_css_selector('input')
-                driver.execute_script('arguments[0].value = "CLICK HERE FOR MORE OFFERS";', offer_input_css)
+                Today.time_taken(VehicleSpecialsNew.ao_tab_step1, driver)
+                Today.time_taken(VehicleSpecialsNew.ao_tab_step2, v, driver, w)
                 value_list = []
                 element = driver.find_element_by_xpath('//*[@id="typediv"]/button/span[2]')
                 actions = ActionChains(self.driver)
@@ -165,7 +170,7 @@ class VehicleSpecialsNew():
         Today.time_taken(VehicleSpecialsNew.reset_post_page, v, driver, w)
         Today.time_taken(VehicleSpecialsNew.populate_vehicle, v, driver)
         Today.time_taken(VehicleSpecialsNew.populate_title_boxes, v, driver)
-        Today.time_taken(VehicleSpecialsNew.use_advanced_options_tab, v, driver)
+        Today.time_taken(VehicleSpecialsNew.use_advanced_options_tab, v, driver, w)
         Today.time_taken(VehicleSpecialsNew.use_offer_tab, v, driver)
         #Today.time_taken(populate_special)
 
@@ -173,7 +178,7 @@ class VehicleSpecialsNew():
         print('Running Check Match')
         has_match = None
         for ot in offertypes:
-            print(f'\nOFFER TYPE: {ot.Make} {ot.DealerCode} \nVEHICLE: {v.MakeName} {v.DealerCode}\n')
+            print(f'OFFER TYPE: {ot.Make} {ot.DealerCode}\nVEHICLE: {v.MakeName} {v.DealerCode}\n')
             if f'{ot.Make} {ot.DealerCode}' == f'{v.MakeName} {v.DealerCode}':
                 has_match = True
                 break

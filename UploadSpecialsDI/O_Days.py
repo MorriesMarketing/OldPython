@@ -37,12 +37,11 @@ class Today():
 
     def time_taken(function, *args):
         time_start = time.time()
-        print(f'STARTING {function.__name__}: {time_start}')
+        print(f'\nSTARTING {function.__name__}: \t{datetime.datetime.today()}\n')
         function(*args)
         time_end = time.time()
         time_elapsed = time_end - time_start
-        print(f'SUCCESS!\n Loop Time Elapsed: {time_elapsed}')
-        print(f'{function.__name__} has completed\n')
+        print(f'\nSUCCESS! {function.__name__} Elapsed: \t{time_elapsed}\n')
 
 today = Today()
 x = today.today_date_format
