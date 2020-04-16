@@ -1,23 +1,30 @@
+
 class Offer:
 
-    def __init__(self):
+    def __init__(self, **kwargs):
 
-        self.Payment = 0
-        self.PaymentBase = 0
-        self.PaymentNoTax = 0
-        self.LeaseSpecial = ''
-        self.Lender = ''
-        self.LeaseMi = 0
-        self.Term = 0
-        self.DownPayment = 0
-        self.DueAtSigning = 0
-        self.TotalRebate = 0
-        self.UploadOrder = 0
-        self.VehicleRank = 0
-        self.ModelRank = 0
-        self.ModelNoRank = 0
-        self.LeaseOfferMileage = 0
+        self.VehicleID = kwargs['VehicleID']
+        self.Payment = kwargs['Payment']
+        self.BasePayment = kwargs['BasePayment']
+        self.PaymentNoTax = kwargs['PaymentNoTax']
+        self.LeaseSpecial = kwargs['LeaseSpecial']
+        self.Lender = kwargs['Lender']
+        self.LeaseMi = kwargs['LeaseMi']
+        self.Term = kwargs['Term']
+        self.DownPayment = kwargs['DownPayment']
+        self.DueAtSigning = kwargs['DueAtSigning']
+        self.TotalRebate = kwargs['TotalRebate']
+        self.UploadOrder = kwargs['UploadOrder']
+        self.VehicleRank = kwargs['VehicleRank']
+        self.ModelRank = kwargs['ModelRank']
+        self.ModelNoRank = kwargs['ModelNoRank']
+        self.LeaseOfferMileage = kwargs['LeaseOfferMileage']
+        self.OfferTypeID = kwargs['OfferTypeID']
 
-        self.Disclaimer = ''
-        self.LeaseOffer = ''
-        self.Apr = 0
+        self.Disclaimer = kwargs['Disclaimer']
+        self.LeaseOffer = kwargs['LeaseOffer']
+        self.APR = kwargs['APR']
+    
+    def __repr__(self):
+        return f"OfferTypeID:{self.OfferTypeID} {self.LeaseSpecial} {self.LeaseOffer} "
+

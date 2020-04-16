@@ -20,10 +20,8 @@ class VehicleSpecialsNew():
     data = Database.convert_table_to_dict(data_table)
     offertypes = Database.create_objects(data, DIOfferType)
 
-    #Pull data for Vehicle to be ran
-    data_table = SqlServer.PRD_OfferSpecialsUpload_ReadData()
-    data = Database.convert_table_to_dict(data_table)
-    vehicles = Database.create_objects(data, Vehicle)
+    dm_database = DigitalMarketingDatabase()
+    vehicles = dm_database.create_vehicles_from_VehicleSpecialsNew()
 
     #Setup Driver & Website to be ran
     driver = SeleniumDrivers.CHROME
@@ -176,15 +174,16 @@ class VehicleSpecialsNew():
 
     def check_match(v,offertypes):
         print('Running Check Match')
-        value = None
+        has_match = None
         for ot in offertypes:
             print(f'\nOFFER TYPE: {ot.Make} {ot.DealerCode} \nVEHICLE: {v.MakeName} {v.DealerCode}\n')
-            sleep(1)
             if f'{ot.Make} {ot.DealerCode}' == f'{v.MakeName} {v.DealerCode}':
-                value = True
+                has_match = True
+                break
             else:
-                value = False
-        return value
+                has_match = False
+                
+        return has_match
 
     def run(vehicles, websites, Website, driver):
         for w in websites:
@@ -197,22 +196,22 @@ class VehicleSpecialsNew():
                 #Today.time_taken(DIWebsite.delete_all_specials,None)
 
                 for v in vehicles:
-                    value = VehicleSpecialsNew.check_match(v,VehicleSpecialsNew.offertypes)
-                    if value == False:
+                    is_match = VehicleSpecialsNew.check_match(v,VehicleSpecialsNew.offertypes)
+                    if not is_match:
                         print(f'CHECK BLOCK 1 TRUE: Unable to find matching Make & Dealer Code')
-                        continue
+                        
                     elif 'N' not in v.StockNumber:
                         print(f'CHECK BLOCK 2 TRUE: "N" Letter not found in Stock Number: {v.StockNumber}')
-                        continue
+                        
                     elif len(v.Offers) == 0:
                         print(f'CHECK BLOCK 3 TRUE: No Offers found')
-                        continue
+                        
                     elif w.Domain == 'https://www.walser.com/' or w.Domain == 'https://www.walserautocampus.com/':
                         print(f'CHECK BLOCK 4 TRUE: Running Specials on {w.Domain}')
                         Today.time_taken(build_special, v, driver)
                     elif v.Brand != w.Brand:
                         print(f'CHECK BLOCK 5 TRUE: Vehicle Brand: {v.Brand} \nWebsite Brand: {w.Brand}')
-                        continue
+                        
                     else:
                         print(f'ELSE STATMENT ACTIVE: Running Specials on {w.Domain}')
                         Today.time_taken(build_special, v, driver)
