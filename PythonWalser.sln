@@ -9,6 +9,8 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "VehicleSpecialsUsed", "Vehi
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "VehicleSpecialsNew", "UploadSpecialsDI\VehicleSpecialsNew.pyproj", "{8A1DA7B5-9537-40DB-89C6-7997744510AA}"
 EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Email_CorpOffers", "Email_CorpOffers\Email_CorpOffers.pyproj", "{DD74E4DE-B33F-4BE6-B8EA-165E139F3767}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,8 @@ Global
 		{82BD6BFF-0AB6-47EC-B3DF-BDC9B35E99D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A1DA7B5-9537-40DB-89C6-7997744510AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8A1DA7B5-9537-40DB-89C6-7997744510AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD74E4DE-B33F-4BE6-B8EA-165E139F3767}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD74E4DE-B33F-4BE6-B8EA-165E139F3767}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -122,24 +122,57 @@ class VehicleSpecialsNew():
         print(f'List: {value_list}')
         VehicleSpecialsNew.offer_type_clicks(driver, value_list)
 
-    def edit_button_links():
+    def edit_button_links(v, driver):
         driver.find_element(By.LINK_TEXT, "Offer").click()# Click OFFER Tab 
-        driver.find_element(By.ID, "acf-field_569c2e95a3d27").send_keys("View Vehicle Details")# Primary Button Label
+        driver.find_element(By.ID, "acf-field_569c2e95a3d27").send_keys("View Vehicle Details")#Primary Button Label
         vehicle = f'{v.Year} {v.MakeName} {v.ModelName}'.replace(' ','-')
         x = f'/new-vehicles/#action=im_ajax_call&perform=get_results&search={vehicle}&page=1'
         z = driver.find_element(By.ID, "acf-field_569c2aa7a3d24")#Secondary Button Link
         driver.execute_script(f'arguments[0].value = "{x}";', z)
         driver.find_element(By.ID, "acf-field_569c2bb9a3d26").send_keys("View Inventory")#Secondary Link Label
+
+    def offer_labels():
+        count = 0
+        
+        for offer in vehicle.Offers:
+            if 'One Pay' in offer.LeaseSpecial and 'landrover' in website or 'One Pay' in offer.LeaseSpecial and 'mercedes' in website:
+                pass
+            else:
+                self.driver.find_element(By.LINK_TEXT, "Add Line").click()
+                table = self.driver.find_elements_by_css_selector('.ui-sortable')[6]
+                row = table.find_elements_by_css_selector('.acf-row')[count]
+                tile = row.find_elements_by_css_selector('.acf-field')[0]
+                child1 = tile.find_element_by_css_selector('.acf-input')
+                child2 = child1.find_element_by_css_selector('.acf-input-wrap')
+                Input = child2.find_element_by_css_selector('input')
+                # OFFER
+                self.driver.execute_script('arguments[0].value = "' + str(offer.LeaseOffer) + '";', Input)
+
+                table = self.driver.find_elements_by_css_selector('.ui-sortable')[6]
+                row = table.find_elements_by_css_selector('.acf-row')[count]
+                tile = row.find_elements_by_css_selector('.acf-field')[1]
+                child1 = tile.find_element_by_css_selector('.acf-input')
+                child2 = child1.find_element_by_css_selector('.acf-input-wrap')
+                Input = child2.find_element_by_css_selector('input')
+                # SPECIAL
+                special = ''
+                special += '\<br\>'
+                special += str(offer.LeaseSpecial)
+                # if vehicle.MakeName == 'Nissan' and 'Lease Special' in advanced_options.LeaseSpecial:
+                if 'APR Finance Special' in offer.LeaseSpecial:
+                    special += ''
+                else:
+                    special += '\<br\>'
+                    special += str(offer.DueAtSigning)
+                    special += ' Due at Signing'
+                self.driver.execute_script('arguments[0].value = "' + special + '";', Input)
+                count += 1
+
     def use_offer_tab(v, driver):
         while True: # Offer Tab
             try:
-                driver.find_element(By.LINK_TEXT, "Offer").click()# Click OFFER Tab 
-                driver.find_element(By.ID, "acf-field_569c2e95a3d27").send_keys("View Vehicle Details")# Primary Button Label
-                vehicle = f'{v.Year} {v.MakeName} {v.ModelName}'.replace(' ','-')
-                x = f'/new-vehicles/#action=im_ajax_call&perform=get_results&search={vehicle}&page=1'
-                z = driver.find_element(By.ID, "acf-field_569c2aa7a3d24")#Secondary Button Link
-                driver.execute_script(f'arguments[0].value = "{x}";', z)
-                driver.find_element(By.ID, "acf-field_569c2bb9a3d26").send_keys("View Inventory")#Secondary Link Label
+
+                VehicleSpecialsNew.edit_button_links(v, driver)
                 
                 self.offer_labels(vehicle)
                 
