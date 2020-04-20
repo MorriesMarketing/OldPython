@@ -17,6 +17,13 @@ class DIWebsite():
         self.RegionID = krawgs['RegionID']
         self.State = krawgs['State']
         self.Brand = krawgs['Brand']
+        self.OfferTypeID1 = krawgs['OfferTypeID1']
+        self.OfferTypeID2 = krawgs['OfferTypeID2']
+        self.OfferTypeID3 = krawgs['OfferTypeID3']
+        self.OfferTypeID4 = krawgs['OfferTypeID4']
+        self.OfferTypeID5 = krawgs['OfferTypeID5']
+        self.OfferTypeID6 = krawgs['OfferTypeID6']
+        self.OfferTypeID7 = krawgs['OfferTypeID7']
         self.Driver = None
 
     def __repr__(self):
