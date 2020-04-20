@@ -14,7 +14,7 @@ class DIWebsite():
         self.Domain = krawgs['Domain']
         self.UserName = krawgs['UserName']
         self.Password = krawgs['Password']
-        self.Region = krawgs['RegionID']
+        self.RegionID = krawgs['RegionID']
         self.State = krawgs['State']
         self.Brand = krawgs['Brand']
         self.Driver = None
