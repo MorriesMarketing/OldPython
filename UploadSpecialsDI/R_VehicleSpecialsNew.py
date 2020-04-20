@@ -133,55 +133,79 @@ class VehicleSpecialsNew():
 
     def offer_labels(v, driver, w):
         count = 0
-        
-        for o in v.Offers:
-            if w.OfferTypeID1 == False or\
-               w.OfferTypeID2 == False or\
-               w.OfferTypeID3 == False or\
-               w.OfferTypeID4 == False or\
-               w.OfferTypeID5 == False or\
-               w.OfferTypeID6 == False or\
-               w.OfferTypeID7 == False:
-                pass
-            else:
-                driver.find_element(By.LINK_TEXT, "Add Line").click()
-                table = driver.find_elements_by_css_selector('.ui-sortable')[6]
-                row = table.find_elements_by_css_selector('.acf-row')[count]
-                tile = row.find_elements_by_css_selector('.acf-field')[0]
-                child1 = tile.find_element_by_css_selector('.acf-input')
-                child2 = child1.find_element_by_css_selector('.acf-input-wrap')
-                Input = child2.find_element_by_css_selector('input')
-                # OFFER
-                driver.execute_script('arguments[0].value = "' + str(o.LeaseOffer) + '";', Input)
+        order_list = [[3, w.OfferTypeID3], [2, w.OfferTypeID2], [1,w.OfferTypeID1], [4, w.OfferTypeID4], [5, w.OfferTypeID5], [6, w.OfferTypeID6], [7, w.OfferTypeID7]]
+        for i in order_list:
+            print(i)
+            if i[1] == 'True':
+                for o in v.Offers:
+                    print(f'o.OfferTypeID: {o.OfferTypeID}\ni: {i[0]}')
+                    if o.OfferTypeID == i[0]:
+                        driver.find_element(By.LINK_TEXT, "Add Line").click()
+                        table = driver.find_elements_by_css_selector('.ui-sortable')[6]
+                        row = table.find_elements_by_css_selector('.acf-row')[count]
+                        tile = row.find_elements_by_css_selector('.acf-field')[0]
+                        child1 = tile.find_element_by_css_selector('.acf-input')
+                        child2 = child1.find_element_by_css_selector('.acf-input-wrap')
+                        Input = child2.find_element_by_css_selector('input')
+                        # OFFER
+                        driver.execute_script('arguments[0].value = "' + str(o.LeaseOffer) + '";', Input)
 
-                table = driver.find_elements_by_css_selector('.ui-sortable')[6]
-                row = table.find_elements_by_css_selector('.acf-row')[count]
-                tile = row.find_elements_by_css_selector('.acf-field')[1]
-                child1 = tile.find_element_by_css_selector('.acf-input')
-                child2 = child1.find_element_by_css_selector('.acf-input-wrap')
-                Input = child2.find_element_by_css_selector('input')
-                # SPECIAL
-                special = ''
-                special += '\<br\>'
-                special += str(o.LeaseSpecial)
-                if 'APR Finance Special' in o.LeaseSpecial:
-                    special += ''
-                else:
-                    special += '\<br\>'
-                    special += str(o.DueAtSigning)
-                    special += ' Due at Signing'
-                driver.execute_script('arguments[0].value = "' + special + '";', Input)
-                count += 1
+                        table = driver.find_elements_by_css_selector('.ui-sortable')[6]
+                        row = table.find_elements_by_css_selector('.acf-row')[count]
+                        tile = row.find_elements_by_css_selector('.acf-field')[1]
+                        child1 = tile.find_element_by_css_selector('.acf-input')
+                        child2 = child1.find_element_by_css_selector('.acf-input-wrap')
+                        Input = child2.find_element_by_css_selector('input')
+                        # SPECIAL
+                        special = ''
+                        special += '\<br\>'
+                        special += str(o.LeaseSpecial)
+                        if 'APR Finance Special' in o.LeaseSpecial:
+                            special += ''
+                        else:
+                            special += '\<br\>'
+                            special += str(o.DueAtSigning)
+                            special += ' Due at Signing'
+                        driver.execute_script('arguments[0].value = "' + special + '";', Input)
+                        count += 1
 
-    def use_offer_tab(v, driver, w):
+    def fix_text_box(driver, text, element_path):
+        special_symbols = ['"', '/', '<', '>', ';', ':', '=', '-', '\n', '\t']
+
+        for x in special_symbols:
+            text = text.replace(x,f'\{x}')
+        print(text)
+        driver.execute_script('arguments[0].value = "' + text + '";', element_path)
+
+    def offer_description(v, driver, w, ot):
+        media_edit = driver.find_element(By.XPATH, f"/html/body/div[1]/div[2]/div[2]/div[1]/div[3]/form/div[2]/div/div[3]/div[1]/div[{w.RegionID}]/div/div[30]/div[2]/div/div[2]/textarea")
+        text = ''
+        text += '<center>Located at: ' + ot.DealerName + '</center>\n'
+        text += f'<ul>All Walser branded locations offer: <li>FREE test drive delivery option for customers located in '
+        if v.State == 'KS':
+            text += f'the greater Wichita metropolitan area and beyond. '
+        elif v.State == 'MN':
+            text += f'the twin cities metro area. '
+        text += f'Test drive delivery based on schedule availability and distance.*</li>'
+        text += f'<li>FREE vehicle home delivery option for customers located up to '
+        if v.State == 'KS':
+            text += f'120'
+        elif v.State == 'MN':
+            text += f'100' 
+        text += f' miles from {ot.DealerName}. Nationwide home delivery is available, please contact dealer for a personalized quote.*'
+        text += f'</li></ul>'
+        #media_edit.send_keys(text)
+        Today.time_taken(VehicleSpecialsNew.fix_text_box, driver, text, media_edit)
+
+    def use_offer_tab(v, driver, w, ot):
         while True: # Offer Tab
             try:
 
-                VehicleSpecialsNew.edit_button_links(v, driver)
+                Today.time_taken(VehicleSpecialsNew.edit_button_links, v, driver)
                 
-                VehicleSpecialsNew.offer_labels(v, driver, w)
+                Today.time_taken(VehicleSpecialsNew.offer_labels, v, driver, w)
                 
-                self.offer_description(vehicle, Region)
+                Today.time_taken(VehicleSpecialsNew.offer_description, v, driver, w, ot)
                 #self.driver.find_element(By.ID, "acf-field_5577c0782430f").send_keys("Offer Disclaimer")
                 
                 self.offer_disclaimer(vehicle)
@@ -223,7 +247,7 @@ class VehicleSpecialsNew():
                 break
             Today.time_taken(VehicleSpecialsNew.use_advanced_options_tab, v, driver, w)#applies the offer designated to be shown on VRP
             Today.time_taken(VehicleSpecialsNew.select_offertypes, v, driver, w, ot)# Checks off which DIoffertypes are used for catagorizing for display
-            Today.time_taken(VehicleSpecialsNew.use_offer_tab, v, driver, w)#applies the CTA's, Offers Shown, Media Block, and Disclaimer
+            Today.time_taken(VehicleSpecialsNew.use_offer_tab, v, driver, w, ot)#applies the CTA's, Offers Shown, Media Block, and Disclaimer
             #Today.time_taken(populate_special)# Populate vehicle offers
             #Possible Addition #broadcast_subscribers #Group up offers and broadcast them to specific sites.
             print('Completed Build Specials Loop Successfully')
