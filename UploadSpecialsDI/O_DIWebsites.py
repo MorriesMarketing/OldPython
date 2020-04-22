@@ -30,7 +30,7 @@ class DIWebsite():
         return f"{self.Domain} {self.Brand}"
     
     def DI_SignIn(self):
-        self.Driver.maximize_window()
+        
         print(f'Navigating to {self.Domain}')
         self.Driver.get(f'{self.Domain}{DIWebsite.DI_LOGIN}')
         sleep(1)
@@ -44,24 +44,24 @@ class DIWebsite():
         self.Driver.find_element_by_id('wp-submit').click()
         #4. Click sign in
 
-    def delete_all_specials(self):
+    def delete_all_specials(driver, w):
         print('Running delete_offers')
         while True:
             try:
-                edit = f'{self.Domain}{DIWebsite.DI_EDIT}'
-                self.driver.get(edit)
+                edit = f'{w.Domain}{DIWebsite.DI_EDIT}'
+                driver.get(edit)
                 break
             except:
                 sleep(.1)
         while True:
             try:
-                number = self.driver.find_element_by_xpath('//*[@id="wpbody-content"]/div[3]/ul/li[1]/a/span').text
+                number = driver.find_element_by_xpath('//*[@id="wpbody-content"]/div[3]/ul/li[1]/a/span').text
                 if number != '(0)':
                     try:
-                        self.driver.find_element_by_xpath('//*[@id="cb-select-all-1"]').click()
-                        self.driver.find_element_by_xpath('//*[@id="bulk-action-selector-top"]').click()
-                        self.driver.find_element_by_xpath('//*[@id="bulk-action-selector-top"]/option[3]').click()
-                        self.driver.find_element_by_xpath('//*[@id="doaction"]').click()
+                        driver.find_element_by_xpath('//*[@id="cb-select-all-1"]').click()
+                        driver.find_element_by_xpath('//*[@id="bulk-action-selector-top"]').click()
+                        driver.find_element_by_xpath('//*[@id="bulk-action-selector-top"]/option[3]').click()
+                        driver.find_element_by_xpath('//*[@id="doaction"]').click()
                     except:
                         sleep(1)
                 else:
