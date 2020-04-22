@@ -1,9 +1,11 @@
 from I_SqlLight import *
 from I_DigitalMarketing import *
+from O_TabAdvancedOptions import *
 from O_Days import *
 from O_DIOfferTypes import *
 from O_DIWebsites import *
 from O_Selenium import *
+from O_WebOfferTypes import *
 
 class VehicleSpecialsNew():
 
@@ -23,6 +25,15 @@ class VehicleSpecialsNew():
     #Setup Driver & Website to be ran
     driver = SeleniumDrivers.CHROME
     Website = SeleniumDrivers(driver)
+        
+    @staticmethod
+    def fix_text_box(driver, text, element_path):
+        special_symbols = ['"', '/', '<', '>', ';', ':', '=', '-', '\n', '\t']
+
+        for x in special_symbols:
+            text = text.replace(x,f'\{x}')
+        print(text)
+        driver.execute_script('arguments[0].value = "' + text + '";', element_path)
 
     @staticmethod
     def reset_post_page(v,driver, w):
@@ -58,75 +69,6 @@ class VehicleSpecialsNew():
                 sleep(.1)
                 print(f'Failed to find element. \t{e}')
 
-    @staticmethod
-    def ao_tab_step1(driver):
-        driver.find_element(By.LINK_TEXT, "Advanced Options").click()
-        driver.find_element(By.LINK_TEXT, "Add Discount").click()
-        driver.find_element(By.LINK_TEXT, "Add Discount").click()
-
-    @staticmethod
-    def ao_tab_step2_offer_path(driver, Region, count, table, vehicle): 
-        if vehicle.Brand == 'FCA' and 'https://www.walsercjd.com/' in driver.current_url or 'https://www.walserpolarmazda.com/' in driver.current_url:
-            return f'/html/body/div[1]/div[2]/div[2]/div[1]/div[3]/form/div[2]/div/div[3]/div[1]/div[{Region}]/div/div[36]/div[2]/div/table/tbody/tr[{count}]/td[{table}]/div/div'
-        return f'/html/body/div[1]/div[2]/div[2]/div[1]/div[3]/form/div[2]/div/div[3]/div[1]/div[{Region}]/div/div[37]/div[2]/div/table/tbody/tr[{count}]/td[{table}]/div/div'
-
-    @staticmethod
-    def ao_tab_step2(v, driver, w):
-
-        offer_input = driver.find_element_by_xpath(VehicleSpecialsNew.ao_tab_step2_offer_path(driver, w.RegionID, 1, 2, v))
-        offer_input_css = offer_input.find_element_by_css_selector('input')
-        offer_type_input = driver.find_element_by_xpath(VehicleSpecialsNew.ao_tab_step2_offer_path(driver, w.RegionID, 1, 3, v))
-        offer_type_input_css = offer_type_input.find_element_by_css_selector('input')
-        for o in v.Offers:
-            if '10% Down Lease Special' in o.LeaseSpecial or 'OEM' in o.LeaseSpecial:
-                driver.execute_script(f'arguments[0].value = "{o.LeaseOffer}";', offer_input_css)
-                special = f'\<br\>{o.LeaseSpecial}\<br\>{o.DueAtSigning} Due at Signing'
-                driver.execute_script(f'arguments[0].value = "{special}";', offer_type_input_css)
-                
-        offer_input = driver.find_element_by_xpath(VehicleSpecialsNew.ao_tab_step2_offer_path(driver, w.RegionID, 2, 2, v))
-        offer_input_css = offer_input.find_element_by_css_selector('input')
-        driver.execute_script('arguments[0].value = "CLICK HERE FOR MORE OFFERS";', offer_input_css)
-        
-    @staticmethod
-    def use_advanced_options_tab(v, driver, w):
-        while True: # Advanced Options Tab
-            Today.time_taken(VehicleSpecialsNew.ao_tab_step1, driver)
-            Today.time_taken(VehicleSpecialsNew.ao_tab_step2, v, driver, w)
-            break
-    
-    @staticmethod
-    def offer_type_clicks(driver, value_list):
-        while True:
-            try:
-                for i in value_list:
-                    print(i)
-                    driver.find_element_by_id(i).click()
-                    sleep(.1)
-                break
-            except:
-                sleep(.1)   
-      
-    @staticmethod
-    def select_offertypes(v, driver, w, ot):
-        value_list = []
-        element = driver.find_element_by_xpath('//*[@id="typediv"]/button/span[2]')
-        actions = ActionChains(driver)
-        actions.move_to_element(element).perform()
-        print('found element')
-        domain = w.Domain
-        if w.WebsiteID == 0:
-            value_list = [ot.OnePay]
-        elif domain == 'https://www.walserautocampus.com/':
-            print('campus')
-            value_list = [ot.WAC_Brand, ot.WAC_Fixed, ot.WAC3_Fixed, ot.WAC4_Fixed]
-        elif domain == 'https://www.walser.com/':
-            print('not campus')
-            value_list = [ot.WAG_Fixed, ot.WAG_StateCode, ot.WAG_New, ot.WAG_Walser]
-        else:
-            value_list = [ot.StoreType]
-        print(f'List: {value_list}')
-        VehicleSpecialsNew.offer_type_clicks(driver, value_list)
-    
     @staticmethod
     def edit_button_links(v, driver):
         driver.find_element(By.LINK_TEXT, "Offer").click()# Click OFFER Tab 
@@ -183,14 +125,7 @@ class VehicleSpecialsNew():
 
                         count += 1
 
-    def fix_text_box(driver, text, element_path):
-        special_symbols = ['"', '/', '<', '>', ';', ':', '=', '-', '\n', '\t']
-
-        for x in special_symbols:
-            text = text.replace(x,f'\{x}')
-        print(text)
-        driver.execute_script('arguments[0].value = "' + text + '";', element_path)
-
+    @staticmethod
     def offer_description(v, driver, w, ot):
         media_edit = driver.find_element(By.XPATH, f"/html/body/div[1]/div[2]/div[2]/div[1]/div[3]/form/div[2]/div/div[3]/div[1]/div[{w.RegionID}]/div/div[30]/div[2]/div/div[2]/textarea")
         text = ''
@@ -211,6 +146,7 @@ class VehicleSpecialsNew():
         #media_edit.send_keys(text)
         Today.time_taken(VehicleSpecialsNew.fix_text_box, driver, text, media_edit)
 
+    @staticmethod
     def offer_disclaimer(v, driver, w, order_list):
         text_area = driver.find_element(By.ID, "acf-field_5577c0782430f")
         disclaimers = ''
@@ -235,6 +171,7 @@ class VehicleSpecialsNew():
         disclaimers += '*Delivery availability may vary, some exclusions apply. Message dealer for details.'
         Today.time_taken(VehicleSpecialsNew.fix_text_box, driver, disclaimers, text_area)
 
+    @staticmethod
     def use_offer_tab(v, driver, w, ot):
         while True: # Offer Tab
             try:
@@ -249,6 +186,7 @@ class VehicleSpecialsNew():
                 assert driver.switch_to.alert.text == "Vehicle Stock or VIN not found"
                 continue
 
+    @staticmethod
     def populate_special(driver):
         while True:
             try:
@@ -261,6 +199,7 @@ class VehicleSpecialsNew():
                 print('Failed')
                 sleep(.1)
 
+    @staticmethod
     def error_check():
         error_occured = False
         try:
@@ -271,6 +210,7 @@ class VehicleSpecialsNew():
         print(f'\n\tError: {error_occured}\n')
         return error_occured
 
+    @staticmethod
     def build_special(v, driver, w, ot):
         while True:
             Today.time_taken(VehicleSpecialsNew.reset_post_page, v, driver, w)# Navigates to Post then Edit page to reset any cached data.
@@ -280,15 +220,40 @@ class VehicleSpecialsNew():
             Today.time_taken(VehicleSpecialsNew.populate_title_boxes, v, driver)#Edits the title boxes for both the offer and backend
             if VehicleSpecialsNew.error_check():
                 break
-            Today.time_taken(VehicleSpecialsNew.use_advanced_options_tab, v, driver, w)#applies the offer designated to be shown on VRP
-            Today.time_taken(VehicleSpecialsNew.select_offertypes, v, driver, w, ot)# Checks off which DIoffertypes are used for catagorizing for display
+            ao_run = AdvancedOptions( v, driver, w)
+            Today.time_taken(ao_run.use_advanced_options_tab, None)#applies the offer designated to be shown on VRP
+            
+            ot_run = OfferTypeContainer(v, driver, w, ot)
+            Today.time_taken(ot_run.select_group_offertypes, None)# Checks off which DIoffertypes are used for catagorizing for display
             Today.time_taken(VehicleSpecialsNew.use_offer_tab, v, driver, w, ot)#applies the CTA's, Offers Shown, Media Block, and Disclaimer
             Today.time_taken(VehicleSpecialsNew.populate_special, driver)# Populate vehicle offers
             #Possible Addition #broadcast_subscribers #Group up offers and broadcast them to specific sites.
             print('Completed Build Specials Loop Successfully')
             break
 
-  
+# Edits Start #
+    @staticmethod
+    def build_onepay(v, driver, w, ot):
+        while True:
+            Today.time_taken(VehicleSpecialsNew.reset_post_page, v, driver, w)# Navigates to Post then Edit page to reset any cached data.
+            Today.time_taken(VehicleSpecialsNew.populate_vehicle, v, driver)#Moves to create vehicle by adding Stock# to textbox then clicking the populate button
+            if VehicleSpecialsNew.error_check():
+                break
+            Today.time_taken(VehicleSpecialsNew.populate_title_boxes, v, driver)#Edits the title boxes for both the offer and backend
+            if VehicleSpecialsNew.error_check():
+                break
+## Edits Start ##
+            
+            ot_run = OfferTypeContainer(v, driver, w, ot)
+            Today.time_taken(ot_run.select_one_pay_offertypes, None)# Checks off which DIoffertypes are used for catagorizing for display
+            Today.time_taken(VehicleSpecialsNew.use_offer_tab, v, driver, w, ot)#applies the CTA's, Offers Shown, Media Block, and Disclaimer
+## Edits End ##
+            Today.time_taken(VehicleSpecialsNew.populate_special, driver)# Populate vehicle offers
+            #Possible Addition #broadcast_subscribers #Group up offers and broadcast them to specific sites.
+            print('Completed Build Specials Loop Successfully')
+            break
+# Edits End #
+    @staticmethod
     def run(vehicles, websites, Website, driver, offertypes):
         for w in websites:
             w.Driver = driver
@@ -323,6 +288,7 @@ class VehicleSpecialsNew():
                         elif w.Domain == 'https://www.walser.com/':
                             print(f'CHECK BLOCK 4 TRUE: Running Specials on {w.Domain} for {v.StockNumber}')
                             Today.time_taken(VehicleSpecialsNew.build_special, v, driver, w, ot)
+
                         elif w.Domain == 'https://www.walserautocampus.com/' and v.State == 'KS':
                             print(f'CHECK BLOCK 4 TRUE: Running Specials on {w.Domain} for {v.StockNumber}')
                             Today.time_taken(VehicleSpecialsNew.build_special, v, driver, w, ot)
