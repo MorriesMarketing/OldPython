@@ -212,6 +212,12 @@ class VehicleSpecialsNew():
         return error_occured
 
     @staticmethod
+    def check_under_10k(v, driver, w, ot):
+        for o in v.Offers():
+            if o.OfferTypeID == 5 and o.DueAtSigning < 10000:
+                Today.time_taken(VehicleSpecialsNew.build_onepay, v, driver, w, ot)
+
+    @staticmethod
     def build_special(v, driver, w, ot):
         while True:
             Today.time_taken(VehicleSpecialsNew.reset_post_page, v, driver, w)# Navigates to Post then Edit page to reset any cached data.
@@ -243,17 +249,18 @@ class VehicleSpecialsNew():
             Today.time_taken(VehicleSpecialsNew.populate_title_boxes, v, driver)#Edits the title boxes for both the offer and backend
             if VehicleSpecialsNew.error_check():
                 break
-## Edits Start ##
+
             ot_run = OfferTypeContainer(v, driver, w, ot)
             Today.time_taken(ot_run.select_one_pay_offertypes, None)# Checks off which DIoffertypes are used for catagorizing for display
             oc_run = OfferContainer( v, driver, w, ot)
             Today.time_taken(oc_run.use_offer_tab_onepay, None)#applies the CTA's, Offers Shown, Media Block, and Disclaimer
-## Edits End ##
+
             Today.time_taken(VehicleSpecialsNew.populate_special, driver)# Populate vehicle offers
             #Possible Addition #broadcast_subscribers #Group up offers and broadcast them to specific sites.
             print('Completed Build OnePay Loop Successfully')
             break
 # Edits End #
+
     @staticmethod
     def run(vehicles, websites, Website, driver, offertypes):
         for w in websites:
@@ -278,7 +285,7 @@ class VehicleSpecialsNew():
                         if w.Domain == 'https://www.walserpolarmazda.com/':
                             v.DealerCode = 'WBMNMA'    
                         if f'{ot.Make} {ot.DealerCode}' != f'{v.MakeName} {v.DealerCode}':
-                            print(f'CHECK BLOCK 1 TRUE: Make & Dealer Code Did Not Match')
+                            print(f'CHECK BLOCK 1 TRUE: Make & Dealer Code Did Not Match') 
                         
                         elif 'N' not in v.StockNumber:
                             print(f'CHECK BLOCK 2 TRUE: "N" Letter not found in Stock Number: {v.StockNumber}')
@@ -289,10 +296,13 @@ class VehicleSpecialsNew():
                         elif w.Domain == 'https://www.walser.com/':
                             print(f'CHECK BLOCK 4 TRUE: Running Specials on {w.Domain} for {v.StockNumber}')
                             Today.time_taken(VehicleSpecialsNew.build_special, v, driver, w, ot)
+                            Today.time_taken(VehicleSpecialsNew.check_under_10k, v, driver, w, ot)
+                            
 
                         elif w.Domain == 'https://www.walserautocampus.com/' and v.State == 'KS':
                             print(f'CHECK BLOCK 4 TRUE: Running Specials on {w.Domain} for {v.StockNumber}')
                             Today.time_taken(VehicleSpecialsNew.build_special, v, driver, w, ot)
+                            Today.time_taken(VehicleSpecialsNew.check_under_10k, v, driver, w, ot)
 
                         elif v.Brand != w.Brand:
                             print(f'CHECK BLOCK 5 TRUE: Vehicle Brand: {v.Brand} \nWebsite Brand: {w.Brand}')
@@ -300,6 +310,7 @@ class VehicleSpecialsNew():
                         else:
                             print(f'ELSE STATMENT ACTIVE: Running Specials on {w.Domain} for {v.StockNumber}')
                             Today.time_taken(VehicleSpecialsNew.build_special, v, driver, w, ot)
+                            Today.time_taken(VehicleSpecialsNew.check_under_10k, v, driver, w, ot)
                 sleep(5)
                         
             else:
