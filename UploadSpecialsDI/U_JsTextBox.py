@@ -1,10 +1,11 @@
-class my_class(object):
+class JsTextBox():
     
     def __init__(self, driver, text, element_path):
     
         self.driver = driver
         self.text = text
         self.element_path = element_path
+        self.fix_text_box()
     
     def fix_text_box(self):
         special_symbols = ['"', '/', '<', '>', ';', ':', '=', '-', '\n', '\t']

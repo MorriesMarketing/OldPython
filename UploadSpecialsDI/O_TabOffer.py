@@ -1,4 +1,5 @@
-
+from U_JsTextBox import JsTextBox
+from O_Days import *
 
 class OfferContainer():
 
@@ -9,18 +10,19 @@ class OfferContainer():
         self.ot = ot
         self.order_list = []
 
-    @staticmethod
+
     def edit_button_links(self):
         self.driver.find_element(By.LINK_TEXT, "Offer").click()# Click OFFER Tab 
         text_box1 = self.driver.find_element(By.ID, "acf-field_569c2e95a3d27")
-        Today.time_taken(VehicleSpecialsNew.fix_text_box, self.driver, "View Vehicle Details", text_box1)#Primary Button Label
+        Today.time_taken(JsTextBox, self.driver, "View Vehicle Details", text_box1)#Primary Button Label
+
         vehicle = f'{self.v.Year} {self.v.MakeName} {self.v.ModelName}'.replace(' ','-')
         x = f'/new-vehicles/#action=im_ajax_call&perform=get_results&search={vehicle}&page=1'
         z = self.driver.find_element(By.ID, "acf-field_569c2aa7a3d24")#Secondary Button Link
-        Today.time_taken(VehicleSpecialsNew.fix_text_box, self.driver, x, z)
-        Today.time_taken(VehicleSpecialsNew.fix_text_box, self.driver, "View Inventory", driver.find_element(By.ID, "acf-field_569c2bb9a3d26"))#Secondary Link 
+        Today.time_taken(JsTextBox, self.driver, x, z)
+        Today.time_taken(JsTextBox, self.driver, "View Inventory", driver.find_element(By.ID, "acf-field_569c2bb9a3d26"))#Secondary Link 
     
-    @staticmethod
+
     def offer_labels(self):
         for i in self.order_list:
             print(i)
@@ -42,7 +44,11 @@ class OfferContainer():
                         child2 = child1.find_element_by_css_selector('.acf-input-wrap')
                         Input = child2.find_element_by_css_selector('input')
                         # OFFER
-                        self.driver.execute_script('arguments[0].value = "' + str(o.LeaseOffer) + '";', Input)
+                        if o.OfferTypeID == 5:
+                            Today.time_taken(JsTextBox, self.driver, o.DueAtSigning, Input)
+                            
+                        else:
+                            Today.time_taken(JsTextBox, self.driver, o.LeaseOffer, Input)
 
                         table = self.driver.find_elements_by_css_selector('.ui-sortable')[6]
                         row = table.find_elements_by_css_selector('.acf-row')[count]
@@ -51,17 +57,23 @@ class OfferContainer():
                         child2 = child1.find_element_by_css_selector('.acf-input-wrap')
                         Input = child2.find_element_by_css_selector('input')
                         # SPECIAL
-                        special = ''
-                        special += '<div style="font-size: 16px;">'
-                        special += str(o.LeaseSpecial)
-                        special += '</div>'
-                        if 'APR Finance Special' in o.LeaseSpecial:
-                            special += ''
+                        if o.OfferTypeID == 5:
+                            onepay = ''
+                            onepay += f'<div style="font-size: 16px;">{o.LeaseSpecial}</div>'
+                            onepay += f'<div style="font-size: 12px;">{o.LeaseOffer}</div>'
+                            Today.time_taken(JsTextBox, self.driver, onepay, Input)
                         else:
-                            special += '<div style="font-size: 12px;"><strong>'
-                            special += str(o.DueAtSigning)
-                            special += '</strong> Due at Signing</div>'
-                        Today.time_taken(VehicleSpecialsNew.fix_text_box, driver, special, Input)
+                            special = ''
+                            special += '<div style="font-size: 16px;">'
+                            special += str(o.LeaseSpecial)
+                            special += '</div>'
+                            if 'APR Finance Special' in o.LeaseSpecial:
+                                special += ''
+                            else:
+                                special += '<div style="font-size: 12px;"><strong>'
+                                special += str(o.DueAtSigning)
+                                special += '</strong> Due at Signing</div>'
+                            Today.time_taken(JsTextBox, self.driver, special, Input)
 
                         count += 1
     
@@ -111,16 +123,29 @@ class OfferContainer():
         disclaimers += '*Delivery availability may vary, some exclusions apply. Message dealer for details.'
         Today.time_taken(VehicleSpecialsNew.fix_text_box, driver, disclaimers, text_area)
 
-    @staticmethod
     def use_offer_tab_original(self):
         while True: # Offer Tab
             try:
                 Today.time_taken(self.edit_button_links, self)
                 
-                self.order_list = [[3, self.w.OfferTypeID3], [2, self.w.OfferTypeID2], [1, self.w.OfferTypeID1], [4, self.w.OfferTypeID4], [5, self.w.OfferTypeID5], [6, self.w.OfferTypeID6], [7, self.w.OfferTypeID7]]
-                Today.time_taken(VehicleSpecialsNew.offer_labels, self)
-                Today.time_taken(VehicleSpecialsNew.offer_description, self)                
-                Today.time_taken(VehicleSpecialsNew.offer_disclaimer, self)
+                self.order_list = [[3, self.w.OfferTypeID3], [2, self.w.OfferTypeID2], [1, self.w.OfferTypeID1], [4, self.w.OfferTypeID4], [6, self.w.OfferTypeID6], [7, self.w.OfferTypeID7]]
+                Today.time_taken(OfferContainer.offer_labels, self)
+                Today.time_taken(OfferContainer.offer_description, self)                
+                Today.time_taken(OfferContainer.offer_disclaimer, self)
+                break
+            except:
+                assert driver.switch_to.alert.text == "Vehicle Stock or VIN not found"
+                continue
+
+    def use_offer_tab_onepay(self):
+        while True: # Offer Tab
+            try:
+                Today.time_taken(self.edit_button_links, self)
+                
+                self.order_list = [[5, self.w.OfferTypeID5]]
+                Today.time_taken(OfferContainer.offer_labels, self)
+                Today.time_taken(OfferContainer.offer_description, self)                
+                Today.time_taken(OfferContainer.offer_disclaimer, self)
                 break
             except:
                 assert driver.switch_to.alert.text == "Vehicle Stock or VIN not found"

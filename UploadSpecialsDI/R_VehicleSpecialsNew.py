@@ -6,6 +6,7 @@ from O_DIOfferTypes import *
 from O_DIWebsites import *
 from O_Selenium import *
 from O_WebOfferTypes import *
+from O_TabOffer import OfferContainer
 
 class VehicleSpecialsNew():
 
@@ -243,14 +244,14 @@ class VehicleSpecialsNew():
             if VehicleSpecialsNew.error_check():
                 break
 ## Edits Start ##
-            
             ot_run = OfferTypeContainer(v, driver, w, ot)
             Today.time_taken(ot_run.select_one_pay_offertypes, None)# Checks off which DIoffertypes are used for catagorizing for display
-            Today.time_taken(VehicleSpecialsNew.use_offer_tab, v, driver, w, ot)#applies the CTA's, Offers Shown, Media Block, and Disclaimer
+            oc_run = OfferContainer( v, driver, w, ot)
+            Today.time_taken(oc_run.use_offer_tab_onepay, None)#applies the CTA's, Offers Shown, Media Block, and Disclaimer
 ## Edits End ##
             Today.time_taken(VehicleSpecialsNew.populate_special, driver)# Populate vehicle offers
             #Possible Addition #broadcast_subscribers #Group up offers and broadcast them to specific sites.
-            print('Completed Build Specials Loop Successfully')
+            print('Completed Build OnePay Loop Successfully')
             break
 # Edits End #
     @staticmethod
