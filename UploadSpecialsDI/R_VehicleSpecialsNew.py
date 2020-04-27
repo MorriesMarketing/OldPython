@@ -284,33 +284,24 @@ class VehicleSpecialsNew():
                             v.DealerCode = 'MAZ'
                         if w.Domain == 'https://www.walserpolarmazda.com/':
                             v.DealerCode = 'WBMNMA'    
-                        if f'{ot.Make} {ot.DealerCode}' != f'{v.MakeName} {v.DealerCode}':
-                            print(f'CHECK BLOCK 1 TRUE: Make & Dealer Code Did Not Match') 
+                        if f'{ot.Make} {ot.DealerCode}' == f'{v.MakeName} {v.DealerCode}':
                         
-                        elif 'N' not in v.StockNumber:
-                            print(f'CHECK BLOCK 2 TRUE: "N" Letter not found in Stock Number: {v.StockNumber}')
-                        
-                        elif len(v.Offers) == 0:
-                            print(f'CHECK BLOCK 3 TRUE: No Offers found')
-                        
-                        elif w.Domain == 'https://www.walser.com/':
-                            print(f'CHECK BLOCK 4 TRUE: Running Specials on {w.Domain} for {v.StockNumber}')
-                            Today.time_taken(VehicleSpecialsNew.build_special, v, driver, w, ot)
-                            Today.time_taken(VehicleSpecialsNew.check_under_10k, v, driver, w, ot)
+                            if 'N' in v.StockNumber and len(v.Offers) != 0:
+                                                        
+                                if w.Domain == 'https://www.walser.com/':
+                                    print(f'CHECK BLOCK 4 TRUE: Running Specials on {w.Domain} for {v.StockNumber}')
+                                    Today.time_taken(VehicleSpecialsNew.build_special, v, driver, w, ot)
+                                    Today.time_taken(VehicleSpecialsNew.check_under_10k, v, driver, w, ot)
                             
+                                elif w.Domain == 'https://www.walserautocampus.com/' and v.State == 'KS':
+                                    print(f'CHECK BLOCK 4 TRUE: Running Specials on {w.Domain} for {v.StockNumber}')
+                                    Today.time_taken(VehicleSpecialsNew.build_special, v, driver, w, ot)
+                                    Today.time_taken(VehicleSpecialsNew.check_under_10k, v, driver, w, ot)
 
-                        elif w.Domain == 'https://www.walserautocampus.com/' and v.State == 'KS':
-                            print(f'CHECK BLOCK 4 TRUE: Running Specials on {w.Domain} for {v.StockNumber}')
-                            Today.time_taken(VehicleSpecialsNew.build_special, v, driver, w, ot)
-                            Today.time_taken(VehicleSpecialsNew.check_under_10k, v, driver, w, ot)
-
-                        elif v.Brand != w.Brand:
-                            print(f'CHECK BLOCK 5 TRUE: Vehicle Brand: {v.Brand} \nWebsite Brand: {w.Brand}')
-                        
-                        else:
-                            print(f'ELSE STATMENT ACTIVE: Running Specials on {w.Domain} for {v.StockNumber}')
-                            Today.time_taken(VehicleSpecialsNew.build_special, v, driver, w, ot)
-                            Today.time_taken(VehicleSpecialsNew.check_under_10k, v, driver, w, ot)
+                                elif v.Brand == w.Brand:
+                                    print(f'ELSE STATMENT ACTIVE: Running Specials on {w.Domain} for {v.StockNumber}')
+                                    Today.time_taken(VehicleSpecialsNew.build_special, v, driver, w, ot)
+                                    Today.time_taken(VehicleSpecialsNew.check_under_10k, v, driver, w, ot)
                 sleep(5)
                         
             else:
