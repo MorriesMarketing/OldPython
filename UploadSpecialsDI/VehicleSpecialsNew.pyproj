@@ -37,8 +37,12 @@
     <Compile Include="O_Selenium.py" />
     <Compile Include="I_SqlLight.py" />
     <Compile Include="I_SqlServer.py" />
+    <Compile Include="O_TabAdvancedOptions.py" />
+    <Compile Include="O_TabOffer.py" />
+    <Compile Include="O_WebOfferTypes.py" />
     <Compile Include="R_VehicleSpecialsNew.py" />
     <Compile Include="O_Vehicles.py" />
+    <Compile Include="U_JsTextBox.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
