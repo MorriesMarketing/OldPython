@@ -4,6 +4,7 @@ class DIOfferType():
         self.Make = kwargs['Make']
         self.DealerName = kwargs['DealerName']
         self.DealerCode = kwargs['DealerCode']
+        self.Domain = kwargs['Domain']
         self.WAC_Brand = kwargs['WAC_Brand']
         self.WAG_New = kwargs['WAG_New']
         self.WAG_Walser = kwargs['WAG_Walser']
