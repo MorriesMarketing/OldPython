@@ -25,7 +25,6 @@ class DIWebsite():
         self.OfferTypeID6 = krawgs['OfferTypeID6']
         self.OfferTypeID7 = krawgs['OfferTypeID7']
         self.Driver = None
-        self.OfferType = None
 
     def __repr__(self):
         return f"{self.Domain} {self.Brand}"

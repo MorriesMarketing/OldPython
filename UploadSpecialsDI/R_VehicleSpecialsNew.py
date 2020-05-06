@@ -1,6 +1,6 @@
 from I_SqlLight import *
 from I_DigitalMarketing import *
-from O_TabAdvancedOptions import AdvancedOptions
+from O_TabAdvancedOptions import *
 from O_Days import *
 from O_DIOfferTypes import *
 from O_DIWebsites import *
@@ -8,89 +8,33 @@ from O_Selenium import *
 from O_WebOfferTypes import *
 from O_TabOffer import OfferContainer
 
-
-class VehicleSpecial():
-    
-    def __init__(self, driver, website, offer_type, vehicle):
-        self.vehicle = vehicle
-        self.website = website
-        self.offer_type = offer_type
-        self.driver = driver
-
-    def build_special(self):
-        while True:
-            Today.time_taken(self.reset_post_page, self.vehicle, self.driver, self.website)# Navigates to Post then Edit page to reset any cached data.
-            Today.time_taken(self.populate_vehicle, v, driver)#Moves to create vehicle by adding Stock# to textbox then clicking the populate button
-            if self.error_check():
-                break
-            Today.time_taken(self.populate_title_boxes, v, driver)#Edits the title boxes for both the offer and backend
-            if self.error_check():
-                break
-            ao_run = AdvancedOptions(self.driver, self.website, self.vehicle)
-            Today.time_taken(ao_run.use_advanced_options_tab)#applies the offer designated to be shown on VRP
-            
-            ot_run = OfferTypeContainer(v, driver, w, ot)
-            Today.time_taken(ot_run.select_group_offertypes)# Checks off which DIoffertypes are used for catagorizing for display
-            Today.time_taken(self.use_offer_tab, v, driver, w, ot)#applies the CTA's, Offers Shown, Media Block, and Disclaimer
-            Today.time_taken(self.populate_special, driver)# Populate vehicle offers
-            #Possible Addition #broadcast_subscribers #Group up offers and broadcast them to specific sites.
-            print('Completed Build Specials Loop Successfully')
-            break
-
-    def build_onepay(self):
-        while True:
-            Today.time_taken(VehicleSpecialsNew.reset_post_page, v, driver, w)# Navigates to Post then Edit page to reset any cached data.
-            Today.time_taken(VehicleSpecialsNew.populate_vehicle, v, driver)#Moves to create vehicle by adding Stock# to textbox then clicking the populate button
-            if VehicleSpecialsNew.error_check():
-                break
-            Today.time_taken(VehicleSpecialsNew.populate_title_boxes, v, driver)#Edits the title boxes for both the offer and backend
-            if VehicleSpecialsNew.error_check():
-                break
-
-            ot_run = OfferTypeContainer(v, driver, w, ot)
-            Today.time_taken(ot_run.select_one_pay_offertypes)# Checks off which DIoffertypes are used for catagorizing for display
-            oc_run = OfferContainer( v, driver, w, ot)
-            Today.time_taken(oc_run.use_offer_tab_onepay)#applies the CTA's, Offers Shown, Media Block, and Disclaimer
-
-            Today.time_taken(VehicleSpecialsNew.populate_special, driver)# Populate vehicle offers
-            #Possible Addition #broadcast_subscribers #Group up offers and broadcast them to specific sites.
-            print('Completed Build OnePay Loop Successfully')
-            break
-
-
-
 class VehicleSpecialsNew():
 
-    def __init__(self):
-        # This is to verify that offers new offers are available
-        self.refresh_check = SqlServer.PRD_OfferSpecialsUpload_RefreshCheck()
-        self.websites = self.gather_websites()
-        self.offertypes = self.gather_offer_types()
-        self.vehicles = DigitalMarketing.create_vehicles_from_VehicleSpecialsNew()
-        self.driver = SeleniumDrivers.CHROME
-        # These are to be used later in the run method. These are to be used as objects
-        
-    def gather_websites():
-        #Pull data for Websites to be ran
-        data_table = SqlLight.VM_Websites_ReadData()
-        data = Database.convert_table_to_dict(data_table)
-        websites = Database.create_objects(data, DIWebsite)
-        return websites
+    SqlServer.PRD_OfferSpecialsUpload_RefreshCheck()
+     #Pull data for Websites to be ran
+    data_table = SqlLight.VM_Websites_ReadData()
+    data = Database.convert_table_to_dict(data_table)
+    websites = Database.create_objects(data, DIWebsite)
+
+    data_table = SqlLight.VM_OfferTypes_ReadData()
+    data = Database.convert_table_to_dict(data_table)
+    offertypes = Database.create_objects(data, DIOfferType)
+
     
-    def gather_offer_types():
-        data_table = SqlLight.VM_OfferTypes_ReadData()
-        data = Database.convert_table_to_dict(data_table)
-        offertypes = Database.create_objects(data, DIOfferType)
-        return offertypes
+    vehicles = DigitalMarketing.create_vehicles_from_VehicleSpecialsNew()
+
+    #Setup Driver & Website to be ran
+    driver = SeleniumDrivers.CHROME
+    Website = SeleniumDrivers(driver)
         
-#    @staticmethod
-#    def fix_text_box(self, text, element_path):
-#        special_symbols = ['"', '/', '<', '>', ';', ':', '=', '-', '\n', '\t']
-#
-#        for x in special_symbols:
-#            text = text.replace(x,f'\{x}')
-#        print(text)
-#        self.driver.execute_script('arguments[0].value = "' + text + '";', element_path)
+    @staticmethod
+    def fix_text_box(driver, text, element_path):
+        special_symbols = ['"', '/', '<', '>', ';', ':', '=', '-', '\n', '\t']
+
+        for x in special_symbols:
+            text = text.replace(x,f'\{x}')
+        print(text)
+        driver.execute_script('arguments[0].value = "' + text + '";', element_path)
 
     @staticmethod
     def reset_post_page(v,driver, w):
@@ -273,23 +217,23 @@ class VehicleSpecialsNew():
             if o.OfferTypeID == 5 and o.DueAtSigning < 10000:
                 Today.time_taken(VehicleSpecialsNew.build_onepay, v, driver, w, ot)
 
-    
-    def build_special(self):
+    @staticmethod
+    def build_special(v, driver, w, ot):
         while True:
-            Today.time_taken(self.reset_post_page, self.vehicle, self.driver, self.website)# Navigates to Post then Edit page to reset any cached data.
-            Today.time_taken(self.populate_vehicle, v, driver)#Moves to create vehicle by adding Stock# to textbox then clicking the populate button
-            if self.error_check():
+            Today.time_taken(VehicleSpecialsNew.reset_post_page, v, driver, w)# Navigates to Post then Edit page to reset any cached data.
+            Today.time_taken(VehicleSpecialsNew.populate_vehicle, v, driver)#Moves to create vehicle by adding Stock# to textbox then clicking the populate button
+            if VehicleSpecialsNew.error_check():
                 break
-            Today.time_taken(self.populate_title_boxes, v, driver)#Edits the title boxes for both the offer and backend
-            if self.error_check():
+            Today.time_taken(VehicleSpecialsNew.populate_title_boxes, v, driver)#Edits the title boxes for both the offer and backend
+            if VehicleSpecialsNew.error_check():
                 break
             ao_run = AdvancedOptions( v, driver, w)
-            Today.time_taken(ao_run.use_advanced_options_tab)#applies the offer designated to be shown on VRP
+            Today.time_taken(ao_run.use_advanced_options_tab, None)#applies the offer designated to be shown on VRP
             
             ot_run = OfferTypeContainer(v, driver, w, ot)
-            Today.time_taken(ot_run.select_group_offertypes)# Checks off which DIoffertypes are used for catagorizing for display
-            Today.time_taken(self.use_offer_tab, v, driver, w, ot)#applies the CTA's, Offers Shown, Media Block, and Disclaimer
-            Today.time_taken(self.populate_special, driver)# Populate vehicle offers
+            Today.time_taken(ot_run.select_group_offertypes, None)# Checks off which DIoffertypes are used for catagorizing for display
+            Today.time_taken(VehicleSpecialsNew.use_offer_tab, v, driver, w, ot)#applies the CTA's, Offers Shown, Media Block, and Disclaimer
+            Today.time_taken(VehicleSpecialsNew.populate_special, driver)# Populate vehicle offers
             #Possible Addition #broadcast_subscribers #Group up offers and broadcast them to specific sites.
             print('Completed Build Specials Loop Successfully')
             break
@@ -307,9 +251,9 @@ class VehicleSpecialsNew():
                 break
 
             ot_run = OfferTypeContainer(v, driver, w, ot)
-            Today.time_taken(ot_run.select_one_pay_offertypes)# Checks off which DIoffertypes are used for catagorizing for display
+            Today.time_taken(ot_run.select_one_pay_offertypes, None)# Checks off which DIoffertypes are used for catagorizing for display
             oc_run = OfferContainer( v, driver, w, ot)
-            Today.time_taken(oc_run.use_offer_tab_onepay)#applies the CTA's, Offers Shown, Media Block, and Disclaimer
+            Today.time_taken(oc_run.use_offer_tab_onepay, None)#applies the CTA's, Offers Shown, Media Block, and Disclaimer
 
             Today.time_taken(VehicleSpecialsNew.populate_special, driver)# Populate vehicle offers
             #Possible Addition #broadcast_subscribers #Group up offers and broadcast them to specific sites.
@@ -317,48 +261,47 @@ class VehicleSpecialsNew():
             break
 # Edits End #
 
-    def run(self):
-
-        for w in self.websites:
-            for ot in self.offertypes:
-                if w.Domain == ot.Domain:
-                    w.OfferType = ot
-
-        for w in self.websites:
-            
-            w.Driver = self.driver
-            self.driver.maximize_window()
-
+    @staticmethod
+    def run(vehicles, websites, Website, driver, offertypes):
+        for w in websites:
+            w.Driver = driver
+            driver.maximize_window()
             if w.WebsiteID >= 1:
                 # Login Method
                 w.DI_SignIn()
                 # Delete All Specials 
                 Today.time_taken(DIWebsite.delete_all_specials,driver, w)
-                   
-                for v in self.vehicles:
-                    for ot in self.offertypes:
-                        if w.Domain == ot.Domain and v.MakeName == ot.Make:
-                            w.OfferType = ot
-
-                    vehicle_special = VehicleSpecial(driver=self.driver, website=w, offer_type=ot, vehicle=v)
-
-                    if 'N' in v.StockNumber and len(v.Offers) != 0:
+                
+                for v in vehicles:
+                    for ot in offertypes:
+                        if w.Domain == 'https://www.walsernissan.com/':
+                            v.DealerCode = 'NIS'
+                        if w.Domain == 'https://www.walsernissancoonrapids.com/':
+                            v.DealerCode = 'CRN'
+                        if w.Domain == 'https://www.walsernissanwayzata.com/':
+                            v.DealerCode = 'WZMNNS'
+                        if w.Domain == 'https://www.walser-mazda.com/':
+                            v.DealerCode = 'MAZ'
+                        if w.Domain == 'https://www.walserpolarmazda.com/':
+                            v.DealerCode = 'WBMNMA'    
+                        if f'{ot.Make} {ot.DealerCode}' == f'{v.MakeName} {v.DealerCode}':
+                        
+                            if 'N' in v.StockNumber and len(v.Offers) != 0:
                                                         
-                        if w.Domain == 'https://www.walser.com/':
-                            print(f'CHECK BLOCK 4 TRUE: Running Specials on {w.Domain} for {v.StockNumber}')
-                                   
-                            Today.time_taken(vehicle_special.build_special)
-                            Today.time_taken(VehicleSpecialsNew.check_under_10k, v, driver, w, ot)
+                                if w.Domain == 'https://www.walser.com/':
+                                    print(f'CHECK BLOCK 4 TRUE: Running Specials on {w.Domain} for {v.StockNumber}')
+                                    Today.time_taken(VehicleSpecialsNew.build_special, v, driver, w, ot)
+                                    Today.time_taken(VehicleSpecialsNew.check_under_10k, v, driver, w, ot)
                             
-                        elif w.Domain == 'https://www.walserautocampus.com/' and v.State == 'KS':
-                            print(f'CHECK BLOCK 4 TRUE: Running Specials on {w.Domain} for {v.StockNumber}')
-                            Today.time_taken(VehicleSpecialsNew.build_special, v, driver, w, ot)
-                            Today.time_taken(VehicleSpecialsNew.check_under_10k, v, driver, w, ot)
+                                elif w.Domain == 'https://www.walserautocampus.com/' and v.State == 'KS':
+                                    print(f'CHECK BLOCK 4 TRUE: Running Specials on {w.Domain} for {v.StockNumber}')
+                                    Today.time_taken(VehicleSpecialsNew.build_special, v, driver, w, ot)
+                                    Today.time_taken(VehicleSpecialsNew.check_under_10k, v, driver, w, ot)
 
-                        elif w.Brand == v.Brand:
-                            print(f'ELSE STATMENT ACTIVE: Running Specials on {w.Domain} for {v.StockNumber}')
-                            Today.time_taken(VehicleSpecialsNew.build_special, v, driver, w, ot)
-                            Today.time_taken(VehicleSpecialsNew.check_under_10k, v, driver, w, ot)
+                                elif v.Brand == w.Brand:
+                                    print(f'ELSE STATMENT ACTIVE: Running Specials on {w.Domain} for {v.StockNumber}')
+                                    Today.time_taken(VehicleSpecialsNew.build_special, v, driver, w, ot)
+                                    Today.time_taken(VehicleSpecialsNew.check_under_10k, v, driver, w, ot)
                 sleep(5)
                         
             else:
@@ -366,8 +309,8 @@ class VehicleSpecialsNew():
         driver.quit()
 
 def main():
-    vehicle_specials = VehicleSpecialsNew()
-    Today.time_taken(vehicle_specials.run)
+    print('Running Right function')   
+    Today.time_taken(VehicleSpecialsNew.run, VehicleSpecialsNew.vehicles, VehicleSpecialsNew.websites, VehicleSpecialsNew.Website, VehicleSpecialsNew.driver, VehicleSpecialsNew.offertypes)
 
 if __name__ == "__main__":
     main()
