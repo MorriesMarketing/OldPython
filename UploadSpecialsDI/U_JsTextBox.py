@@ -1,19 +1,12 @@
 class JsTextBox():
-    
-    def __init__(self, driver, text, element_path):
-    
-        self.driver = driver
-        self.text = text
-        self.element_path = element_path
-        self.fix_text_box()
-    
-    def fix_text_box(self):
+        
+    def fix_text_box(driver, text, element_path):
         special_symbols = ['"', '/', '<', '>', ';', ':', '=', '-', '\n', '\t']
 
         for x in special_symbols:
-            self.text = self.text.replace(x,f'\{x}')
-        print(self.text)
-        self.driver.execute_script('arguments[0].value = "' + self.text + '";', self.element_path)
+            text = text.replace(x,f'\{x}')
+        print(text)
+        driver.execute_script('arguments[0].value = "' + text + '";', element_path)
 
 
 

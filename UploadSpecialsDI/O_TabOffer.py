@@ -1,7 +1,7 @@
 from U_JsTextBox import JsTextBox
 from O_Days import *
 
-class OfferContainer():
+class TabOfferContainer():
 
     def __init__(self, v, driver, w, ot):
         self.v = v

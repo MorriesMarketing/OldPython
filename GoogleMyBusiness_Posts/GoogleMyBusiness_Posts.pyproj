@@ -2,16 +2,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>8a1da7b5-9537-40db-89c6-7997744510aa</ProjectGuid>
-    <ProjectHome>
-    </ProjectHome>
-    <StartupFile>R_VehicleSpecialsNew.py</StartupFile>
+    <ProjectGuid>576ea30a-864d-479d-8239-259342e1b862</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>R_GoogleMyBusiness_Posts.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
-    <Name>VehicleSpecialsNew</Name>
-    <RootNamespace>UploadSpecialsDI</RootNamespace>
+    <Name>GoogleMyBusiness_Posts</Name>
+    <RootNamespace>GoogleMyBusiness_Posts</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -22,33 +21,27 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="O_TabVehicleInfo.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="O_VehicleSpecial.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="I_Databases.py" />
-    <Compile Include="I_DigitalMarketing.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="O_Offers.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="O_DIOfferTypes.py">
+    <Compile Include="GmbJson.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="O_Days.py" />
-    <Compile Include="O_DIWebsites.py" />
+    <Compile Include="O_Duration.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="O_Image.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="O_Login.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="O_Post.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="O_Location.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="O_Selenium.py" />
-    <Compile Include="I_SqlLight.py" />
-    <Compile Include="I_SqlServer.py" />
-    <Compile Include="O_TabAdvancedOptions.py" />
-    <Compile Include="O_TabOffer.py" />
-    <Compile Include="O_WebOfferTypes.py" />
-    <Compile Include="R_VehicleSpecialsNew.py" />
-    <Compile Include="O_Vehicles.py" />
-    <Compile Include="U_JsTextBox.py" />
+    <Compile Include="R_GoogleMyBusiness_Posts.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

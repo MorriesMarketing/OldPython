@@ -7,57 +7,7 @@ from O_DIWebsites import *
 from O_Selenium import *
 from O_WebOfferTypes import *
 from O_TabOffer import OfferContainer
-
-
-class VehicleSpecial():
-    
-    def __init__(self, driver, website, offer_type, vehicle):
-        self.vehicle = vehicle
-        self.website = website
-        self.offer_type = offer_type
-        self.driver = driver
-
-    def build_special(self):
-        while True:
-            Today.time_taken(self.reset_post_page, self.vehicle, self.driver, self.website)# Navigates to Post then Edit page to reset any cached data.
-            Today.time_taken(self.populate_vehicle, v, driver)#Moves to create vehicle by adding Stock# to textbox then clicking the populate button
-            if self.error_check():
-                break
-            Today.time_taken(self.populate_title_boxes, v, driver)#Edits the title boxes for both the offer and backend
-            if self.error_check():
-                break
-            ao_run = AdvancedOptions(self.driver, self.website, self.vehicle)
-            Today.time_taken(ao_run.use_advanced_options_tab)#applies the offer designated to be shown on VRP
-            
-            ot_run = OfferTypeContainer(v, driver, w, ot)
-            Today.time_taken(ot_run.select_group_offertypes)# Checks off which DIoffertypes are used for catagorizing for display
-            Today.time_taken(self.use_offer_tab, v, driver, w, ot)#applies the CTA's, Offers Shown, Media Block, and Disclaimer
-            Today.time_taken(self.populate_special, driver)# Populate vehicle offers
-            #Possible Addition #broadcast_subscribers #Group up offers and broadcast them to specific sites.
-            print('Completed Build Specials Loop Successfully')
-            break
-
-    def build_onepay(self):
-        while True:
-            Today.time_taken(VehicleSpecialsNew.reset_post_page, v, driver, w)# Navigates to Post then Edit page to reset any cached data.
-            Today.time_taken(VehicleSpecialsNew.populate_vehicle, v, driver)#Moves to create vehicle by adding Stock# to textbox then clicking the populate button
-            if VehicleSpecialsNew.error_check():
-                break
-            Today.time_taken(VehicleSpecialsNew.populate_title_boxes, v, driver)#Edits the title boxes for both the offer and backend
-            if VehicleSpecialsNew.error_check():
-                break
-
-            ot_run = OfferTypeContainer(v, driver, w, ot)
-            Today.time_taken(ot_run.select_one_pay_offertypes)# Checks off which DIoffertypes are used for catagorizing for display
-            oc_run = OfferContainer( v, driver, w, ot)
-            Today.time_taken(oc_run.use_offer_tab_onepay)#applies the CTA's, Offers Shown, Media Block, and Disclaimer
-
-            Today.time_taken(VehicleSpecialsNew.populate_special, driver)# Populate vehicle offers
-            #Possible Addition #broadcast_subscribers #Group up offers and broadcast them to specific sites.
-            print('Completed Build OnePay Loop Successfully')
-            break
-
-
+from O_VehicleSpecial import VehicleSpecial
 
 class VehicleSpecialsNew():
 
@@ -82,49 +32,7 @@ class VehicleSpecialsNew():
         data = Database.convert_table_to_dict(data_table)
         offertypes = Database.create_objects(data, DIOfferType)
         return offertypes
-        
-#    @staticmethod
-#    def fix_text_box(self, text, element_path):
-#        special_symbols = ['"', '/', '<', '>', ';', ':', '=', '-', '\n', '\t']
-#
-#        for x in special_symbols:
-#            text = text.replace(x,f'\{x}')
-#        print(text)
-#        self.driver.execute_script('arguments[0].value = "' + text + '";', element_path)
 
-    @staticmethod
-    def reset_post_page(v,driver, w):
-        driver.get(f'{w.Domain}{DIWebsite.DI_EDIT}')
-        driver.get(f'{w.Domain}{DIWebsite.DI_POST}')
-
-    @staticmethod
-    def populate_vehicle(v, driver):
-        #driver.find_element(By.CSS_SELECTOR, ".acf-radio-list > li:nth-child(3)").click() # Click Area Around > Offer Applies To - Stock(one unit)
-        driver.find_element(By.ID, "acf-field_56917bb83947f-stock").click()# Click Offer Applies To - Stock(one unit)
-        element = driver.find_element(By.ID, "acf-field_56549cefdeb1a")
-        actions = ActionChains(driver)
-        actions.move_to_element(element).perform()
-        Today.time_taken(VehicleSpecialsNew.fix_text_box, driver, v.StockNumber, driver.find_element(By.ID, "acf-field_56549cefdeb1a"))# Send Stock Number to Vehicle Stock Text Box
-        driver.find_element(By.ID, "populate_vehicle").click()# Click Populate Stock Number - Image will auto load
-    
-    @staticmethod
-    def populate_title_boxes(v, driver):
-        while True:
-            try: # Check for if vehicle exists
-                x = driver.find_element(By.NAME, "post_title")# add vehicle title to Title Text Box
-                element = x
-                actions = ActionChains(driver)
-                actions.move_to_element(element).perform()
-                Today.time_taken(VehicleSpecialsNew.fix_text_box, driver, f'New {v.Year} {v.MakeName} {v.ModelName} {v.Trim}', x)
-                driver.find_element(By.ID, "acf-field_5575ca339b200").clear()# clear vehicle title 
-                x = driver.find_element(By.ID, "acf-field_5575ca339b200")# replace vehicle title with fixed one
-                Today.time_taken(VehicleSpecialsNew.fix_text_box, driver, f'New {v.Year} {v.MakeName} {v.ModelName} {v.Trim}', x)
-                driver.find_element(By.CSS_SELECTOR, "li:nth-child(2) b").click()# Click Offer Applies To - Inventory
-                Today.time_taken(VehicleSpecialsNew.fix_text_box, driver, v.StockNumber, driver.find_element(By.ID, "acf-diso_vehicle_stock"))# Send Keys to Secondary Stock Number Box 
-                break 
-            except Exception as e:
-                sleep(.1)
-                print(f'Failed to find element. \t{e}')
 
     @staticmethod
     def edit_button_links(v, driver):
@@ -256,66 +164,13 @@ class VehicleSpecialsNew():
                 print('Failed')
                 sleep(.1)
 
-    @staticmethod
-    def error_check():
-        error_occured = False
-        try:
-            assert driver.switch_to.alert.text == "Vehicle Stock or VIN not found"
-            error_occured = True
-        except:
-            error_occured = False
-        print(f'\n\tError: {error_occured}\n')
-        return error_occured
+    
 
     @staticmethod
     def check_under_10k(v, driver, w, ot):
         for o in v.Offers():
             if o.OfferTypeID == 5 and o.DueAtSigning < 10000:
                 Today.time_taken(VehicleSpecialsNew.build_onepay, v, driver, w, ot)
-
-    
-    def build_special(self):
-        while True:
-            Today.time_taken(self.reset_post_page, self.vehicle, self.driver, self.website)# Navigates to Post then Edit page to reset any cached data.
-            Today.time_taken(self.populate_vehicle, v, driver)#Moves to create vehicle by adding Stock# to textbox then clicking the populate button
-            if self.error_check():
-                break
-            Today.time_taken(self.populate_title_boxes, v, driver)#Edits the title boxes for both the offer and backend
-            if self.error_check():
-                break
-            ao_run = AdvancedOptions( v, driver, w)
-            Today.time_taken(ao_run.use_advanced_options_tab)#applies the offer designated to be shown on VRP
-            
-            ot_run = OfferTypeContainer(v, driver, w, ot)
-            Today.time_taken(ot_run.select_group_offertypes)# Checks off which DIoffertypes are used for catagorizing for display
-            Today.time_taken(self.use_offer_tab, v, driver, w, ot)#applies the CTA's, Offers Shown, Media Block, and Disclaimer
-            Today.time_taken(self.populate_special, driver)# Populate vehicle offers
-            #Possible Addition #broadcast_subscribers #Group up offers and broadcast them to specific sites.
-            print('Completed Build Specials Loop Successfully')
-            break
-
-# Edits Start #
-    @staticmethod
-    def build_onepay(v, driver, w, ot):
-        while True:
-            Today.time_taken(VehicleSpecialsNew.reset_post_page, v, driver, w)# Navigates to Post then Edit page to reset any cached data.
-            Today.time_taken(VehicleSpecialsNew.populate_vehicle, v, driver)#Moves to create vehicle by adding Stock# to textbox then clicking the populate button
-            if VehicleSpecialsNew.error_check():
-                break
-            Today.time_taken(VehicleSpecialsNew.populate_title_boxes, v, driver)#Edits the title boxes for both the offer and backend
-            if VehicleSpecialsNew.error_check():
-                break
-
-            ot_run = OfferTypeContainer(v, driver, w, ot)
-            Today.time_taken(ot_run.select_one_pay_offertypes)# Checks off which DIoffertypes are used for catagorizing for display
-            oc_run = OfferContainer( v, driver, w, ot)
-            Today.time_taken(oc_run.use_offer_tab_onepay)#applies the CTA's, Offers Shown, Media Block, and Disclaimer
-
-            Today.time_taken(VehicleSpecialsNew.populate_special, driver)# Populate vehicle offers
-            #Possible Addition #broadcast_subscribers #Group up offers and broadcast them to specific sites.
-            print('Completed Build OnePay Loop Successfully')
-            break
-# Edits End #
 
     def run(self):
 
@@ -333,7 +188,7 @@ class VehicleSpecialsNew():
                 # Login Method
                 w.DI_SignIn()
                 # Delete All Specials 
-                Today.time_taken(DIWebsite.delete_all_specials,driver, w)
+                Today.time_taken(w.delete_all_specials,driver, w)
                    
                 for v in self.vehicles:
                     for ot in self.offertypes:
