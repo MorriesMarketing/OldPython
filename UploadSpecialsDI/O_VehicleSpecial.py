@@ -50,4 +50,7 @@ class VehicleSpecial():
             print('Completed Build OnePay Loop Successfully')
             break
 
+    def run(self):
+        Today.time_taken(self.build_special)
+        Today.time_taken(self.check_under_10k)
 

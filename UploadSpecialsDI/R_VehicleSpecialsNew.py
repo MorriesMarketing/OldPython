@@ -35,17 +35,15 @@ class VehicleSpecialsNew():
         return offertypes
 
     def run(self):
-
+        self.driver.maximize_window()
         for w in self.websites:
-            
             w.Driver = self.driver
-            self.driver.maximize_window()
-
+            
             if w.WebsiteID >= 1:
                 # Login Method
                 w.DI_SignIn()
                 # Delete All Specials 
-                Today.time_taken(w.delete_all_specials,driver, w)
+                Today.time_taken(w.delete_all_specials)
                    
                 for v in self.vehicles:
                     for ot in self.offertypes:
@@ -58,22 +56,18 @@ class VehicleSpecialsNew():
                                                         
                         if w.Domain == 'https://www.walser.com/':
                             print(f'CHECK BLOCK 4 TRUE: Running Specials on {w.Domain} for {v.StockNumber}')
-                                   
-                            Today.time_taken(vehicle_special.build_special)
-                            Today.time_taken(vehicle_special.check_under_10k)
+                            Today.time_taken(vehicle_special.run)
                             
                         elif w.Domain == 'https://www.walserautocampus.com/' and v.State == 'KS':
                             print(f'CHECK BLOCK 4 TRUE: Running Specials on {w.Domain} for {v.StockNumber}')
-                            Today.time_taken(vehicle_special.build_special)
-                            Today.time_taken(vehicle_special.check_under_10k)
+                            Today.time_taken(vehicle_special.run)
 
                         elif w.Brand == v.Brand:
                             print(f'ELSE STATMENT ACTIVE: Running Specials on {w.Domain} for {v.StockNumber}')
-                            Today.time_taken(vehicle_special.build_special)
-                            Today.time_taken(vehicle_special.check_under_10k)
+                            Today.time_taken(vehicle_special.run)
                     
                 sleep(5)
-                DIWebsite.reload_cache(driver=w.Driver, website=w.Domain)
+                DIWebsite.reload_cache()
                         
             else:
                 pass

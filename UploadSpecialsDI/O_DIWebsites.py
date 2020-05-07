@@ -45,42 +45,43 @@ class DIWebsite():
         self.Driver.find_element_by_id('wp-submit').click()
         #4. Click sign in
 
-    def delete_all_specials(driver, w):
+    def delete_all_specials(self):
         print('Running delete_offers')
         while True:
             try:
-                edit = f'{w.Domain}{DIWebsite.DI_EDIT}'
-                driver.get(edit)
+                edit = f'{self.Domain}{DIWebsite.DI_EDIT}'
+                self.Driver.get(edit)
                 break
             except:
                 sleep(.1)
         while True:
             try:
-                number = driver.find_element_by_xpath('//*[@id="wpbody-content"]/div[3]/ul/li[1]/a/span').text
+                number = self.Driver.find_element_by_xpath('//*[@id="wpbody-content"]/div[3]/ul/li[1]/a/span').text
                 if number != '(0)':
                     try:
-                        driver.find_element_by_xpath('//*[@id="cb-select-all-1"]').click()
-                        driver.find_element_by_xpath('//*[@id="bulk-action-selector-top"]').click()
-                        driver.find_element_by_xpath('//*[@id="bulk-action-selector-top"]/option[3]').click()
-                        driver.find_element_by_xpath('//*[@id="doaction"]').click()
+                        self.Driver.find_element_by_xpath('//*[@id="cb-select-all-1"]').click()
+                        self.Driver.find_element_by_xpath('//*[@id="bulk-action-selector-top"]').click()
+                        self.Driver.find_element_by_xpath('//*[@id="bulk-action-selector-top"]/option[3]').click()
+                        self.Driver.find_element_by_xpath('//*[@id="doaction"]').click()
                     except:
                         sleep(1)
                 else:
                     break
             except:
                 sleep(.1)
-    def reload_cache(driver, website):
-        driver.get(f'{website.Domain}{DIWebsite.DI_RELOADCACHE}')
-        driver.get(f'{website.Domain}{DIWebsite.DI_REORDER}')
+
+    def reload_cache(self):
+        self.Driver.get(f'{self.Domain}{DIWebsite.DI_RELOADCACHE}')
+        self.Driver.get(f'{self.Domain}{DIWebsite.DI_REORDER}')
         while True:
             try:
                 element = driver.find_element_by_xpath('//[@id="save-order"]')
-                actions = ActionChains(driver)
+                actions = ActionChains(self.Driver)
                 actions.move_to_element(element).perform()
-                driver.find_element_by_xpath('//[@id="save-order"]').click()
+                self.Driver.find_element_by_xpath('//[@id="save-order"]').click()
                 break
             except:
                 sleep(.1)
 
-        driver.find_element_by_xpath('//[@id="wp-admin-bar-im_admin_bar-clear_cache"]/a/strong').click()
+        self.Driver.find_element_by_xpath('//[@id="wp-admin-bar-im_admin_bar-clear_cache"]/a/strong').click()
         print('COMPLETED!!!!')

@@ -7,7 +7,3 @@ class JsTextBox():
             text = text.replace(x,f'\{x}')
         print(text)
         driver.execute_script('arguments[0].value = "' + text + '";', element_path)
-
-
-
-

@@ -8,7 +8,6 @@ class OfferTypeContainer(VehicleSpecial):
     def __init__(self):
         self.value_list = []
 
-    @staticmethod
     def offer_type_clicks(self):
         element = self.driver.find_element_by_xpath('//*[@id="typediv"]/button/span[2]')
         actions = ActionChains(self.driver)
@@ -24,7 +23,7 @@ class OfferTypeContainer(VehicleSpecial):
                 break
             except:
                 sleep(.1)   
-    @staticmethod
+    
     def select_group_offertypes(self):
         
         if self.website.Domain == 'https://www.walserautocampus.com/':
@@ -36,15 +35,14 @@ class OfferTypeContainer(VehicleSpecial):
             self.value_list = [self.website.OfferType.WAG_Fixed, self.website.OfferType.WAG_StateCode, self.website.OfferType.WAG_New, self.website.OfferType.WAG_Walser]
         else:
             self.value_list = [self.website.OfferType.StoreType]
-        print(f'List: {value_list}')
+        print(f'List: {self.value_list}')
         self.offer_type_clicks(self)
-    @staticmethod
+    
     def select_one_pay_offertypes(self):
         
         self.value_list = [self.website.OfferType.OnePay]
         self.offer_type_clicks(self)
 
-    @staticmethod
     def run(self, input):
         if input == OfferTypeContainer.GROUP:
             Today.time_taken(self.select_group_offertypes)
