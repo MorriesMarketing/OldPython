@@ -1,40 +1,40 @@
 from U_JsTextBox import JsTextBox
-from O_Days import *
+from O_Days import Today
+from O_VehicleSpecial import VehicleSpecial
 
-class TabOfferContainer():
+class TabOfferContainer(VehicleSpecial):
+    GROUP = 0
+    ONEPAY = 1
 
-    def __init__(self, v, driver, w, ot):
-        self.v = v
-        self.driver = driver
-        self.w = w
-        self.ot = ot
+    def __init__(self):
         self.order_list = []
-
-
+    
+    
     def edit_button_links(self):
         self.driver.find_element(By.LINK_TEXT, "Offer").click()# Click OFFER Tab 
         text_box1 = self.driver.find_element(By.ID, "acf-field_569c2e95a3d27")
-        Today.time_taken(JsTextBox, self.driver, "View Vehicle Details", text_box1)#Primary Button Label
+        JsTextBox.fix_text_box(driver=self.driver, text="View Vehicle Details", element_path=text_box1)#Primary Button Label
 
-        vehicle = f'{self.v.Year} {self.v.MakeName} {self.v.ModelName}'.replace(' ','-')
-        x = f'/new-vehicles/#action=im_ajax_call&perform=get_results&search={vehicle}&page=1'
-        z = self.driver.find_element(By.ID, "acf-field_569c2aa7a3d24")#Secondary Button Link
-        Today.time_taken(JsTextBox, self.driver, x, z)
-        Today.time_taken(JsTextBox, self.driver, "View Inventory", driver.find_element(By.ID, "acf-field_569c2bb9a3d26"))#Secondary Link 
-    
+        vehicle = f'{self.vehicle.Year} {self.vehicle.MakeName} {self.vehicle.ModelName}'.replace(' ','-')
+        text_path = f'/new-vehicles/#action=im_ajax_call&perform=get_results&search={vehicle}&page=1'
+        element_path = self.driver.find_element(By.ID, "acf-field_569c2aa7a3d24")#Secondary Button Link
+        JsTextBox.fix_text_box(driver=self.driver, text=text_path, element_path=element_path)
+        text_path = "View Inventory"
+        element_path = driver.find_element(By.ID, "acf-field_569c2bb9a3d26")
+        JsTextBox.fix_text_box( driver=self.driver, text=text_path, element_path=element_path)#Secondary Link 
 
     def offer_labels(self):
         for i in self.order_list:
             print(i)
             if i[1] == 'True':
-                for o in self.v.Offers:
+                for o in self.vehicle.Offers:
                     if o.OfferTypeID == i[0]:
                         self.driver.find_element(By.LINK_TEXT, "Add Line").click()
         count = 0
         for i in self.order_list:
             print(i)
             if i[1] == 'True':
-                for o in self.v.Offers:
+                for o in self.vehicle.Offers:
                     print(f'o.OfferTypeID: {o.OfferTypeID}\ni: {i[0]}')
                     if o.OfferTypeID == i[0]:
                         table = self.driver.find_elements_by_css_selector('.ui-sortable')[6]
@@ -45,10 +45,9 @@ class TabOfferContainer():
                         Input = child2.find_element_by_css_selector('input')
                         # OFFER
                         if o.OfferTypeID == 5:
-                            Today.time_taken(JsTextBox, self.driver, o.DueAtSigning, Input)
-                            
+                            JsTextBox.fix_text_box(driver=self.driver, text=o.DueAtSigning, element_path=Input)
                         else:
-                            Today.time_taken(JsTextBox, self.driver, o.LeaseOffer, Input)
+                            JsTextBox.fix_text_box(driver=self.driver, text=o.LeaseOffer, element_path=Input)
 
                         table = self.driver.find_elements_by_css_selector('.ui-sortable')[6]
                         row = table.find_elements_by_css_selector('.acf-row')[count]
@@ -61,7 +60,7 @@ class TabOfferContainer():
                             onepay = ''
                             onepay += f'<div style="font-size: 16px;">{o.LeaseSpecial}</div>'
                             onepay += f'<div style="font-size: 12px;">{o.LeaseOffer}</div>'
-                            Today.time_taken(JsTextBox, self.driver, onepay, Input)
+                            JsTextBox.fix_text_box(driver=self.driver, text=onepay, element_path=Input)
                         else:
                             special = ''
                             special += '<div style="font-size: 16px;">'
@@ -73,15 +72,14 @@ class TabOfferContainer():
                                 special += '<div style="font-size: 12px;"><strong>'
                                 special += str(o.DueAtSigning)
                                 special += '</strong> Due at Signing</div>'
-                            Today.time_taken(JsTextBox, self.driver, special, Input)
+                            JsTextBox.fix_text_box(driver=self.driver, text=special, element_path=Input)
 
                         count += 1
-    
-    @staticmethod
-    def offer_description(v, driver, w, ot):
-        media_edit = driver.find_element(By.XPATH, f"/html/body/div[1]/div[2]/div[2]/div[1]/div[3]/form/div[2]/div/div[3]/div[1]/div[{w.RegionID}]/div/div[30]/div[2]/div/div[2]/textarea")
+
+    def offer_description(self):
+        media_edit = self.driver.find_element(By.XPATH, f"/html/body/div[1]/div[2]/div[2]/div[1]/div[3]/form/div[2]/div/div[3]/div[1]/div[{self.website.RegionID}]/div/div[30]/div[2]/div/div[2]/textarea")
         text = ''
-        text += '<center>Located at: ' + ot.DealerName + '</center>\n'
+        text += '<center>Located at: ' + self.website.OfferType.DealerName + '</center>\n'
         text += f'<ul>All Walser branded locations offer: <li>FREE test drive delivery option for customers located in '
         if v.State == 'KS':
             text += f'the greater Wichita metropolitan area and beyond. '
@@ -93,26 +91,25 @@ class TabOfferContainer():
             text += f'120'
         elif v.State == 'MN':
             text += f'100' 
-        text += f' miles from {ot.DealerName}. Nationwide home delivery is available, please contact dealer for a personalized quote.*'
+        text += f' miles from {self.website.OfferType.DealerName}. Nationwide home delivery is available, please contact dealer for a personalized quote.*'
         text += f'</li></ul>'
         #media_edit.send_keys(text)
-        Today.time_taken(VehicleSpecialsNew.fix_text_box, driver, text, media_edit)
+        JsTextBox.fix_text_box(driver=self.driver, text=text, element_path=media_edit)
 
-    @staticmethod
-    def offer_disclaimer(v, driver, w, order_list):
-        text_area = driver.find_element(By.ID, "acf-field_5577c0782430f")
+    def offer_disclaimer(self):
+        text_area = self.driver.find_element(By.ID, "acf-field_5577c0782430f")
         disclaimers = ''
-        if v.MakeName == 'Toyota':
+        if self.vehicle.MakeName == 'Toyota':
             disclaimers += 'ALL OFFERS INCLUDE $100 DOC FEE'
         disclaimers += '\n<ol><strong>'
-        disclaimers += str(v.Year) + ' '
-        disclaimers += str(v.MakeName) + ' '
-        disclaimers += str(v.ModelName) + ' '
-        disclaimers += str(v.Trim.replace('""', r'\"'))
+        disclaimers += str(self.vehicle.Year) + ' '
+        disclaimers += str(self.vehicle.MakeName) + ' '
+        disclaimers += str(self.vehicle.ModelName) + ' '
+        disclaimers += str(self.vehicle.Trim.replace('""', r'\"'))
         disclaimers += ' Lease and Finance Deals</strong>'
         for i in order_list:
             if i[1] == 'True':
-                for o in v.Offers:
+                for o in self.vehicle.Offers:
                     if o.OfferTypeID == i[0]:
                         disclaimers += '\n\n<li><strong>'
                         disclaimers += str(o.LeaseOffer)
@@ -121,32 +118,38 @@ class TabOfferContainer():
                         disclaimers += str(o.Disclaimer)
         disclaimers += '</ol>'
         disclaimers += '*Delivery availability may vary, some exclusions apply. Message dealer for details.'
-        Today.time_taken(VehicleSpecialsNew.fix_text_box, driver, disclaimers, text_area)
-
-    def use_offer_tab_original(self):
+        JsTextBox.fix_text_box(driver=self.driver, text=disclaimers, element_path=text_area)
+    
+    def use_offer_tab_group(self):
         while True: # Offer Tab
             try:
-                Today.time_taken(self.edit_button_links, self)
+                Today.time_taken(self.edit_button_links)
                 
-                self.order_list = [[3, self.w.OfferTypeID3], [2, self.w.OfferTypeID2], [1, self.w.OfferTypeID1], [4, self.w.OfferTypeID4], [6, self.w.OfferTypeID6], [7, self.w.OfferTypeID7]]
-                Today.time_taken(OfferContainer.offer_labels, self)
-                Today.time_taken(OfferContainer.offer_description, self)                
-                Today.time_taken(OfferContainer.offer_disclaimer, self)
+                self.order_list = [[3, self.website.OfferType.OfferTypeID3], [2, self.website.OfferType.OfferTypeID2], [1, self.website.OfferType.OfferTypeID1], [4, self.website.OfferType.OfferTypeID4], [6, self.website.OfferType.OfferTypeID6], [7, self.website.OfferType.OfferTypeID7]]
+                Today.time_taken(self.offer_labels)
+                Today.time_taken(self.offer_description)                
+                Today.time_taken(self.offer_disclaimer)
                 break
             except:
-                assert driver.switch_to.alert.text == "Vehicle Stock or VIN not found"
+                assert self.driver.switch_to.alert.text == "Vehicle Stock or VIN not found"
                 continue
 
     def use_offer_tab_onepay(self):
         while True: # Offer Tab
             try:
-                Today.time_taken(self.edit_button_links, self)
+                Today.time_taken(self.edit_button_links)
                 
-                self.order_list = [[5, self.w.OfferTypeID5]]
-                Today.time_taken(OfferContainer.offer_labels, self)
-                Today.time_taken(OfferContainer.offer_description, self)                
-                Today.time_taken(OfferContainer.offer_disclaimer, self)
+                self.order_list = [[5, self.website.OfferType.OfferTypeID5]]
+                Today.time_taken(self.offer_labels)
+                Today.time_taken(self.offer_description)                
+                Today.time_taken(self.offer_disclaimer)
                 break
             except:
-                assert driver.switch_to.alert.text == "Vehicle Stock or VIN not found"
+                assert self.driver.switch_to.alert.text == "Vehicle Stock or VIN not found"
                 continue
+
+    def run(self,input):
+        if input == TabOfferContainer.GROUP:
+            self.use_offer_tab_group()
+        elif input == TabOfferContainer.ONEPAY:
+            self.use_offer_tab_onepay()

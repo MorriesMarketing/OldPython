@@ -36,5 +36,5 @@ class TabAdvancedOptions(VehicleSpecial):
 
     @staticmethod 
     def run():
-        self.time_taken(TabAdvancedOptions.ao_tab_step1)
-        self.time_taken(TabAdvancedOptions.ao_tab_step2)
+        Today.time_taken(TabAdvancedOptions.ao_tab_step1)
+        Today.time_taken(TabAdvancedOptions.ao_tab_step2)

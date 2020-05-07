@@ -69,3 +69,18 @@ class DIWebsite():
                     break
             except:
                 sleep(.1)
+    def reload_cache(driver, website):
+        driver.get(f'{website.Domain}{DIWebsite.DI_RELOADCACHE}')
+        driver.get(f'{website.Domain}{DIWebsite.DI_REORDER}')
+        while True:
+            try:
+                element = driver.find_element_by_xpath('//[@id="save-order"]')
+                actions = ActionChains(driver)
+                actions.move_to_element(element).perform()
+                driver.find_element_by_xpath('//[@id="save-order"]').click()
+                break
+            except:
+                sleep(.1)
+
+        driver.find_element_by_xpath('//[@id="wp-admin-bar-im_admin_bar-clear_cache"]/a/strong').click()
+        print('COMPLETED!!!!')

@@ -22,6 +22,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="O_Populate.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="O_TabVehicleInfo.py">
       <SubType>Code</SubType>
     </Compile>
