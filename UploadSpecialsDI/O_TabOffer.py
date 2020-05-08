@@ -29,7 +29,7 @@ class TabOfferContainer(VehicleSpecial):
             if i[1] == 'True':
                 for o in self.vehicle.Offers:
                     if o.OfferTypeID == i[0]:
-                        self.driver.find_element(By.LINK_TEXT, "Add Line").click()
+                        self.driver.find_element_by_link_text("Add Line").click()
         count = 0
         for i in self.order_list:
             print(i)
@@ -97,7 +97,7 @@ class TabOfferContainer(VehicleSpecial):
         JsTextBox.fix_text_box(driver=self.driver, text=text, element_path=media_edit)
 
     def offer_disclaimer(self):
-        text_area = self.driver.find_element(By.ID, "acf-field_5577c0782430f")
+        text_area = self.driver.find_element_by_id("acf-field_5577c0782430f")
         disclaimers = ''
         if self.vehicle.MakeName == 'Toyota':
             disclaimers += 'ALL OFFERS INCLUDE $100 DOC FEE'

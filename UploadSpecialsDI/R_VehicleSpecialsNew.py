@@ -47,7 +47,9 @@ class VehicleSpecialsNew():
                    
                 for v in self.vehicles:
                     for ot in self.offertypes:
-                        if w.Domain == ot.Domain and v.MakeName == ot.Make:
+                        if w.Domain == 'https://www.walser.com/' or w.Domain == 'https://www.walserautocampus.com/' and v.DealerCode == ot.DealerCode and v.MakeName == ot.Make:
+                            w.OfferType = ot
+                        elif w.Domain == ot.Domain and v.MakeName == ot.Make:
                             w.OfferType = ot
 
                     vehicle_special = VehicleSpecial(driver=self.driver, website=w, vehicle=v)

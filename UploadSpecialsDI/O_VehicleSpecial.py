@@ -29,7 +29,6 @@ class VehicleSpecial():
             print('Completed Build Specials Loop Successfully')
             break
 
-    
     def check_under_10k(self):
         for o in self.vehicle.Offers():
             if o.OfferTypeID == 5 and o.DueAtSigning < 10000:

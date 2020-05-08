@@ -4,19 +4,16 @@ from U_JsTextBox import JsTextBox
 
 class TabAdvancedOptions(VehicleSpecial):
 
-    @staticmethod
     def ao_tab_step1(self):
         self.driver.find_element_by_link_text( "Advanced Options").click()
         self.driver.find_element_by_link_text( "Add Discount").click()
         self.driver.find_element_by_link_text( "Add Discount").click()
 
-    @staticmethod
     def ao_tab_step2_offer_path(self, count, table): 
         if self.vehicle.Brand == 'FCA' and 'https://www.walsercjd.com/' in self.driver.current_url or 'https://www.walserpolarmazda.com/' in self.driver.current_url:
             return f'/html/body/div[1]/div[2]/div[2]/div[1]/div[3]/form/div[2]/div/div[3]/div[1]/div[{w.Region}]/div/div[36]/div[2]/div/table/tbody/tr[{count}]/td[{table}]/div/div'
         return f'/html/body/div[1]/div[2]/div[2]/div[1]/div[3]/form/div[2]/div/div[3]/div[1]/div[{w.Region}]/div/div[37]/div[2]/div/table/tbody/tr[{count}]/td[{table}]/div/div'
 
-    @staticmethod
     def ao_tab_step2(self):
 
         offer_input = self.driver.find_element_by_xpath(self.ao_tab_step2_offer_path(1, 2))
@@ -34,7 +31,6 @@ class TabAdvancedOptions(VehicleSpecial):
         text = "CLICK HERE FOR MORE OFFERS"
         JsTextBox.fix_text_box(driver=self.driver,text=special,element_path=offer_input_css)
 
-    @staticmethod 
     def run():
         Today.time_taken(TabAdvancedOptions.ao_tab_step1)
         Today.time_taken(TabAdvancedOptions.ao_tab_step2)
