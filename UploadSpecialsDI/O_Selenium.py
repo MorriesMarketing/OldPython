@@ -19,4 +19,8 @@ class SeleniumDrivers():
 
     def teardown_method(self):
         self.driver.quit()
-
+    
+    @staticmethod
+    def move_to_element(driver, element):
+        actions = ActionChains(driver)
+        actions.move_to_element(element).perform()

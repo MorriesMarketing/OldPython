@@ -11,7 +11,7 @@ class VehicleSpecial(VehicleSpecialObject):
     def build_special(self):
         while True:
             step_one = TabVehicleInfo(self.driver,self.website,self.vehicle)
-            step_two = TabVehicleInfo.run()
+            step_two = step_one.run()
             if step_two == False:
                 break
 
@@ -38,7 +38,7 @@ class VehicleSpecial(VehicleSpecialObject):
     def build_onepay(self):
         while True:
             step_one = TabVehicleInfo(self.driver,self.website,self.vehicle)
-            step_two = TabVehicleInfo.run()
+            step_two = step_one.run()
             if step_two == False:
                 break
 

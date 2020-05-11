@@ -1,6 +1,7 @@
 from O_Days import Today
 from U_JsTextBox import JsTextBox
 from U_VehicleSpecialObject import VehicleSpecialObject
+from O_Selenium import SeleniumDrivers
 
 class TabVehicleInfo(VehicleSpecialObject):
 
@@ -14,8 +15,7 @@ class TabVehicleInfo(VehicleSpecialObject):
         self.driver.find_element_by_id("acf-field_56917bb83947f-stock").click()# Click Offer Applies To - Stock(one unit)
 
         element = self.driver.find_element_by_id("acf-field_56549cefdeb1a")
-        actions = ActionChains(self.driver)
-        actions.move_to_element(element).perform()
+        SeleniumDrivers.move_to_element(driver=self.driver,element=element)
         Today.time_taken(JsTextBox.fix_text_box, self.driver, self.vehicle.StockNumber, self.driver.find_element_by_id("acf-field_56549cefdeb1a"))# Send Stock Number to Vehicle Stock Text Box
         self.driver.find_element_by_id("populate_vehicle").click()# Click Populate Stock Number - Image will auto load
 
@@ -23,8 +23,7 @@ class TabVehicleInfo(VehicleSpecialObject):
         while True:
             try: # Check for if vehicle exists
                 element = self.driver.find_element_by_name("post_title")# add vehicle title to Title Text Box
-                actions = ActionChains(self.driver)
-                actions.move_to_element(element).perform()
+                SeleniumDrivers.move_to_element(driver=self.driver,element=element)
                 Today.time_taken(JsTextBox.fix_text_box, self.driver, f'New {self.vehicle.Year} {self.vehicle.MakeName} {self.vehicle.ModelName} {self.vehicle.Trim}', element)
 
                 self.driver.find_element_by_id("acf-field_5575ca339b200").clear()# clear vehicle title 

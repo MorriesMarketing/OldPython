@@ -1,5 +1,6 @@
 from O_Days import Today
 from U_VehicleSpecialObject import VehicleSpecialObject
+from O_Selenium import SeleniumDrivers
 
 class OfferTypeContainer(VehicleSpecialObject):
     GROUP = 0
@@ -10,8 +11,7 @@ class OfferTypeContainer(VehicleSpecialObject):
 
     def offer_type_clicks(self):
         element = self.driver.find_element_by_xpath('//*[@id="typediv"]/button/span[2]')
-        actions = ActionChains(self.driver)
-        actions.move_to_element(element).perform()
+        SeleniumDrivers.move_to_element(driver=self.driver,element=element)
         print('found element')
 
         while True:
