@@ -52,7 +52,6 @@ class TabVehicleInfo(VehicleSpecialObject):
         print(f'\n\tError: {error_occured}\n')
         return error_occured
 
-    @staticmethod
     def run():
         success_check = True
         Today.time_taken(TabVehicleInfo.reset_post_page())
