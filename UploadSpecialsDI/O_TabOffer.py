@@ -5,10 +5,6 @@ from U_VehicleSpecialObject import VehicleSpecialObject
 class TabOfferContainer(VehicleSpecialObject):
     GROUP = 0
     ONEPAY = 1
-
-    def __init__(self):
-        self.order_list = []
-    
     
     def edit_button_links(self):
         self.driver.find_element(By.LINK_TEXT, "Offer").click()# Click OFFER Tab 

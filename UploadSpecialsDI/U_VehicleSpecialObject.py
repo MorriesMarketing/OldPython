@@ -4,5 +4,7 @@ class VehicleSpecialObject():
         self.vehicle = vehicle
         self.website = website
         self.driver = driver
+        self.value_list = []
+        self.order_list = []
 
 

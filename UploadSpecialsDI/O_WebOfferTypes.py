@@ -6,9 +6,6 @@ class OfferTypeContainer(VehicleSpecialObject):
     GROUP = 0
     ONEPAY = 1
 
-    def __init__(self):
-        self.value_list = []
-
     def offer_type_clicks(self):
         element = self.driver.find_element_by_xpath('//*[@id="typediv"]/button/span[2]')
         SeleniumDrivers.move_to_element(driver=self.driver,element=element)
