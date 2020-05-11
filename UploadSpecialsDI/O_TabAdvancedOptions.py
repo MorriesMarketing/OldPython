@@ -11,8 +11,8 @@ class TabAdvancedOptions(VehicleSpecialObject):
 
     def ao_tab_step2_offer_path(self, count, table): 
         if self.vehicle.Brand == 'FCA' and 'https://www.walsercjd.com/' in self.driver.current_url or 'https://www.walserpolarmazda.com/' in self.driver.current_url:
-            return f'/html/body/div[1]/div[2]/div[2]/div[1]/div[3]/form/div[2]/div/div[3]/div[1]/div[{w.Region}]/div/div[36]/div[2]/div/table/tbody/tr[{count}]/td[{table}]/div/div'
-        return f'/html/body/div[1]/div[2]/div[2]/div[1]/div[3]/form/div[2]/div/div[3]/div[1]/div[{w.Region}]/div/div[37]/div[2]/div/table/tbody/tr[{count}]/td[{table}]/div/div'
+            return f'/html/body/div[1]/div[2]/div[2]/div[1]/div[3]/form/div[2]/div/div[3]/div[1]/div[{self.website.Region}]/div/div[36]/div[2]/div/table/tbody/tr[{count}]/td[{table}]/div/div'
+        return f'/html/body/div[1]/div[2]/div[2]/div[1]/div[3]/form/div[2]/div/div[3]/div[1]/div[{self.website.Region}]/div/div[37]/div[2]/div/table/tbody/tr[{count}]/td[{table}]/div/div'
 
     def ao_tab_step2(self):
 
