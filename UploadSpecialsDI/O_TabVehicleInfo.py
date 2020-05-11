@@ -6,7 +6,7 @@ class TabVehicleInfo(VehicleSpecialObject):
 
     
     def reset_post_page(self):# Navigates to Post then Edit page to reset any cached data.
-        self.driver.get('{self.website.Domain}{self.website.DI_EDIT}')
+        self.driver.get(f'{self.website.Domain}{self.website.DI_EDIT}')
         self.driver.get(f'{self.website.Domain}{self.website.DI_POST}')
 
    
