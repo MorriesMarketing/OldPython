@@ -1,8 +1,8 @@
 from U_JsTextBox import JsTextBox
 from O_Days import Today
-from O_VehicleSpecial import VehicleSpecial
+from U_VehicleSpecialObject import VehicleSpecialObject
 
-class TabOfferContainer(VehicleSpecial):
+class TabOfferContainer(VehicleSpecialObject):
     GROUP = 0
     ONEPAY = 1
 

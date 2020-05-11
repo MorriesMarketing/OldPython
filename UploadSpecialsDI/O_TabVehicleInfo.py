@@ -1,8 +1,8 @@
-from O_VehicleSpecial import VehicleSpecial
 from O_Days import Today
 from U_JsTextBox import JsTextBox
+from U_VehicleSpecialObject import VehicleSpecialObject
 
-class TabVehicleInfo(VehicleSpecial):
+class TabVehicleInfo(VehicleSpecialObject):
 
     
     def reset_post_page(self):# Navigates to Post then Edit page to reset any cached data.

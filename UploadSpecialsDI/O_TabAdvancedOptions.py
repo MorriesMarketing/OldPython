@@ -1,8 +1,8 @@
 from O_Days import Today
-from R_VehicleSpecialsNew import VehicleSpecial
+from U_VehicleSpecialObject import VehicleSpecialObject
 from U_JsTextBox import JsTextBox
 
-class TabAdvancedOptions(VehicleSpecial):
+class TabAdvancedOptions(VehicleSpecialObject):
 
     def ao_tab_step1(self):
         self.driver.find_element_by_link_text( "Advanced Options").click()

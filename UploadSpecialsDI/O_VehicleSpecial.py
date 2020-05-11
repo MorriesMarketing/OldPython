@@ -4,27 +4,28 @@ from O_TabAdvancedOptions import TabAdvancedOptions
 from O_TabOffer import TabOfferContainer
 from O_WebOfferTypes import OfferTypeContainer
 from O_Populate import Populate
+from U_VehicleSpecialObject import VehicleSpecialObject
 
-class VehicleSpecial():
+class VehicleSpecial(VehicleSpecialObject):
     
-    def __init__(self, driver, website, vehicle):
-        self.vehicle = vehicle
-        self.website = website
-        self.driver = driver
-
     def build_special(self):
         while True:
-            step_one = TabVehicleInfo.run()
-            if step_one == False:
+            step_one = TabVehicleInfo(self.driver,self.website,self.vehicle)
+            step_two = TabVehicleInfo.run()
+            if step_two == False:
                 break
 
-            TabAdvancedOptions.run()#applies the offer designated to be shown on VRP
+            step_three = TabAdvancedOptions(self.driver,self.website,self.vehicle)
+            step_three.run()#applies the offer designated to be shown on VRP
             
-            OfferTypeContainer.run(input=OfferTypeContainer.GROUP)# Checks off which DIoffertypes are used for catagorizing for display
+            step_four = OfferTypeContainer(self.driver,self.website,self.vehicle)
+            step_four.run(input=OfferTypeContainer.GROUP)# Checks off which DIoffertypes are used for catagorizing for display
              
-            TabOfferContainer.run(input=TabOfferContainer.GROUP)#applies the CTA's, Offers Shown, Media Block, and Disclaimer
+            step_five = TabOfferContainer(self.driver,self.website,self.vehicle)
+            step_five.run(input=TabOfferContainer.GROUP)#applies the CTA's, Offers Shown, Media Block, and Disclaimer
             
-            Populate.run()# Populate vehicle offers
+            step_six = Populate(self.driver,self.website,self.vehicle)
+            step_six.run()# Populate vehicle offers
             #Possible Addition #broadcast_subscribers #Group up offers and broadcast them to specific sites.
             print('Completed Build Specials Loop Successfully')
             break
@@ -36,15 +37,19 @@ class VehicleSpecial():
 
     def build_onepay(self):
         while True:
-            step_one = TabVehicleInfo.run()
-            if step_one == False:
+            step_one = TabVehicleInfo(self.driver,self.website,self.vehicle)
+            step_two = TabVehicleInfo.run()
+            if step_two == False:
                 break
 
-            OfferTypeContainer.run(input=OfferTypeContainer.ONEPAY)# Checks off which DIoffertypes are used for catagorizing for display
+            step_four = OfferTypeContainer(self.driver,self.website,self.vehicle)
+            step_four.run(input=OfferTypeContainer.ONEPAY)# Checks off which DIoffertypes are used for catagorizing for display
              
-            TabOfferContainer.run(input=OfferTypeContainer.ONEPAY)#applies the CTA's, Offers Shown, Media Block, and Disclaimer
+            step_five = TabOfferContainer(self.driver,self.website,self.vehicle)
+            step_five.run(input=TabOfferContainer.ONEPAY)#applies the CTA's, Offers Shown, Media Block, and Disclaimer
             
-            Populate.run()# Populate vehicle offers
+            step_six = Populate(self.driver,self.website,self.vehicle)
+            step_six.run()# Populate vehicle offers
             #Possible Addition #broadcast_subscribers #Group up offers and broadcast them to specific sites.
             print('Completed Build OnePay Loop Successfully')
             break

@@ -1,7 +1,7 @@
-from O_VehicleSpecial import VehicleSpecial
+from U_VehicleSpecialObject import VehicleSpecialObject
 from O_Days import Today
 
-class Populate(VehicleSpecial):
+class Populate(VehicleSpecialObject):
     
     def populate_special(self):
         while True:

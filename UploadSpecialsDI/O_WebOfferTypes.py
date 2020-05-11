@@ -1,7 +1,7 @@
 from O_Days import Today
-from O_VehicleSpecial import VehicleSpecial    
+from U_VehicleSpecialObject import VehicleSpecialObject
 
-class OfferTypeContainer(VehicleSpecial):
+class OfferTypeContainer(VehicleSpecialObject):
     GROUP = 0
     ONEPAY = 1
 

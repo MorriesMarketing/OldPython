@@ -7,7 +7,6 @@ from O_Selenium import *
 from O_WebOfferTypes import *
 from O_VehicleSpecial import VehicleSpecial
 
-
 class VehicleSpecialsNew():
 
     def __init__(self):

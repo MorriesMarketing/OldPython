@@ -52,6 +52,9 @@
     <Compile Include="R_VehicleSpecialsNew.py" />
     <Compile Include="O_Vehicles.py" />
     <Compile Include="U_JsTextBox.py" />
+    <Compile Include="U_VehicleSpecialObject.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
