@@ -1,5 +1,5 @@
 from O_Days import Today
-from R_VehicleSpecialsNew import VehicleSpecial    
+from O_VehicleSpecial import VehicleSpecial    
 
 class OfferTypeContainer(VehicleSpecial):
     GROUP = 0

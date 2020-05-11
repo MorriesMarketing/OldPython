@@ -22,7 +22,7 @@ class VehicleSpecial():
             
             OfferTypeContainer.run(input=OfferTypeContainer.GROUP)# Checks off which DIoffertypes are used for catagorizing for display
              
-            TabOfferContainer.run(input=OfferTypeContainer.GROUP)#applies the CTA's, Offers Shown, Media Block, and Disclaimer
+            TabOfferContainer.run(input=TabOfferContainer.GROUP)#applies the CTA's, Offers Shown, Media Block, and Disclaimer
             
             Populate.run()# Populate vehicle offers
             #Possible Addition #broadcast_subscribers #Group up offers and broadcast them to specific sites.

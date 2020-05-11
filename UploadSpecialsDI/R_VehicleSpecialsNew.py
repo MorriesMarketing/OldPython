@@ -1,12 +1,11 @@
-from I_SqlLight import *
-from I_DigitalMarketing import *
+from I_SqlLight import SqlLight
+from I_DigitalMarketing import DigitalMarketing
 from O_TabAdvancedOptions import TabAdvancedOptions
 from O_Days import *
 from O_DIOfferTypes import *
 from O_DIWebsites import *
 from O_Selenium import *
 from O_WebOfferTypes import *
-from O_TabOffer import TabOfferContainer
 from O_VehicleSpecial import VehicleSpecial
 
 
