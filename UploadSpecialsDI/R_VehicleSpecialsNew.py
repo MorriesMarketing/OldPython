@@ -18,15 +18,15 @@ class VehicleSpecialsNew():
         self.vehicles = DigitalMarketing.create_vehicles_from_VehicleSpecialsNew()
         self.driver = SeleniumDrivers.CHROME
         # These are to be used later in the run method. These are to be used as objects
-        
-    def gather_websites():
+    
+    def gather_websites(self):
         #Pull data for Websites to be ran
         data_table = SqlLight.VM_Websites_ReadData()
         data = Database.convert_table_to_dict(data_table)
         websites = Database.create_objects(data, DIWebsite)
         return websites
     
-    def gather_offer_types():
+    def gather_offer_types(self):
         data_table = SqlLight.VM_OfferTypes_ReadData()
         data = Database.convert_table_to_dict(data_table)
         offertypes = Database.create_objects(data, DIOfferType)

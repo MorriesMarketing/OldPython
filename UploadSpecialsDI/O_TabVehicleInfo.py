@@ -8,6 +8,7 @@ class TabVehicleInfo(VehicleSpecialObject):
     def reset_post_page(self):# Navigates to Post then Edit page to reset any cached data.
         self.driver.get(f'{self.website.Domain}{self.website.DI_EDIT}')
         self.driver.get(f'{self.website.Domain}{self.website.DI_POST}')
+        
 
    
     def populate_vehicle(self):#Moves to create vehicle by adding Stock# to textbox then clicking the populate button
