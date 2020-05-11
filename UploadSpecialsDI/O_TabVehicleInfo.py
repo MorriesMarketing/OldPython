@@ -54,11 +54,11 @@ class TabVehicleInfo(VehicleSpecialObject):
 
     def run():
         success_check = True
-        Today.time_taken(TabVehicleInfo.reset_post_page())
-        Today.time_taken(TabVehicleInfo.populate_vehicle())
+        Today.time_taken(TabVehicleInfo.reset_post_page)
+        Today.time_taken(TabVehicleInfo.populate_vehicle)
         if self.error_check():
             success_check = False
-        Today.time_taken(TabVehicleInfo.populate_title_boxes())
+        Today.time_taken(TabVehicleInfo.populate_title_boxes)
         if self.error_check():
             success_check = False
         return success_check
