@@ -15,5 +15,5 @@ class Populate(VehicleSpecialObject):
                 print('Failed')
                 sleep(.1)
 
-    def run():
-        Today.time_taken(Populate.populate_special)
+    def run(self):
+        Today.time_taken(self.populate_special)

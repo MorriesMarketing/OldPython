@@ -31,6 +31,6 @@ class TabAdvancedOptions(VehicleSpecialObject):
         text = "CLICK HERE FOR MORE OFFERS"
         JsTextBox.fix_text_box(driver=self.driver,text=special,element_path=offer_input_css)
 
-    def run():
-        Today.time_taken(TabAdvancedOptions.ao_tab_step1)
-        Today.time_taken(TabAdvancedOptions.ao_tab_step2)
+    def run(self):
+        Today.time_taken(self.ao_tab_step1)
+        Today.time_taken(self.ao_tab_step2)
