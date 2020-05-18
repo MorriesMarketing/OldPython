@@ -33,6 +33,9 @@ class VehicleSpecialsNew():
         return offertypes
 
     def run(self):
+        reload_only = False # Does a reload cache on website
+        test = False # Prevents Delete specials from activating
+
         self.driver.maximize_window()
         for w in self.websites:
             w.Driver = self.driver
@@ -40,38 +43,42 @@ class VehicleSpecialsNew():
             if w.WebsiteID >= 1:
                 # Login Method
                 w.DI_SignIn()
-                # Delete All Specials 
-                Today.time_taken(w.delete_all_specials)
-                   
-                for v in self.vehicles:
-                    for ot in self.offertypes:
-                        if w.Domain == 'https://www.walser.com/' or w.Domain == 'https://www.walserautocampus.com/' and v.DealerCode == ot.DealerCode and v.MakeName == ot.Make:
-                            w.OfferType = ot
-                        elif w.Domain == ot.Domain and v.MakeName == ot.Make:
-                            w.OfferType = ot
+                if reload_only == False:
+                    # Delete All Specials 
+                    if test == False:
+                        Today.time_taken(w.delete_all_specials)
+                    
+                    for v in self.vehicles:
+                        for ot in self.offertypes:
+                            if w.Domain == 'https://www.walser.com/' and v.DealerCode == ot.DealerCode and v.MakeName == ot.Make:
+                                w.OfferType = ot
+                            elif w.Domain == 'https://www.walserautocampus.com/' and v.DealerCode == ot.DealerCode and v.MakeName == ot.Make:
+                                w.OfferType = ot
+                            elif w.Domain == ot.Domain and v.MakeName == ot.Make:
+                                w.OfferType = ot
 
-                    vehicle_special = VehicleSpecial(driver=self.driver, website=w, vehicle=v)
+                        vehicle_special = VehicleSpecial(driver=self.driver, website=w, vehicle=v)
 
-                    if 'N' in v.StockNumber and len(v.Offers) != 0:
+                        if 'N' in v.StockNumber and len(v.Offers) != 0:
                                                         
-                        if w.Domain == 'https://www.walser.com/':
-                            print(f'CHECK BLOCK 4 TRUE: Running Specials on {w.Domain} for {v.StockNumber}')
-                            Today.time_taken(vehicle_special.run)
+                            if w.Domain == 'https://www.walser.com/':
+                                print(f'CHECK BLOCK 4 TRUE: Running Specials on {w.Domain} for {v.StockNumber}')
+                                Today.time_taken(vehicle_special.run)
                             
-                        elif w.Domain == 'https://www.walserautocampus.com/' and v.State == 'KS':
-                            print(f'CHECK BLOCK 4 TRUE: Running Specials on {w.Domain} for {v.StockNumber}')
-                            Today.time_taken(vehicle_special.run)
+                            elif w.Domain == 'https://www.walserautocampus.com/' and v.State == 'KS':
+                                print(f'CHECK BLOCK 4 TRUE: Running Specials on {w.Domain} for {v.StockNumber}')
+                                Today.time_taken(vehicle_special.run)
 
-                        elif w.Brand == v.Brand:
-                            print(f'ELSE STATMENT ACTIVE: Running Specials on {w.Domain} for {v.StockNumber}')
-                            Today.time_taken(vehicle_special.run)
+                            elif w.Brand == v.Brand:
+                                print(f'ELSE STATMENT ACTIVE: Running Specials on {w.Domain} for {v.StockNumber}')
+                                Today.time_taken(vehicle_special.run)
                     
                 sleep(5)
-                DIWebsite.reload_cache()
+                w.reload_cache()
                         
             else:
                 pass
-        driver.quit()
+        self.driver.quit()
 
 def main():
     vehicle_specials = VehicleSpecialsNew()

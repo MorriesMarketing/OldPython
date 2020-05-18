@@ -1,15 +1,18 @@
 from U_VehicleSpecialObject import VehicleSpecialObject
 from O_Days import Today
+from O_Selenium import SeleniumDrivers
+from time import sleep
+
 
 class Populate(VehicleSpecialObject):
     
     def populate_special(self):
         while True:
             try:
-                element = self.driver.find_element(By.ID, "title")
-                actions = ActionChains(self.driver)
-                actions.move_to_element(element).perform()
-                self.driver.find_element(By.ID, "publish").click()
+                sleep(1)
+                element = self.driver.find_element_by_id("title")
+                SeleniumDrivers.move_to_element(driver=self.driver,element=element)
+                self.driver.find_element_by_id("publish").click()
                 break
             except:
                 print('Failed')

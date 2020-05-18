@@ -1,7 +1,7 @@
 class JsTextBox():
         
     def fix_text_box(driver, text, element_path):
-        special_symbols = ['"', '/', '<', '>', ';', ':', '=', '-', '\n', '\t']
+        special_symbols = ['"', '/', '<', '>', ';', ':', '=', '-', '\n', '\t','®']
 
         for x in special_symbols:
             text = text.replace(x,f'\{x}')

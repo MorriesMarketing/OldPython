@@ -1,4 +1,5 @@
 from time import sleep
+from O_Selenium import SeleniumDrivers
 
 class DIWebsite():
     DI_LOGIN = 'wp/wp-login.php'
@@ -69,19 +70,34 @@ class DIWebsite():
                     break
             except:
                 sleep(.1)
+    
+    def error_check(self):
+        error_occured = False
+        try:
+            assert self.Driver.switch_to.alert.accept()
+            error_occured = True
+            sleep(.1)
+            self.Driver.get(f'{self.Domain}{DIWebsite.DI_EDIT}')
+            try:
+                assert self.Driver.switch_to.alert.accept()
+                error_occured = True
+            except:
+                error_occured = False
+        except:
+            print('No Error Occured')
+        print(f'\n\tError: {error_occured}\n')
+        return error_occured
 
     def reload_cache(self):
+        self.error_check()
+        self.Driver.get(f'{self.Domain}{DIWebsite.DI_EDIT}')
+        self.error_check()
         self.Driver.get(f'{self.Domain}{DIWebsite.DI_RELOADCACHE}')
+        self.error_check()
         self.Driver.get(f'{self.Domain}{DIWebsite.DI_REORDER}')
-        while True:
-            try:
-                element = driver.find_element_by_xpath('//[@id="save-order"]')
-                actions = ActionChains(self.Driver)
-                actions.move_to_element(element).perform()
-                self.Driver.find_element_by_xpath('//[@id="save-order"]').click()
-                break
-            except:
-                sleep(.1)
-
-        self.Driver.find_element_by_xpath('//[@id="wp-admin-bar-im_admin_bar-clear_cache"]/a/strong').click()
-        print('COMPLETED!!!!')
+        element = self.Driver.find_element_by_xpath('//*[@id="save-order"]')
+        SeleniumDrivers.move_to_element(driver=self.Driver,element=element)
+        element.click()
+                
+        self.Driver.get(f'{self.Domain}{DIWebsite.DI_RELOADCACHE}')
+        print('Reload COMPLETED!!!!')

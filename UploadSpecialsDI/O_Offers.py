@@ -20,6 +20,7 @@ class Offer:
         self.ModelNoRank = kwargs['ModelNoRank']
         self.LeaseOfferMileage = kwargs['LeaseOfferMileage']
         self.OfferTypeID = kwargs['OfferTypeID']
+        self.DueAtSigning2 = kwargs['DueAtSigning2']
 
         self.Disclaimer = kwargs['Disclaimer']
         self.LeaseOffer = kwargs['LeaseOffer']

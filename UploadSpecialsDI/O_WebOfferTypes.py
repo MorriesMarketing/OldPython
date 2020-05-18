@@ -1,6 +1,8 @@
 from O_Days import Today
 from U_VehicleSpecialObject import VehicleSpecialObject
 from O_Selenium import SeleniumDrivers
+from time import sleep
+
 
 class OfferTypeContainer(VehicleSpecialObject):
     GROUP = 0
@@ -33,15 +35,30 @@ class OfferTypeContainer(VehicleSpecialObject):
         else:
             self.value_list = [self.website.OfferType.StoreType]
         print(f'List: {self.value_list}')
-        self.offer_type_clicks(self)
+        self.offer_type_clicks()
     
     def select_one_pay_offertypes(self):
         
-        self.value_list = [self.website.OfferType.OnePay]
-        self.offer_type_clicks(self)
+        self.value_list = ['in-type-801']
+        self.offer_type_clicks()
+
+    def error_check(self):
+        error_occured = False
+        try:
+            assert self.driver.switch_to.alert.text == "Vehicle Stock or VIN not found"
+            error_occured = True
+        except:
+            error_occured = False
+        print(f'\n\tError: {error_occured}\n')
+        return error_occured
 
     def run(self, input):
+        success_check = True
+        if self.error_check():
+            success_check = False
         if input == OfferTypeContainer.GROUP:
             Today.time_taken(self.select_group_offertypes)
         elif input == OfferTypeContainer.ONEPAY:
             Today.time_taken(self.select_one_pay_offertypes)
+
+        return success_check

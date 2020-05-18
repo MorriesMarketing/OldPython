@@ -2,6 +2,7 @@ from O_Days import Today
 from U_JsTextBox import JsTextBox
 from U_VehicleSpecialObject import VehicleSpecialObject
 from O_Selenium import SeleniumDrivers
+from time import sleep
 
 class TabVehicleInfo(VehicleSpecialObject):
 
@@ -17,6 +18,7 @@ class TabVehicleInfo(VehicleSpecialObject):
         SeleniumDrivers.move_to_element(driver=self.driver,element=element)
         Today.time_taken(JsTextBox.fix_text_box, self.driver, self.vehicle.StockNumber, self.driver.find_element_by_id("acf-field_56549cefdeb1a"))# Send Stock Number to Vehicle Stock Text Box
         self.driver.find_element_by_id("populate_vehicle").click()# Click Populate Stock Number - Image will auto load
+        sleep(.5)
 
     def populate_title_boxes(self):#Edits the title boxes for both the offer and backend
         while True:
@@ -36,23 +38,17 @@ class TabVehicleInfo(VehicleSpecialObject):
                 sleep(.1)
                 print(f'Failed to find element. \t{e}')
 
-    def error_check(self):
-        error_occured = False
-        try:
-            assert self.driver.switch_to.alert.text == "Vehicle Stock or VIN not found"
-            error_occured = True
-        except:
-            error_occured = False
-        print(f'\n\tError: {error_occured}\n')
-        return error_occured
-
+    
     def run(self):
-        success_check = True
-        Today.time_taken(self.reset_post_page)
-        Today.time_taken(self.populate_vehicle)
-        if self.error_check():
-            success_check = False
-        Today.time_taken(self.populate_title_boxes)
-        if self.error_check():
-            success_check = False
-        return success_check
+        try:
+            Today.time_taken(self.reset_post_page)
+            Today.time_taken(self.populate_vehicle)
+            if self.website.error_check():
+                return False
+            else:
+                Today.time_taken(self.populate_title_boxes)
+                return True
+        except Exception as e:
+            print(e)
+            return False
+

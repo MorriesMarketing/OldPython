@@ -101,7 +101,9 @@ class SqlServer(Database):
             
             IsCaptive, IsSpecial, 
             HasOEMException [OEMException], PriceChange, MarkupRate, 
-            VehicleID, MarketScanID, DealerID, BrandID, OfferID, OfferTypeID, PriceOptionID
+            VehicleID, MarketScanID, DealerID, BrandID, OfferID, OfferTypeID, PriceOptionID,
+
+            DueAtSigning as DueAtSigning2
 
             from OfferSpecialsUpload
             order by VehicleRank desc, UploadOrder asc
