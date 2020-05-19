@@ -21,12 +21,14 @@ class VehicleSpecialsNew():
     
     def gather_websites(self):
         #Pull data for Websites to be ran
+        print('Running Gather Websites')
         data_table = SqlLight.VM_Websites_ReadData()
         data = Database.convert_table_to_dict(data_table)
         websites = Database.create_objects(data, DIWebsite)
         return websites
     
     def gather_offer_types(self):
+        print('Running Gather Offer Types')
         data_table = SqlLight.VM_OfferTypes_ReadData()
         data = Database.convert_table_to_dict(data_table)
         offertypes = Database.create_objects(data, DIOfferType)
@@ -81,6 +83,7 @@ class VehicleSpecialsNew():
         self.driver.quit()
 
 def main():
+    print('Running Main Function')
     vehicle_specials = VehicleSpecialsNew()
     Today.time_taken(vehicle_specials.run)
 
