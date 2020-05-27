@@ -1,81 +1,39 @@
-
-class Offer(object):
-    """description of class"""
-
-    def add_image():
-        pass
-
-    def add_offer_title():
-        pass
-
-    def edit_start_date():
-        pass
-
-    def edit_end_date():
-        pass
-
-    def click_more_details():
-        pass
-
-    def add_offer_details():
-        pass
-
-    def add_coupon_code():
-        pass
-
-    def add_link_to_redem_offer():
-        pass
-
-    def add_terms_and_conditions():
-        pass
-
-    def click_publish():
-        pass
-
-class Update(object):
-
-    def add_image():
-        pass
-    
-    def add_post():
-        pass
-
-    def select_call_to_action_button():
-        pass
-
-    def click_publish():
-        pass
-
-class Event(object):
-    
-    def add_image():
-        pass
-
-    def add_event_title():
-        pass
-
-    def edit_start_date():
-        pass
-
-    def edit_end_date():
-        pass
-
-    def add_event_details():
-        pass
-
-    def select_call_to_action_button():
-        pass
-
-    def click_publish():
-        pass
-
-class COVID_19(object):
+class Event():
    
-    def add_status():
-        pass
+    def __init__(self):
+        self.post =  {
+            "languageCode": "en-US",
+            "summary": "Come in for our spooky Halloween event!",
+            "event": {
+                "title": "Halloween Spook-tacular!",
+                "schedule": {
+                    "startDate": {
+                        "year": 2017,
+                        "month": 10,
+                        "day": 31,
+                        },
+                    "startTime": {
+                        "hours": 9,
+                        "minutes": 0,
+                        "seconds": 0,
+                        "nanos": 0,
+                        },
+                    "endDate": {
+                        "year": 2017,
+                        "month": 10,
+                        "day": 31,
+                        },
+                    "endTime": {
+                        "hours": 17,
+                        "minutes": 0,
+                        "seconds": 0,
+                        "nanos": 0,
+                        },
+                    }
+                },
+            "media": [{
+                "mediaFormat": "PHOTO",
+                "sourceUrl": "https://www.google.com/real-image.jpg",
+                }],
+            }
 
-    def select_call_to_action_button():
-        pass
-
-    def click_publish():
-        pass

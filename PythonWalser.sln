@@ -13,6 +13,8 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Email_CorpOffers", "Email_C
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "GoogleMyBusiness_Posts", "GoogleMyBusiness_Posts\GoogleMyBusiness_Posts.pyproj", "{576EA30A-864D-479D-8239-259342E1B862}"
 EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Website Scrapper", "Website Scrapper\Website Scrapper.pyproj", "{5573C9FB-79D6-4376-9D59-6F947D605D1C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,8 @@ Global
 		{DD74E4DE-B33F-4BE6-B8EA-165E139F3767}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{576EA30A-864D-479D-8239-259342E1B862}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{576EA30A-864D-479D-8239-259342E1B862}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5573C9FB-79D6-4376-9D59-6F947D605D1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5573C9FB-79D6-4376-9D59-6F947D605D1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

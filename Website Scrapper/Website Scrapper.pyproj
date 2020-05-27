@@ -2,15 +2,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>576ea30a-864d-479d-8239-259342e1b862</ProjectGuid>
+    <ProjectGuid>5573c9fb-79d6-4376-9d59-6f947d605d1c</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>R_GoogleMyBusiness_Posts.py</StartupFile>
+    <StartupFile>Website_Scrapper.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
-    <Name>GoogleMyBusiness_Posts</Name>
-    <RootNamespace>GoogleMyBusiness_Posts</RootNamespace>
+    <Name>Website Scrapper</Name>
+    <RootNamespace>Website Scrapper</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,36 +21,10 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="O_Schedule.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="GmbJson.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="accounts-list.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CreatePost.py">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="I_Databases.py" />
+    <Compile Include="I_SqlServer.py" />
     <Compile Include="O_Days.py" />
-    <Compile Include="O_Duration.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="O_Image.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="O_Login.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="O_Post.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="O_Location.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="O_Selenium.py" />
-    <Compile Include="R_GoogleMyBusiness_Posts.py" />
+    <Compile Include="Website_Scrapper.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

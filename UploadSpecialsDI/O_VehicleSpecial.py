@@ -17,11 +17,14 @@ class VehicleSpecial(VehicleSpecialObject):
                 success_check = False
                 break
 
-            step_two = TabAdvancedOptions(self.driver,self.website,self.vehicle)
-            check_step_two = step_two.run()#applies the offer designated to be shown on VRP
-            if check_step_two == False:
-                success_check = False
-                break
+            if self.vehicle.MakeName == 'MINI' and self.website.Domain == 'https://www.miniofwichita.com/':
+                pass
+            else:
+                step_two = TabAdvancedOptions(self.driver,self.website,self.vehicle)
+                check_step_two = step_two.run()#applies the offer designated to be shown on VRP
+                if check_step_two == False:
+                    success_check = False
+                    break
             
             step_three = OfferTypeContainer(self.driver,self.website,self.vehicle)
             check_step_three = step_three.run(input=OfferTypeContainer.GROUP)# Checks off which DIoffertypes are used for catagorizing for display
