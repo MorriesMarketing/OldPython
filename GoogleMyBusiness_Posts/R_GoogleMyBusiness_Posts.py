@@ -1,14 +1,14 @@
-from O_Selenium import SeleniumDrivers
-from O_Days import Today
-from O_Login import Login
 
-class GmbPosts(SeleniumDrivers, Today):
+class Ignite_Specials():
 
     def __init__(self):
-        SeleniumDrivers.__init__(self)
-        self.driver = self.CHROME
+       
+    
+    def
 
+def main():
+    print('Running Main Function')
+    
 
-    def run(self):
-        Login()
-        
+if __name__ == "__main__":
+    main()

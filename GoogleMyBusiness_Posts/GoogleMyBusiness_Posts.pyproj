@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>576ea30a-864d-479d-8239-259342e1b862</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>R_GoogleMyBusiness_Posts.py</StartupFile>
+    <StartupFile>O_Schedule.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -21,6 +21,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="API_Objects.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="O_Schedule.py">
       <SubType>Code</SubType>
     </Compile>
