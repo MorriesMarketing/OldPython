@@ -2,15 +2,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>d779881a-e7a1-4cc1-9764-4f14ae125276</ProjectGuid>
+    <ProjectGuid>75dbc2c3-da06-47cf-9c5f-b7d5d90f5d95</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>DealerDotComSpecialsPage.py</StartupFile>
+    <StartupFile>QualityAssuranceBot.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
-    <Name>DealerDotComSpecialsPage</Name>
-    <RootNamespace>DealerDotComSpecialsPage</RootNamespace>
+    <Name>QualityAssuranceBot</Name>
+    <RootNamespace>QualityAssuranceBot</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,47 +21,19 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="DealerDotComSpecialsPage.py" />
+    <Compile Include="ComparisonObject.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="I_Databases.py" />
-    <Compile Include="I_SqlLight.py" />
     <Compile Include="I_SqlServer.py" />
-    <Compile Include="ObjectCreator.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="O_Batch.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="O_Clients.py">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="ObjectCreator.py" />
+    <Compile Include="O_Batch.py" />
+    <Compile Include="O_Clients.py" />
     <Compile Include="O_Days.py" />
-    <Compile Include="O_DealerDotComWebsite.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="O_Dealers.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="O_Images.py">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="O_Dealers.py" />
     <Compile Include="O_Offers.py" />
-    <Compile Include="O_OfferTypes.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="O_OrderGroups.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="O_Selenium.py" />
     <Compile Include="O_Vehicles.py" />
-    <Compile Include="O_Websites.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Pages.py">
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="HtmlTest.js" />
+    <Compile Include="QualityAssuranceBot.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

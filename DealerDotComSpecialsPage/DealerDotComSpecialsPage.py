@@ -4,7 +4,7 @@ from Pages import *
 
 class SpecialsPage():
      def __init__(self):
-         self.clients = ObjectCreator.create_clients_dealers_vehicles_offers(TestActive=False)
+         self.clients = ObjectCreator.create_clients_dealers_vehicles_offers(TestActive=True)
     
     
 
@@ -14,7 +14,7 @@ def main():
 
     print('Starting Html Builder Function')
     for c in specials.clients:
-        if c.Batch == None:
+        if c.Batch != None:
             print(f'{c}/n No Batch Found')
             #c.IsActive = 0
         elif c.IsActive == 1:
@@ -22,13 +22,13 @@ def main():
             for d in c.Dealers:
                 if d.ActiveSpecialsPage == 1:
                     if d.GroupSite == 1:
-                        html = SpecialsPagev1(c.Vehicles,d)
+                        html = SpecialsPagev1(c.Vehicles,d,c.Years,c.Models,c.Makes)
                         print(d.DealerName)
                         txt = open(f'F:/SpecialsPage/{d.DealerName}.html',"w+")
                         txt.write(str(html.doc()))
                         txt.close()
                     else:
-                        html = SpecialsPagev1(d.Vehicles,d)
+                        html = SpecialsPagev1(d.Vehicles,d,d.Years,d.Models,d.Makes)
                         print(d.DealerName)
                         txt = open(f'F:/SpecialsPage/{d.DealerName}.html',"w+")
                         txt.write(str(html.doc()))

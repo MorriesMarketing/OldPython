@@ -7,6 +7,7 @@ from O_Vehicles import *
 from O_Images import *
 from O_Offers import *
 from O_OrderGroups import *
+from O_OfferTypes import *
 from O_Websites import Website_DealerDotCom
 
 class ObjectCreator():
@@ -57,6 +58,11 @@ class ObjectCreator():
         data = Database.convert_table_to_dict(data_table)
         dealers = Database.create_grouped_objects(data, Dealer, 'DealerID')
 
+        print('Creating OfferType Objects')
+        data_table = SqlServer.PRD_OfferType_ReadData()
+        data = Database.convert_table_to_dict(data_table)
+        offertypes = Database.create_objects(data, OfferType)
+
         for v in vehicles:
             for i in images:
                 if v.VehicleID == i.VehicleID:
@@ -92,6 +98,27 @@ class ObjectCreator():
                     for v in vehicles:
                         if do.VehicleID == v.VehicleID:
                             d.Vehicles.append(v)
+                            if v.Year not in d.Years:
+                                d.Years.append(v.Year)
+                            if v.MakeName not in d.Makes:
+                                d.Makes.append(v.MakeName)
+                            if [v.ModelName,v.Modelurl] not in d.Models:
+                                d.Models.append([v.ModelName,v.Modelurl])
+            for ot in offertypes:
+                print(ot)
+                d.OfferTypes.append(ot)
+            
+            #for v in vehicles:
+            #    if v.Year not in d.Years:
+            #        d.Years.append(v.Year)
+            #    if v.MakeName not in d.Makes:
+            #        d.Makes.append(v.MakeName)
+            #    if [v.ModelName,v.Modelurl] not in d.Models:
+            #        d.Models.append([v.ModelName,v.Modelurl])
+
+            d.Years.sort()
+            d.Makes.sort()
+            d.Models.sort()
 
         for c in clients:
             for b in batches:
@@ -106,6 +133,15 @@ class ObjectCreator():
                     for v in vehicles:
                         if co.VehicleID == v.VehicleID:
                             c.Vehicles.append(v)
+                            if v.Year not in c.Years:
+                                c.Years.append(v.Year)
+                            if v.MakeName not in c.Makes:
+                                c.Makes.append(v.MakeName)
+                            if [v.ModelName,v.Modelurl] not in c.Models:
+                                c.Models.append([v.ModelName,v.Modelurl])
+            c.Years.sort()
+            c.Makes.sort()
+            c.Models.sort()
         print('Clients Created')
         return clients
 

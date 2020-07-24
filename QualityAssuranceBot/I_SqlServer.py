@@ -301,22 +301,3 @@ class SqlServer(Database):
         while True:
             database = Database(SqlQueryConnect, SqlQueryExcecute, Database.FETCHALL, Sql)
             return database.access_table()
-            
-    def PRD_OfferType_ReadData():
-        Sql = Database.SQLSERVER
-        SqlQueryConnect = """
-            Driver={SQL Server};
-            Server=dealermarketing.database.windows.net;
-            Database=PRD_DigitalMarketing;
-            UID=ApplicationRead;
-            PWD=TheW@lserW@y;
-            """
-        SqlQueryExcecute = """
-            SELECT 
-                * 
-            FROM 
-                OfferType
-            """
-        while True:
-            database = Database(SqlQueryConnect, SqlQueryExcecute, Database.FETCHALL, Sql)
-            return database.access_table()

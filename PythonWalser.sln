@@ -17,6 +17,8 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Website Scrapper", "Website
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "DealerDotComSpecialsPage", "DealerDotComSpecialsPage\DealerDotComSpecialsPage.pyproj", "{D779881A-E7A1-4CC1-9764-4F14AE125276}"
 EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "QualityAssuranceBot", "QualityAssuranceBot\QualityAssuranceBot.pyproj", "{75DBC2C3-DA06-47CF-9C5F-B7D5D90F5D95}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,8 @@ Global
 		{5573C9FB-79D6-4376-9D59-6F947D605D1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D779881A-E7A1-4CC1-9764-4F14AE125276}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D779881A-E7A1-4CC1-9764-4F14AE125276}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75DBC2C3-DA06-47CF-9C5F-B7D5D90F5D95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75DBC2C3-DA06-47CF-9C5F-B7D5D90F5D95}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

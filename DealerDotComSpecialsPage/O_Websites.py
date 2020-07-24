@@ -61,6 +61,15 @@ class Website_DealerDotCom():
                     sleep(.5)
         return [success,url,UrlPicture]
 
+def find_vdp(self, Domain, VIN, acquire_image):
+    self.driver.get(f'https://www.google.com/search?q={VIN}')
+    
+    for row in range(1,10):
+        element = self.driver.find_element_by_xpath(f'/html/body/div[6]/div[2]/div[9]/div[1]/div[2]/div/div[2]/div[2]/div/div/div[{row}]/div/div[1]/a')
+        query_url = element.value()
+        print(query_url)
+            if f'{Domain}' in query_url and f'{Domain}' in query_url:
+
 class Website_CDK(Selenium):
     def __init__(self):
         self.LoginPage = ''

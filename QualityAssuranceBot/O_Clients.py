@@ -8,15 +8,9 @@ class Client():
         self.Phone = kwargs['Phone']
         self.Website = kwargs['Website']
         self.IsActive = kwargs['IsActive']
-        self.Batch = None
 
-        self.Dealers = []
         self.Vehicles = []
-        self.Html = ''
-        self.HtmlVehicles = ''
-        self.Years = []
-        self.Makes = []
-        self.Models = []
+
 
 
     def __repr__(self):

@@ -3,10 +3,13 @@ from dominate.tags import *
 from dominate.util import raw
 
 class SpecialsPagev1():
-    def __init__(self,vehicles,d):
+    def __init__(self,vehicles,d,Years,Models,Makes):
         self.specialspage = dominate.document(title=f'{d.DealerName} Lease & Finance Specials')
         self.vehicles = vehicles
         self.dealer = d
+        self.years = Years
+        self.models = Models
+        self.makes = Makes
         
     def advertised_offer(v,o):
         if o.OfferTypeID == 1 or o.OfferTypeID == 3 or o.OfferTypeID == 4 or o.OfferTypeID == 6:
@@ -66,45 +69,46 @@ class SpecialsPagev1():
                     div (f"{o.DueAtSigning}", cls="due-at-signing", style="margin: 0px 5px 0px 0px;")
                     div ("Due at Signing", cls="due-at-signing")
         #{v.YearMakeModelurl}-{o.OfferTypeurl}-Special
-    def special(v):
+    def special(self,v):
         #This begins the Offer Section of HTML
         for o in v.Offers:
-            show = ''
-            if o.OfferTypeID == 3 or o.OfferTypeID == 6:
-                show = 'collapse show'
-            else:
-                show = 'collapse'
+            if str(o.OfferTypeID) in self.dealer.OfferTypeIDsActive:
+                show = ''
+                if o.OfferTypeID == 3 or o.OfferTypeID == 6:
+                    show = 'collapse show'
+                else:
+                    show = 'collapse'
 
-            with div(id= f"offertype{o.OfferTypeID}" , cls=show):
-                with div (id= f"{v.YearMakeModelurl}-{o.OfferTypeurl}-Special" , cls=f" d-flex flex-column"):
-                    with div (id=f"{v.YearMakeModelurl}-{o.OfferTypeurl}-Special-Title"):
-                        if o.OfferTypeID == 1 or o.OfferTypeID == 3 or o.OfferTypeID == 4 or o.OfferTypeID == 5:
-                            special = f"{o.OfferType} Lease Special*"
-                        if o.OfferTypeID == 6 :
-                            special = f"Low Payment Finance Special*"
-                        if o.OfferTypeID == 6 :
-                            special = f"Low APR Finance Special*"
-                        a (special, cls="offer-type", href=f"#Disclaimer-{v.YearMakeModelurl}-{o.OfferTypeID}", data_toggle="collapse")
+                with div(id= f"offertype{o.OfferTypeID}" , cls=f'cell offertype{o.OfferTypeID}'):
+                    with div (id= f"{v.YearMakeModelurl}-{o.OfferTypeurl}-Special" , cls=f" d-flex flex-column"):
+                        with div (id=f"{v.YearMakeModelurl}-{o.OfferTypeurl}-Special-Title"):
+                            if o.OfferTypeID == 1 or o.OfferTypeID == 3 or o.OfferTypeID == 4 or o.OfferTypeID == 5:
+                                special = f"{o.OfferType} Lease Special*"
+                            if o.OfferTypeID == 6 :
+                                special = f"Low Payment Finance Special*"
+                            if o.OfferTypeID == 6 :
+                                special = f"Low APR Finance Special*"
+                            a (special, cls="offer-type", href=f"#Disclaimer-{v.VIN}-{o.OfferTypeID}", data_toggle="collapse")
                         
-                    SpecialsPagev1.advertised_offer(v,o)
-                    SpecialsPagev1.offer_details(v,o)
+                        SpecialsPagev1.advertised_offer(v,o)
+                        SpecialsPagev1.offer_details(v,o)
             
-                    with div (id=f"Disclaimer-{v.YearMakeModelurl}-{o.OfferTypeID}", cls="collapse"):
+                        with div (id=f"Disclaimer-{v.VIN}-{o.OfferTypeID}", cls="collapse"):
+                            hr()
+                            p(f"{o.Disclaimer}", cls="disclaimer")
                         hr()
-                        p(f"{o.Disclaimer}", cls="disclaimer")
-                    hr()
 
-    def vehicle_html(v):
+    def vehicle_html(self,v):
         
         #This begins the Vehicle Section of the HTML
-        with div(cls=f"vehicle year{v.Year} collapse show",id=f"{v.YearMakeModelurl}-Lease-and-Finance-Specials"):
+        with div(cls=f"vehicle cell year{v.Year} {v.MakeName} {v.Modelurl}",id=f"{v.YearMakeModelurl}-Lease-and-Finance-Specials"):
             with div(style="width:100%;height:220px;"):
                 with a(href=f"{v.Image.UrlVdp}",style="margin: 1px 0px 0px 0px"):
                     img(id=f"{v.YearMakeModelTrimurl}-image", src=f"{v.Image.PhotoURL}", alt=f"{v.YearMakeModelTrim}", style="float:left;width:100%;height:100%;object-fit:cover;")
             div(f"{v.YearMakeModelTrim}", cls="vehicle-title" )
             br()
             br()
-            SpecialsPagev1.special(v)
+            SpecialsPagev1.special(self,v)
             with div(cls='buttonz'):
                 with a(href=f"{v.Image.UrlVdp}"):
                     button("View Vehicle",type="button" ,cls="btn btn-primary", style="margin: 0px 0px 0px 0px")
@@ -112,6 +116,24 @@ class SpecialsPagev1():
                     button("View Inventory",type="button" ,cls="btn btn-primary", style="margin: 0px 0px 0px 0px")
                 with a(href="#form"):
                     button("Claim Offer",type="button" ,cls="btn btn-primary", style="margin: 5px 0px 0px 0px")
+    
+    def checkbox(type,checked,description):
+        with div ():
+            raw(f"""<label><input type="checkbox" class="checkbox" value="offertype{type}" {checked}> {description}</label>""")
+
+    def chooseOfferTypes(self,button):
+        for type in self.dealer.OfferTypeIDsActive:
+            checked = ''
+            description = ''
+            dealtype = ''
+            if type in self.dealer.OfferTypesOnLoad:
+                checked = 'checked'
+            for ot in self.dealer.OfferTypes:
+                if int(ot.OfferTypeID) == int(type):
+                    description = ot.Description  
+                    dealtype = ot.DealType
+            if button == dealtype:
+                SpecialsPagev1.checkbox(type,checked,description)
 
     def doc(self):
         with self.specialspage.head:
@@ -121,15 +143,46 @@ class SpecialsPagev1():
             script (src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js")
             script (src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js")
             raw("""<script>
-                    $(document).ready(function(){
-                      $("#hide").click(function(){
-                        $("p").hide();
-                      });
-                      $("#show").click(function(){
-                        $("p").show();
-                      });
-                    });
-                    </script>
+	            window.onload = function() {
+		            var checkboxes = document.getElementsByClassName("checkbox");
+		
+		            for (var i = 0; i < checkboxes.length; i++) {
+			            checkboxes[i].addEventListener("change", toggleCells);
+		            }
+		
+		            toggleCells();
+	            }
+
+	            function toggleCells() {
+		            var checkboxes = document.getElementsByClassName("checkbox");
+		            var cells = document.getElementsByClassName("cell");
+		
+		            for (var i = 0; i < checkboxes.length; i++) {
+			            for (var j = 0; j < cells.length; j++) {
+				            var value = checkboxes[i].value;
+				
+				            if (cells[j].classList.contains(value)) {
+					            if (checkboxes[i].checked == true) {
+						            cells[j].style.display = "";
+					            }
+					            else {
+						            cells[j].style.display = "none";
+					            }
+				            }
+			            }
+		            }
+	            }
+            </script>
+            <script>
+            $(document).ready(function(){
+              $("#myInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $(".modelfilter div").filter(function() {
+                  $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+              });
+            });
+            </script>
                            """)
 
             style("""
@@ -234,37 +287,42 @@ class SpecialsPagev1():
                             with div():
                                 button ("Lease", type="button" ,cls="btn btn-secondary filterbutton", data_target=".leasefilter", data_toggle="collapse")
                                 with div (cls="leasefilter collapse"):
-                                    with div (cls="checkbox"):
-                                        raw("""<label><input type="checkbox" data-target="#offertype3" data-toggle="collapse" checked> 10% MSRP Down</label>""")
-                                    with div (cls="checkbox"):
-                                        raw("""<label><input type="checkbox" data-target="#offertype1" data-toggle="collapse"> $0 Down Payment</label>""")
-                                    with div (cls="checkbox"):
-                                        raw("""<label><input type="checkbox" data-target="#offertype4" data-toggle="collapse"> Sign & Drive</label>""")
-                                    with div (cls="checkbox"):
-                                        raw("""<label><input type="checkbox" data-target="#offertype5" data-toggle="collapse"> One Pay</label>""")
+                                    SpecialsPagev1.chooseOfferTypes(self,button="Lease")
+                                    
                             with div():
                                 button ("Finance", type="button" ,cls="btn btn-secondary filterbutton", data_target=".financefilter", data_toggle="collapse")
                                 with div ( cls="financefilter collapse" ):
-                                    with div (cls="checkbox"):
-                                        raw("""<label><input type="checkbox" data-target="#offertype6" data-toggle="collapse" checked> Low Finance Payment</label>""")
-                                    with div (cls="checkbox"):
-                                        raw("""<label><input type="checkbox" data-target="#offertype7" data-toggle="collapse"> Low Finance APR</label>""")
+                                    SpecialsPagev1.chooseOfferTypes(self,button="Finance")
+
                             with div():
                                 button ("Year", type="button" ,cls="btn btn-secondary filterbutton", data_target=".yearfilter", data_toggle="collapse")
                                 with div ( cls="yearfilter collapse" ):
-                                    with div (cls="checkbox"):
-                                        raw("""<label><input type="checkbox" data-target=".year2019" data-toggle="collapse" checked> 2019</label>""")
-                                    with div (cls="checkbox"):
-                                        raw("""<label><input type="checkbox" data-target=".year2020" data-toggle="collapse" checked> 2020</label>""")
+                                    for y in self.years:
+                                        with div ():
+                                            raw(f"""<label><input type="checkbox" class="checkbox" value="year{y}" checked> {y}</label>""")
+                            with div():
+                                button ("Makes", type="button" ,cls="btn btn-secondary filterbutton", data_target=".makefilter", data_toggle="collapse")
+                                with div ( cls="makefilter collapse" ):
+                                    for m in self.makes:
+                                        with div ():
+                                            raw(f"""<label><input type="checkbox" class="checkbox" value="{m}" checked> {m}</label>""")
+                            with div():
+                                button ("Models", type="button" ,cls="btn btn-secondary filterbutton", data_target=".modelfilter", data_toggle="collapse")
+
+                                with div ( cls="modelfilter collapse" ):
+                                    raw("""<label><input class="form-control" id="myInput" type="text" placeholder="Search.."></label>""")
+                                    for m in self.models:
+                                        with div ():
+                                            raw(f"""<label><input type="checkbox" class="checkbox" value="{m[1]}" checked> {m[0]}</label>""")
                     with div(cls="flex-container col-sm-10"):
                     
                         for v in self.vehicles:
                             if self.dealer.Domain == 'https://www.walserautocampus.com/':
                                 if v.State == 'KS':
-                                    SpecialsPagev1.vehicle_html(v)
+                                    SpecialsPagev1.vehicle_html(self,v)
 
                             else:
-                                SpecialsPagev1.vehicle_html(v)
+                                SpecialsPagev1.vehicle_html(self,v)
             
 
         return self.specialspage

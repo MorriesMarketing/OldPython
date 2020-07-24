@@ -4,7 +4,6 @@ class Vehicle:
     def __init__(self, **kwargs):
         self.ClientID = kwargs['ClientID']
         self.DealerID = kwargs['DealerID']
-        self.VehicleID = kwargs['VehicleID']
         #self.MarketScanID = kwargs['MarketScanID']
         self.StockNumber = kwargs['StockNumber']
         self.VIN = kwargs['VIN']
@@ -21,6 +20,7 @@ class Vehicle:
         self.MSRP = kwargs['MSRP']
         self.StockType = kwargs['StockType']
 
+        self.Offers = []
         self.YearMake = f'{self.Year} {self.MakeName}'
         self.YearMakeModel = f'{self.Year} {self.MakeName} {self.ModelName}'
         self.YearMakeModelTrim = f'{self.Year} {self.MakeName} {self.ModelName} {self.Trim}'
@@ -31,19 +31,10 @@ class Vehicle:
         self.YearMakeModelTrimurl = self.YearMakeModelTrim.replace(' ','-')
         self.MakeModelurl = self.MakeModel.replace(' ','-')
         self.Modelurl = self.ModelName.replace(' ','-')
-        
-        self.Inventory = self.YearMakeModel.replace(' ','+')
-        self.InventoryUrl = ''
-
-        self.Image = None
-
-        self.Offers = []
-        self.Html = ''
-        self.HtmlOffers = ''
 
 
     def __repr__(self):
-        return f"{self.ClientID} {self.DealerID} {self.VehicleID} {self.YearMakeModel}"
+        return f"{self.ClientID} {self.DealerID} {self.StockNumber}"
 
 class VehicleAged:
 
