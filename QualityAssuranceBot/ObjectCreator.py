@@ -14,10 +14,12 @@ class ObjectCreator():
     @staticmethod
     def create_clients_dealers_vehicles_offers():
 
-        print('Creating Vehicle Objects')
+        
+
+        print('Creating ComparisonVehiclesOffers Objects')
         data_table = SqlServer.PRD_PythonOffers_ReadData()
         data = Database.convert_table_to_dict(data_table)
-        vehicles = Database.create_grouped_objects(data, ComparisonVehiclesOffers, 'VIN')
+        vehicles = Database.create_objects(data, ComparisonVehiclesOffers)
         
         print('Creating Batch Objects')
         data_table = SqlServer.PRD_Batch_RefreshCheck()
@@ -25,15 +27,15 @@ class ObjectCreator():
         batches = Database.create_grouped_objects(data, Batch, 'ClientID')
 
         print('Creating Client Objects')
-        data_table = SqlServer.PRD_Client_ReadData()
+        data_table = SqlServer.PRD_Dealer_ReadData()
         data = Database.convert_table_to_dict(data_table)
-        clients = Database.create_grouped_objects(data, Client, 'ClientID')
+        dealers = Database.create_grouped_objects(data, Dealer, 'DealerID')
 
-        for c in clients:
+        for d in dealers:
             for v in vehicles:
-                if c.ClientID == v.ClientID:
-                    c.Vehicles.append(v)
+                if d.DealerID == v.DealerID:
+                    d.Vehicles.append(v)
                     
         print('Clients Created')
-        return clients
+        return dealers
 

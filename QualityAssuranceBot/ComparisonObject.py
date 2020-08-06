@@ -95,6 +95,8 @@ class ComparisonVehiclesOffers():
 
 
 
+    def __repr__(self):
+        return f"{self.ClientID} {self.DealerID} {self.VIN} {self.OfferTypeID}"
 
 
 

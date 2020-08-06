@@ -96,6 +96,45 @@ class SqlServer(Database):
             database = Database(SqlQueryConnect, SqlQueryExcecute, Database.FETCHALL, Sql)
             return database.access_table()
 
+    #Calls for the list of vehicles to be prepared for the Vehicle object list
+    @staticmethod
+    def PRD_ClientOffers_ReadData():
+        Sql = Database.SQLSERVER
+        SqlQueryConnect = """
+            Driver={SQL Server};
+            Server=dealermarketing.database.windows.net;
+            Database=PRD_DigitalMarketing;
+            UID=ApplicationRead;
+            PWD=TheW@lserW@y;
+            """
+        SqlQueryExcecute = """
+            SELECT 
+                * 
+            FROM 
+                ClientOffers
+            WHERE
+                ClientID != 5
+            ORDER BY 
+                ClientID,
+	            DealerID,
+	            VehicleID,
+	
+	            (CASE OfferTypeID 
+		            WHEN 3 THEN 1 
+		            WHEN 2 THEN 2 
+		            WHEN 1 THEN 3 
+		            WHEN 4 THEN 4 
+		            WHEN 5 THEN 5 
+		            WHEN 6 THEN 6 
+		            WHEN 7 THEN 7 
+		            WHEN 8 THEN 8
+
+		            ELSE 100 END)
+            """
+        while True:
+            database = Database(SqlQueryConnect, SqlQueryExcecute, Database.FETCHALL, Sql)
+            return database.access_table()
+
 
     @staticmethod
     def PRD_ExternalVehicles_AgedUsed_ReadData():
@@ -295,6 +334,28 @@ class SqlServer(Database):
                 * 
             FROM 
                 Client
+            WHERE 
+                ClientID != 5
+            """
+        while True:
+            database = Database(SqlQueryConnect, SqlQueryExcecute, Database.FETCHALL, Sql)
+            return database.access_table()
+
+    @staticmethod
+    def PRD_Dealer_ReadData():
+        Sql = Database.SQLSERVER
+        SqlQueryConnect = """
+            Driver={SQL Server};
+            Server=dealermarketing.database.windows.net;
+            Database=PRD_DigitalMarketing;
+            UID=ApplicationRead;
+            PWD=TheW@lserW@y;
+            """
+        SqlQueryExcecute = """
+            SELECT 
+                * 
+            FROM 
+                Dealer
             WHERE 
                 ClientID != 5
             """

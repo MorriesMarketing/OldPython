@@ -8,6 +8,7 @@ class Dealer():
         self.DealerName = kwargs['DealerName']
         self.Domain = kwargs['Domain']
         self.SpecialsPage = kwargs['SpecialsPage']
+        self.SRP = kwargs['SRP1']
         self.UserName = kwargs['UserName']
         self.Password = kwargs['Password']
         self.GroupSite = kwargs['GroupSite']
