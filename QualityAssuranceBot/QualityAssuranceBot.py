@@ -118,7 +118,7 @@ def create_comparison_class(TESTING):
     for d in group_1.dealers:
         for d2 in group_2.dealers:
             if d.DealerID == d2.DealerID:
-
+                print(f'Comparing {d.Name} & {d2.Name}')
                 compared_report = compare_objects(d,d2, 'VINOffer')
                 text = ''
                 text += f'{d.DealerID}:\n'
@@ -134,11 +134,15 @@ def create_comparison_class(TESTING):
                 filename = f'{d.Name}_{today.today}'
                 filename = filename.replace(' ','_')
                 filename = filename.replace(':','_')
+                
                 if len(compared_report["comparison_objects_report"]) == 0:
                     print(f'no changes for {filename}')
 
                 else:
-                    txt = open(f'F:/SpecialsPage/{filename}.txt',"w+")
+                    print(f'{filename}')
+                    filepath = f'F:/SpecialsPage/{filename}.txt'
+                    print(filepath)
+                    txt = open(filepath,"w+")
                     txt.write(str(text))
                     txt.close()
 

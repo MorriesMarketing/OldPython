@@ -8,7 +8,7 @@ from O_Images import *
 from O_Offers import *
 from O_OrderGroups import *
 from O_OfferTypes import *
-from O_Websites import Website_DealerDotCom
+
 
 class ObjectCreator():
 
@@ -58,34 +58,29 @@ class ObjectCreator():
         data = Database.convert_table_to_dict(data_table)
         dealers = Database.create_grouped_objects(data, Dealer, 'DealerID')
 
+        print('Creating Photo Objects')
+        data_table = SqlLight.DeskTop_VehiclePhotos_ReadData()
+        data = Database.convert_table_to_dict(data_table)
+        vehicle_photos = Database.create_objects(data, VehiclePhoto)
+
         print('Creating OfferType Objects')
         data_table = SqlServer.PRD_OfferType_ReadData()
         data = Database.convert_table_to_dict(data_table)
         offertypes = Database.create_objects(data, OfferType)
 
+        print('All Objects Created')
         for v in vehicles:
             for i in images:
                 if v.VehicleID == i.VehicleID:
                     v.Image = i
-        
-        if TestActive:
-            pass
-        else:
-            for d in dealers:
-                if d.ActiveSpecialsPage == 1:
-                    website = Website_DealerDotCom()
-                    for v in vehicles:
-                        if v.Image.UrlVdp == None and v.DealerID == d.DealerID:
-                            v.InventoryUrl = f'{d.Domain}{website.Search}{v.Inventory}'
-                            acquire_image = False
-                            if v.Image.PhotoURL == None:
-                                acquire_image = True
-                            image_data = website.find_vdp(d.Domain,d.SRP,v.VIN,acquire_image)
-                            v.Image.UrlVdp = image_data[1]
-                            if acquire_image:
-                                v.Image.PhotoURL = image_data[2]
-                            print(v.Image)
-            website.driver.quit()
+        print('Combined Image Object to Vehicle Object')
+        for v in vehicles:
+            for vp in vehicle_photos:
+                if vp.VIN == v.VIN and vp.ClientID == v.ClientID and vp.DealerID == v.DealerID:
+                    if v.Image.UrlVdp == None:
+                        v.Image.UrlVdp = vp.UrlVdp
+                    if v.Image.PhotoURL == None:
+                        v.Image.PhotoURL = vp.UrlImage
 
         for v in vehicles:
             for o in offers:

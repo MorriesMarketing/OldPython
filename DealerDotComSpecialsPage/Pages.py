@@ -112,7 +112,8 @@ class SpecialsPagev1():
             with div(cls='buttonz'):
                 with a(href=f"{v.Image.UrlVdp}"):
                     button("View Vehicle",type="button" ,cls="btn btn-primary", style="margin: 0px 0px 0px 0px")
-                with a(href=f"{v.InventoryUrl}"):
+                website = f'{self.dealer.Domain}{self.dealer.NewVehicleSearch}'
+                with a(href=f"{website}{v.Inventory}"):
                     button("View Inventory",type="button" ,cls="btn btn-primary", style="margin: 0px 0px 0px 0px")
                 with a(href="#form"):
                     button("Claim Offer",type="button" ,cls="btn btn-primary", style="margin: 5px 0px 0px 0px")
@@ -310,19 +311,20 @@ class SpecialsPagev1():
                                 button ("Models", type="button" ,cls="btn btn-secondary filterbutton", data_target=".modelfilter", data_toggle="collapse")
 
                                 with div ( cls="modelfilter collapse" ):
-                                    raw("""<label><input class="form-control" id="myInput" type="text" placeholder="Search.."></label>""")
+                                    #raw("""<label><input class="form-control" id="myInput" type="text" placeholder="Search.."></label>""")
                                     for m in self.models:
                                         with div ():
                                             raw(f"""<label><input type="checkbox" class="checkbox" value="{m[1]}" checked> {m[0]}</label>""")
                     with div(cls="flex-container col-sm-10"):
                     
                         for v in self.vehicles:
-                            if self.dealer.Domain == 'https://www.walserautocampus.com/':
-                                if v.State == 'KS':
-                                    SpecialsPagev1.vehicle_html(self,v)
+                            if v.Image.PhotoURL != None and v.Image.UrlVdp != None:
+                                if self.dealer.Domain == 'https://www.walserautocampus.com/':
+                                    if v.State == 'KS':
+                                        SpecialsPagev1.vehicle_html(self,v)
 
-                            else:
-                                SpecialsPagev1.vehicle_html(self,v)
+                                else:
+                                    SpecialsPagev1.vehicle_html(self,v)
             
 
         return self.specialspage

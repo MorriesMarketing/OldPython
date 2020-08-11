@@ -8,8 +8,13 @@ class Dealer():
         self.DealerName = kwargs['DealerName']
         self.Domain = kwargs['Domain']
         self.SpecialsPage = kwargs['SpecialsPage']
-        self.NewVehicleSearch = kwargs['NewVehicleSearch']
-
+        self.SRP = kwargs['SRP1']
+        if self.SRP == None:
+            pass
+        elif ',' in self.SRP:
+            self.SRP = list(self.SRP.split(','))
+        else:
+            self.SRP = list(self.SRP)
         self.FirstSearchQueryItem = kwargs['FirstSearchQueryItem']
         self.FirstImageSelector = kwargs['FirstImageSelector']
         self.FirstImageSelector = list(self.FirstImageSelector.split(','))
