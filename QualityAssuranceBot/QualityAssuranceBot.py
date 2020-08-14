@@ -108,8 +108,9 @@ def create_comparison_class(TESTING):
             print(f'{s}/{sleep_in_seconds}\r', end="")
             sleep(1)
     else:
-        for s in range(3500):
-            print(f'{s}/3500\r', end="")
+        sleep_in_seconds = 3600
+        for s in range(sleep_in_seconds):
+            print(f'{s}/{sleep_in_seconds}\r', end="")
             sleep(1)
     
 

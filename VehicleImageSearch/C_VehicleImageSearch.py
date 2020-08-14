@@ -36,8 +36,15 @@ class VehicleImageSearch():
         return list_of_found_elements
 
     def search_vehicle_page(self, Dealer, Vehicle):
+        vehicle_image = None
+        current_vdp_url = None
+        vehicle_found = None
         for srp in Dealer.SRP:
             if srp == '':
+                pass
+            elif vehicle_image != None and current_vdp_url != None:
+                pass
+            elif vehicle_found != None:
                 pass
             else:
                 print(srp)
@@ -45,39 +52,46 @@ class VehicleImageSearch():
                 self.driver.refresh()
                 page = self.driver.get(f'{Dealer.Domain}{srp}{Vehicle.VIN}')
 
-                vehicle_image = None
-                list_of_found_elements = VehicleImageSearch.get_elements(self,tag_name='img', attribute='src')
-                for image in list_of_found_elements:
-                    if Dealer.DealerDotComSite == 1:
-                        for url in Dealer.FirstImageSelector:
+                if Dealer.DealerInspireSite == 1:
+                    list_of_found_elements = VehicleImageSearch.get_elements(self,tag_name='div', attribute='data-vin')
+                    for object in list_of_found_elements:
+                        if Vehicle.VIN == object:
+                            vehicle_found = object
+                            print(f'REL Tag: {Vehicle.VIN} {object}')
+
+                if vehicle_found == None:
+                    list_of_found_elements = VehicleImageSearch.get_elements(self,tag_name='img', attribute='src')
+                    for image in list_of_found_elements:
+                        if Dealer.DealerDotComSite == 1:
+                            for url in Dealer.FirstImageSelector:
+                                if image != None:
+                                    if image.startswith(url):
+                                        print(f'URL: {url}\n\t {image}')
+                                        vehicle_image = image
+                                        break
+                        if Dealer.DealerInspireSite == 1:
                             if image != None:
-                                if image.startswith(url):
-                                    print(f'URL: {url}\n\t {image}')
+                                if Vehicle.VIN in image:
                                     vehicle_image = image
                                     break
-                    if Dealer.DealerInspireSite == 1:
-                        if image != None:
-                            if Vehicle.VIN in image:
-                                vehicle_image = image
-                                break
 
-                current_vdp_url = None
-                list_of_found_elements = VehicleImageSearch.get_elements(self,tag_name='a', attribute='href')
+               
+                    list_of_found_elements = VehicleImageSearch.get_elements(self,tag_name='a', attribute='href')
                             
-                for vehicle in list_of_found_elements:
-                    if vehicle != None:
-                        if Dealer.DealerDotComSite == 1:
-                            if f'{Dealer.Domain}used/' in vehicle or f'{Dealer.Domain}new/' in vehicle:
-                                current_vdp_url = vehicle
-                                break
-                        if Dealer.DealerInspireSite == 1:
-                            if '/inventory/' in vehicle:
-                                current_vdp_url = vehicle
-                                break
+                    for vehicle in list_of_found_elements:
+                        if vehicle != None:
+                            if Dealer.DealerDotComSite == 1:
+                                if f'{Dealer.Domain}used/' in vehicle or f'{Dealer.Domain}new/' in vehicle:
+                                    current_vdp_url = vehicle
+                                    break
+                            if Dealer.DealerInspireSite == 1:
+                                if '/inventory/' in vehicle:
+                                    current_vdp_url = vehicle
+                                    break
 
-                if current_vdp_url == None and vehicle_image == None:
-                    self.driver.refresh()
-                    break
+                    if current_vdp_url == None and vehicle_image == None:
+                        self.driver.refresh()
+                        break
             
         print(f'\nFINAL: \n{current_vdp_url}\n\t{vehicle_image}')
         return [current_vdp_url,vehicle_image]

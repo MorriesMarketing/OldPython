@@ -101,7 +101,7 @@ class SpecialsPagev1():
     def vehicle_html(self,v):
         
         #This begins the Vehicle Section of the HTML
-        with div(cls=f"vehicle cell year{v.Year} {v.MakeName} {v.Modelurl}",id=f"{v.YearMakeModelurl}-Lease-and-Finance-Specials"):
+        with div(cls=f"vehicle cell year{v.Year} {v.MakeName} {v.Modelurl}",id=f"{v.Modelurl}"):
             with div(style="width:100%;height:220px;"):
                 with a(href=f"{v.Image.UrlVdp}",style="margin: 1px 0px 0px 0px"):
                     img(id=f"{v.YearMakeModelTrimurl}-image", src=f"{v.Image.PhotoURL}", alt=f"{v.YearMakeModelTrim}", style="float:left;width:100%;height:100%;object-fit:cover;")
@@ -143,6 +143,7 @@ class SpecialsPagev1():
             script (src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js")
             script (src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js")
             script (src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js")
+            script (src="https://kit.fontawesome.com/a076d05399.js")
             raw("""<script>
 	            window.onload = function() {
 		            var checkboxes = document.getElementsByClassName("checkbox");
@@ -278,6 +279,10 @@ class SpecialsPagev1():
             text-align: left;
             margin: 5px 0px 0px 0px;
             }
+            .fa-crosshairs {
+            font-size: 15 px;
+            margin: 5px 5px 0px 0px;
+            }
             """, is_pretty = True)
             
         with self.specialspage:
@@ -314,7 +319,7 @@ class SpecialsPagev1():
                                     #raw("""<label><input class="form-control" id="myInput" type="text" placeholder="Search.."></label>""")
                                     for m in self.models:
                                         with div ():
-                                            raw(f"""<label><input type="checkbox" class="checkbox" value="{m[1]}" checked> {m[0]}</label>""")
+                                            raw(f"""<label><a href="#{m[1]}" style="0px, 5px"> <i class='fas fa-crosshairs'></i></a><input type="checkbox" class="checkbox" value="{m[1]}" checked> {m[0]}</label>""")
                     with div(cls="flex-container col-sm-10"):
                     
                         for v in self.vehicles:
