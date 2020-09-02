@@ -1,15 +1,17 @@
 class Image:
+    #Project DealerDotComSpecialsPage
 
     def __init__(self, **kwargs):
         self.ClientID = kwargs['ClientID']
         self.DealerID = kwargs['DealerID']
         self.VehicleID = kwargs['VehicleID']
+        self.VIN = kwargs['VIN']
         self.UrlVdp = None
         self.PhotoURL = kwargs['PhotoURL']
         self.VdpActive = None
         
     def __repr__(self):
-        return f"{self.ClientID} {self.DealerID} {self.VehicleID} {self.UrlVdp}"
+        return f"ClientID: {self.ClientID} DealerID: {self.DealerID} VIN: {self.VIN} \nVDP URL: {self.UrlVdp}"
 
 class VehiclePhoto:
     def __init__(self, **kwargs):

@@ -2,15 +2,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>5573c9fb-79d6-4376-9d59-6f947d605d1c</ProjectGuid>
+    <ProjectGuid>19e7a5df-fdef-41db-928a-df6a866908e4</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Website_Scrapper.py</StartupFile>
+    <StartupFile>WalserApp.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
-    <Name>Website Scrapper</Name>
-    <RootNamespace>Website Scrapper</RootNamespace>
+    <Name>WalserApp</Name>
+    <RootNamespace>WalserApp</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,13 +21,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="I_Databases.py" />
-    <Compile Include="I_SqlLight.py" />
-    <Compile Include="I_SqlServer.py" />
-    <Compile Include="ObjectCreator.py" />
-    <Compile Include="O_Days.py" />
-    <Compile Include="O_Dealers.py" />
-    <Compile Include="Website_Scrapper.py" />
+    <Compile Include="WalserApp.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

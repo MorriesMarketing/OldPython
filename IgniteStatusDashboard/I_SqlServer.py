@@ -56,7 +56,7 @@ class SqlServer(Database):
         while True:
             database = Database(SqlQueryConnect, SqlQueryExcecute, Database.FETCHALL, Sql)
             return database.access_table()
-            
+    
     #Calls for the list of vehicles to be prepared for the Vehicle object list
     @staticmethod
     def PRD_PythonOffers_ReadData():
@@ -96,7 +96,6 @@ class SqlServer(Database):
             database = Database(SqlQueryConnect, SqlQueryExcecute, Database.FETCHALL, Sql)
             return database.access_table()
 
-
     @staticmethod
     def PRD_ExternalVehicles_AgedUsed_ReadData():
         Sql = Database.SQLSERVER
@@ -121,7 +120,6 @@ class SqlServer(Database):
     # This is used to control the order in which the vehicles are used.
     # This method organizes the vehicles by Client and then Ranks by lowest to highest payment based on OfferTypeID 3 (10% MSRP)
     # Is used in the Dealer Inspire OfferUploads process
-    @staticmethod
     def PRD_VehicleOffers_ClientRank():
         Sql = Database.SQLSERVER
         SqlQueryConnect = """
@@ -166,7 +164,6 @@ class SqlServer(Database):
     # This is used to control the order in which the vehicles are used.
     # This method organizes the vehicles by Client then Dealer and then Ranks by lowest to highest payment based on OfferTypeID 3 (10% MSRP)
     # This would be used for creating dealer specific specials pages
-    @staticmethod
     def PRD_VehicleOffers_DealerRank():
         Sql = Database.SQLSERVER
         SqlQueryConnect = """
@@ -212,7 +209,6 @@ class SqlServer(Database):
     # This is used to control the order in which the vehicles are used.
     # This method organizes the vehicles by Client then Year then Model and then Ranks by lowest to highest payment based on OfferTypeID 3 (10% MSRP)
     # This would be used for creating groupings for blogs where similar models are displayed on the same page
-    @staticmethod
     def PRD_VehicleOffers_Year_Model_ClientRank():
         Sql = Database.SQLSERVER
         SqlQueryConnect = """
@@ -258,7 +254,6 @@ class SqlServer(Database):
 
     # This method is used to see if a photo is available for a VehicleID. 
     # Seperate process is used to identify this occurence and check dealers website to obtain photo.
-    @staticmethod
     def PRD_ClientVehicles_Photos():
         Sql = Database.SQLSERVER
         SqlQueryConnect = """
@@ -307,6 +302,70 @@ class SqlServer(Database):
             database = Database(SqlQueryConnect, SqlQueryExcecute, Database.FETCHALL, Sql)
             return database.access_table()
     
+    @staticmethod
+    def PRD_Dealer_ReadData():
+        Sql = Database.SQLSERVER
+        SqlQueryConnect = """
+            Driver={SQL Server};
+            Server=dealermarketing.database.windows.net;
+            Database=PRD_DigitalMarketing;
+            UID=ApplicationRead;
+            PWD=TheW@lserW@y;
+            """
+        SqlQueryExcecute = """
+            SELECT 
+                * 
+            FROM 
+                Dealer
+            WHERE 
+                ClientID != 5
+            """
+        while True:
+            database = Database(SqlQueryConnect, SqlQueryExcecute, Database.FETCHALL, Sql)
+            return database.access_table()
+
+    @staticmethod
+    def PRD_Batch_ReadData():
+        Sql = Database.SQLSERVER
+        SqlQueryConnect = """
+            Driver={SQL Server};
+            Server=dealermarketing.database.windows.net;
+            Database=PRD_DigitalMarketing;
+            UID=ApplicationRead;
+            PWD=TheW@lserW@y;
+            """
+        SqlQueryExcecute = """
+            SELECT 
+                * 
+            FROM 
+                Batch
+            """
+        while True:
+            database = Database(SqlQueryConnect, SqlQueryExcecute, Database.FETCHALL, Sql)
+            return database.access_table()
+
+    @staticmethod
+    def PRD_MaxBatch_ReadData():
+        Sql = Database.SQLSERVER
+        SqlQueryConnect = """
+            Driver={SQL Server};
+            Server=dealermarketing.database.windows.net;
+            Database=PRD_DigitalMarketing;
+            UID=ApplicationRead;
+            PWD=TheW@lserW@y;
+            """
+        SqlQueryExcecute = """
+            SELECT 
+                ClientID, MAX(BatchID) BatchID 
+            FROM 
+                Batch
+
+            Group by ClientID
+            """
+        while True:
+            database = Database(SqlQueryConnect, SqlQueryExcecute, Database.FETCHALL, Sql)
+            return database.access_table()
+
     @staticmethod        
     def PRD_OfferType_ReadData():
         Sql = Database.SQLSERVER
@@ -327,5 +386,26 @@ class SqlServer(Database):
             database = Database(SqlQueryConnect, SqlQueryExcecute, Database.FETCHALL, Sql)
             return database.access_table()
 
-
-
+    @staticmethod        
+    def PRD_CLientOffers_StockTypeSearch_ReadData():
+        Sql = Database.SQLSERVER
+        SqlQueryConnect = """
+            Driver={SQL Server};
+            Server=dealermarketing.database.windows.net;
+            Database=PRD_DigitalMarketing;
+            UID=ApplicationRead;
+            PWD=TheW@lserW@y;
+            """
+        SqlQueryExcecute = """
+            SELECT 
+                ClientID,DealerID, StockType,COUNT (DISTINCT StockType) 
+            FROM 
+                ClientOffers
+            GROUP BY
+                ClientID,DealerID, StockType
+            ORDER BY
+                ClientID, DealerID,StockType
+            """
+        while True:
+            database = Database(SqlQueryConnect, SqlQueryExcecute, Database.FETCHALL, Sql)
+            return database.access_table()

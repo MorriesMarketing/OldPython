@@ -21,6 +21,10 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "QualityAssuranceBot", "Qual
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "VehicleImageSearch", "VehicleImageSearch\VehicleImageSearch.pyproj", "{D8AAC730-B450-4160-8AFB-D88F87A84E36}"
 EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "WalserApp", "WalserApp\WalserApp.pyproj", "{19E7A5DF-FDEF-41DB-928A-DF6A866908E4}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "IgniteStatusDashboard", "IgniteStatusDashboard\IgniteStatusDashboard.pyproj", "{6820CB42-6F11-4E49-8022-05D31225FE61}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +49,10 @@ Global
 		{75DBC2C3-DA06-47CF-9C5F-B7D5D90F5D95}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D8AAC730-B450-4160-8AFB-D88F87A84E36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D8AAC730-B450-4160-8AFB-D88F87A84E36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19E7A5DF-FDEF-41DB-928A-DF6A866908E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19E7A5DF-FDEF-41DB-928A-DF6A866908E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6820CB42-6F11-4E49-8022-05D31225FE61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6820CB42-6F11-4E49-8022-05D31225FE61}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -24,6 +24,9 @@
     <Compile Include="Azure.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="O_ClientBrands.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DealerDotComSpecialsPage.py" />
     <Compile Include="I_Databases.py" />
     <Compile Include="I_SqlLight.py" />

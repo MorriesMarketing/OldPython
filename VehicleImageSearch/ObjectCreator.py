@@ -3,15 +3,17 @@ from I_SqlLight import *
 from O_Dealers import * 
 from O_Vehicles import *
 from O_Images import *
-from C_VehicleImageSearch import VehicleImageSearch
+#from C_VehicleImageSearch import VehicleImageSearch
+from Soup import *
+import asyncio
 
 class ObjectCreator():
-
+    #Project VehicleImageSearch
     def __init__(self, TestActive):
         self.images = None
         self.vehicles = None
         self.dealers = None
-        self.website = VehicleImageSearch()
+        #self.website = VehicleImageSearch()
         self.vehicle_photos = None
         self.TestActive = TestActive
 
@@ -37,6 +39,31 @@ class ObjectCreator():
         data = Database.convert_table_to_dict(data_table)
         self.vehicle_photos = Database.create_objects(data, VehiclePhoto)
 
+
+    def gather_vdp_website_list_async(self):
+            
+        for d in self.dealers:
+            if d.DealerInspireSite == True:
+                flag = Soup.DEALER_INSPIRE_XML
+            elif d.DealerDotComSite == True:
+                flag = Soup.DEALER_DOT_COM_XML
+            elif d.CdkSite == True:
+                flag = Soup.CDK_XML
+            soup = Soup(Domain=d.Domain,Flag=flag)
+            inventory_sitemap = soup.identify_xml_page()
+            inventory_vdp_urls = None
+            if inventory_sitemap == None:
+                print(f'Inventory Sitemap: {inventory_sitemap}')
+            else:
+                print(f'DealerID: {d.DealerID}')
+                inventory_vdp_urls = soup.scrape_xml_page(Domain=d.Domain,Page=inventory_sitemap)
+            #for page in inventory_vdp_urls:
+            #    print(page)
+            #    soup.scrap_image
+
+            #await asyncio.gather(map(soup.scrap_image, inventory_vdp_urls))
+                
+
     def combine_objects(self):
         for v in self.vehicles:
             for i in self.images:
@@ -51,6 +78,9 @@ class ObjectCreator():
                     if v.Image.PhotoURL == None:
                         v.Image.PhotoURL = vp.UrlImage
         
+        
+
+
         if self.TestActive:
             pass
         else:

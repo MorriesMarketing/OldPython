@@ -1,0 +1,59 @@
+from I_Databases import *
+
+class SqlLight():
+
+    def __init__(self):
+        pass
+    
+    @staticmethod
+    def VM_Websites_ReadData():
+        Sql = Database.SQLITE3
+        SqlQueryConnect = f"C:\PythonSqlite\Databases\Database1.db"
+        SqlQueryExcecute = f"""
+                        SELECT *               
+                        FROM Websites
+                        """
+        
+        while True:
+            database = Database(SqlQueryConnect, SqlQueryExcecute, Database.FETCHALL, Sql)
+            return database.access_table()
+     
+    @staticmethod
+    def VM_OfferTypes_ReadData():
+        Sql = Database.SQLITE3
+        SqlQueryConnect = f"C:\PythonSqlite\Databases\Database1.db"
+        SqlQueryExcecute = f"""
+                        SELECT *               
+                        FROM OfferTypes
+                        """
+        
+        while True:
+            database = Database(SqlQueryConnect, SqlQueryExcecute, Database.FETCHALL, Sql)
+            return database.access_table()   
+        
+    @staticmethod
+    def DeskTop_Websites_ReadData():
+        Sql = Database.SQLITE3
+        SqlQueryConnect = f"F:\SQLiteStudio-3.2.1\SQLiteStudio\Database1.db"
+        SqlQueryExcecute = f"""
+                        SELECT *               
+                        FROM Websites
+                        """
+        
+        while True:
+            database = Database(SqlQueryConnect, SqlQueryExcecute, Database.FETCHALL, Sql)
+            return database.access_table()
+
+    @staticmethod
+    def DeskTop_VehiclePhotos_ReadData():
+        Sql = Database.SQLITE3
+        SqlQueryConnect = f"F:\SQLiteStudio-3.2.1\SQLiteStudio\Database1.db"
+        SqlQueryExcecute = f"""
+                        SELECT *               
+                        FROM VehiclePhotos
+                        """
+        
+        while True:
+            database = Database(SqlQueryConnect, SqlQueryExcecute, Database.FETCHALL, Sql)
+            return database.access_table()
+
