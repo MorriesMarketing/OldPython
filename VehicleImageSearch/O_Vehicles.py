@@ -17,7 +17,7 @@ class Vehicle:
         #self.Title = kwargs['Title']
         self.Year = kwargs['Year']
         self.Invoice = kwargs['Invoice']
-        self.SellingPrice = kwargs['SellingPrice']
+        #self.SellingPrice = kwargs['SellingPrice']
         self.MSRP = kwargs['MSRP']
         self.StockType = kwargs['StockType']
 

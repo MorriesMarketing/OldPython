@@ -33,6 +33,9 @@
     <Compile Include="O_MaxBatch.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="O_Page.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="O_StockTypes.py">
       <SubType>Code</SubType>
     </Compile>

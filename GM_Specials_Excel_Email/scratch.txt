@@ -1,0 +1,177 @@
+import win32com.client as win32
+import datetime
+import time
+from datetime import date 
+from ExcelEmail import Excel
+import locale
+locale.setlocale(locale.LC_ALL, '')  # empty string for platform's default settings
+
+Excel.read_data()
+
+#BCJD = ['','walser.com','','BCJD Sales']
+BGB = ['','walser.com','','BGB Sales']
+BGR = ['','walser.com','','BGR Sales']
+CJD = ['','walser.com','','CJD Sales']
+CRN = ['<u>OEM compliant (at or above BAP)</u> ','walser.com','In some cases, <u>you may have a lower in store selling price than the advertised selling price</u>. If that is true rerun the stock number through market scan for updated payment options.','CRN Sales']
+HON = ['','walser.com','','HON Sales']
+HYU = ['','walser.com','','HYU Sales']
+MAZ = ['<u>OEM compliant (at or above Invoice)</u> ','walser.com','In some cases, <u>you may have a lower in store selling price than the advertised selling price</u>. If that is true rerun the stock number through market scan for updated payment options.','MAZ Sales']
+NIS = ['<u>OEM compliant (at or above BAP)</u> ','walser.com','In some cases, <u>you may have a lower in store selling price than the advertised selling price</u>. If that is true rerun the stock number through market scan for updated payment options.','NIS Sales']
+SUB = ['','walser.com','','SUB Sales']
+SPMNSU = ['','walser.com','','SPMNSU Sales']
+TOY = ['<u>OEM compliant (at or above Invoice)</u> ','walser.com','In some cases, <u>you may have a lower in store selling price than the advertised selling price</u>. If that is true rerun the stock number through market scan for updated payment options.','TOY Sales']
+WZMNNS = ['<u>OEM compliant (at or above BAP)</u> ','walser.com','In some cases, <u>you may have a lower in store selling price than the advertised selling price</u>. If that is true rerun the stock number through market scan for updated payment options.','WZMNNS Sales']
+WBMNCV = ['','walser.com','','WBMNCV Sales']
+WBMNMA = ['<u>OEM compliant (at or above Invoice)</u> ','walser.com','In some cases, <u>you may have a lower in store selling price than the advertised selling price</u>. If that is true rerun the stock number through market scan for updated payment options.','WBMNMA Sales']
+WIKSAC = ['<u>OEM compliant</u> ','walserautocampus.com','','WIKSAC Sales']
+WIKSAU = ['<u>OEM compliant</u> ','walserautocampus.com','','WIKSAU Sales']
+WIKSBM = ['<u>OEM compliant</u> ','walserautocampus.com','','WIKSBM Sales']
+WIKSJG = ['','walserautocampus.com','','mmuhlenkort@walser.com;cray@walser.com;WIKSJG Sales']
+WIKSLE = ['<u>OEM compliant (at or above Invoice)</u> ','walserautocampus.com','In some cases, <u>you may have a lower in store selling price than the advertised selling price</u>. If that is true rerun the stock number through market scan for updated payment options.','WIKSLE Sales']
+WIKSMB = ['<u>OEM compliant</u> ','walserautocampus.com','','WIKSMB Sales']
+WIKSPO = ['<u>OEM compliant</u> ','walserautocampus.com','','WIKSPO Sales']
+
+dealerships = {
+
+    #'BCJD': BCJD,
+    'BGB': BGB,
+    'BGR': BGR,
+    'CJD': CJD,
+    'CRN': CRN,
+    'HON': HON,
+    'HYU': HYU,
+    'MAZ': MAZ,
+    'NIS': NIS,
+    'SUB': SUB,
+    'SPMNSU': SPMNSU,
+    'TOY': TOY,
+    'WBMNCV': WBMNCV,
+    'WBMNMA': WBMNMA,
+    'WIKSAC': WIKSAC,
+    'WIKSAU': WIKSAU,
+    'WIKSBM': WIKSBM,
+    'WIKSJG': WIKSJG,
+    'WIKSLE': WIKSLE,
+    'WIKSMB': WIKSMB,
+    'WIKSPO': WIKSPO,
+    'WZMNNS': WZMNNS
+}
+
+email_group = [
+ ' Account Executive Admins;',
+ ' Account Executives;',
+ ' CORE Manager;',
+ ' Customer Specialist Trainees;',
+ ' Customer Specialists;',
+ ' Digital Sales;',
+ ' Exchange Specialists;',
+ ' Sales Assistants;',
+ ' Sales Managers;',
+ ' Floor Managers;',
+ ' General Manager;',
+ ' New Car Manager;',
+ ' Operations Managers;',
+ ' Used Car Manager;',
+ ' Team Lead Admins;',
+ ' Team Leads;',
+ ]
+
+groups = ''
+
+for store in dealerships:
+    email_vehicles = ''
+    loop = 0
+    email_vehicles += 'Team,<br><br>'
+    email_vehicles += 'Here are the logins to the Ignite Specials Portal. '
+    email_vehicles += 'This will allow you to see all of the In-Store offers we have generated ran at our Dealer Price and may differ from the ones being advertised online. '
+    email_vehicles += 'This is due to some Manufacturers only allowing us to advertise at MAAP(Minimum Allowable Advertised Price). If you have any questions please let me know.'
+    email_vehicles += '<br><br>'
+    email_vehicles += 'Website: http://ignitespecials.com/<br>'
+    email_vehicles += 'Login: WalserAutoGroup@ignite.com<br>'
+    email_vehicles += 'Password: IgniteSpecials70521'
+    email_vehicles += '<br><br>'
+    email_vehicles += 'Below are today\'s updated ' + str(dealerships[store][0]) + 'new vehicle offers that have just been uploaded to <strong><u>' + str(dealerships[store][1]) + '</strong></u>. Make sure you check this email daily as the offer or vehicle you saw yesterday may have changed due to the vehicle being sold, rebate changes, or pricing updates.<br><br>' 
+    email_vehicles += '<strong>As you communicate this information with our customers please be aware these are stock number specific and not necessarily available for any other vehicle in stock.' + str(dealerships[store][2]) + ' Remember these are our absolute best advertised deals. They won’t last long.</strong><br><br>'
+    email_vehicles += 'If you’re looking to recreate the deal in Market Scan, please click the link for an easy tutorial on how to get started: <a href="https://drive.google.com/drive/folders/1RQHu96rfMaB1J3E3LDp1LrVhFb6jRps8?usp=sharing">Market Scan Tutorial</a><br><br>'
+    email_vehicles += 'If you are having trouble recreating the deal, please check with your Team Lead and then have them contact your Marketing Analyst or me directly to make sure we can quickly resolve anything that comes up.<br><br>'
+    email_vehicles += 'Thanks!<br><br>Matt Muhlenkort<br>612-275-3644<br>mmuhlenkort@walser.com<br><br>'
+    for vehicle in Excel.vehicles:
+        if len(vehicle.Offers) == 0 or vehicle.DealerCode != store:
+            pass
+        else:
+            email_vehicles += '\n<ol><strong>' + ' ' + str(vehicle.Year) + ' ' + str(vehicle.MakeName) + ' ' + str(vehicle.ModelName) + ' <br>' + str(vehicle.Trim) + ' </strong><a href="https://www.walser.com/new-vehicles/#action=im_ajax_call&perform=get_results&search=' + str(vehicle.StockNumber) + '&page=1&utm_source=store_email&utm_medium=' + str(vehicle.DealerCode) + '">' + str(vehicle.StockNumber) + '</a>'
+            email_vehicles += '<br>MSRP: <strong>$' + str(format(vehicle.MSRP, 'n')) + '</strong> | Invoice: <strong>$' + str(format(vehicle.Invoice, 'n')) + '</strong> <br> Net Cap Cost / Selling Price: <strong>$' + str(format(vehicle.SellingPrice, 'n')) + '</strong><br>'
+            for offer in vehicle.Offers:
+                email_vehicles += "\n<hr align='left' width='250' style=' margin:0px;padding:0px' /><li style=' margin:0px;padding:0px'><strong>" + str(offer.LeaseSpecial) + '</strong> ' + ' | Lender: <strong>' + str(offer.Lender) + '</strong>'
+                if str(offer.LeaseSpecial) == 'Finance Special':
+                    email_vehicles += ' | <strong>' + str(offer.Apr) + '%</strong> APR' 
+                
+                email_vehicles += '</strong><br>Offer: <strong>' + str(offer.LeaseOffer) + '</strong>'
+                if str(offer.LeaseSpecial) != 'Finance Special':
+                    email_vehicles +='<strong> ' + str(offer.Mileage)[0:2] + 'K</strong> Miles' 
+
+                email_vehicles += '\n<br><strong>$' + str(format(offer.Downpayment, 'n')) + '</strong> Down Payment | <strong>$' + str(format(offer.DueAtSigning, 'n')) + '</strong> Due At Signing</li>'
+            email_vehicles += "</ol><br><br>"
+
+    outlook = win32.Dispatch('outlook.application')
+    mail = outlook.CreateItem(0)
+
+    #for x in email_group:
+    #    try:
+    #        groups += '' + str(store) + str(x)
+    #    except:
+    #        print (str(store) + str(x) + ' Email Group Failed')
+    #        pass
+
+    if store == 'TOY':
+        groups = f'{store}2Sales@walser.com'
+    groups = f'{store}Sales@walser.com'
+    
+
+    test = False
+
+    if test == True:
+        mail.To = 'mmuhlenkort@walser.com'
+    
+    else:
+        mail.To = groups
+        #mail.To = 'mmuhlenkort@walser.com;apierce@walser.com'
+        print(str(store) + ' Email Group: ' + str(mail.To))
+        groups = ''
+        manager_group = 'pswenson@walser.com;cswenson@walser.com;cray@walser.com;psilovich@walser.com'
+
+        if store in {'BCJD','CJD','TOY'}:
+            mail.CC = f'kantes@walser.com;{manager_group}'
+        elif store in {'NIS','CRN','WZMNNS'}:
+            mail.CC = f'klumsden@walser.com;eswenson@walser.com;{manager_group}'
+        elif store in {'BGB','BGR','WBMNCV'}:
+            mail.CC = f'cokeefe@walser.com;{manager_group}'
+        elif store in {'HYU','SPMNSU'}:
+            mail.CC = f'ssivilay@walser.com;{manager_group}'
+        elif store in {'SUB'}:
+            mail.CC = f'ssivilay@walser.com;;eswenson@walser.com;{manager_group}'
+        elif store in {'WIKSAC','WIKSAU','WIKSBM','WIKSJG','WIKSLE','WIKSMB'}:
+            mail.CC = f'tmckee@walser.com;rlammle@walser.com;{manager_group}'
+        elif store in {'WIKSPO'}:
+            mail.CC = f'tmckee@walser.com;rlammle@walser.com;jreed@walser.com;{manager_group}'    
+        elif store in {'MAZ','WBMNMA','HON'}:
+            mail.CC = f'klumsden@walser.com;{manager_group}'
+        else:
+            mail.CC = ''
+        print('CC: ' + str(mail.CC))
+
+        mail.BCC = ''
+        print('BCC: ' + str(mail.BCC))
+
+    mail.Subject = str(store) +' ' + str(dealerships[store][1]) + ' Lease & Finance Specials ' + str(date.today())
+    print('Subject Line: ' + str(mail.Subject))
+    
+    mail.HTMLBody = email_vehicles
+
+    print('Sending ' + str(store) +' Mail\n')
+    try:
+        mail.Send()
+        print('Email Successful!\n')
+    except:
+        print('Email Failed\n')
+        pass

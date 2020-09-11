@@ -15,6 +15,7 @@ class VehiclePhoto:
     def __init__(self, **kwargs):
         self.ClientID = kwargs['ClientID']
         self.DealerID = kwargs['DealerID']
+        self.Domain = kwargs['Domain']
         self.VehiclePhotoID = kwargs['VehiclePhotoID']
         self.VIN = kwargs['VIN']
         self.UrlVdp = kwargs['UrlVdp']

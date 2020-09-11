@@ -11,8 +11,6 @@ class DashboardObjects():
          self.clients = self.object.create_clients_dealers_vehicles_offers(TestActive)
 
 def main(TestActive):
-    
-        
     print('Running Main Function')
     dashboard = DashboardObjects(TestActive)
     html = Dashboard(dashboard.clients)
@@ -32,7 +30,13 @@ def main(TestActive):
 
 if __name__ == "__main__":
     while True:
-        today = Today()
-        main(TestActive)
-        print(datetime.datetime.now())
-        sleep(60)
+        try:
+            today = Today()
+            main(TestActive)
+            print(datetime.datetime.now())
+            minute = 2
+            value = minute * 60
+            sleep(value)
+        except:
+            print(f'An Error Occured{datetime.datetime.now()}')
+            sleep(value)

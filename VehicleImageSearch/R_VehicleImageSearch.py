@@ -5,8 +5,8 @@ def main():
     TestActive = False
     objects = ObjectCreator(TestActive)
     
-    object = objects.create_objects()
-    objects.gather_vdp_website_list_async()
+    #object = objects.create_objects()
+    objects.gather_vdp_website_list()
     #objects.combine_objects()
                          
 if __name__ == "__main__":

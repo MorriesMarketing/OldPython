@@ -158,10 +158,21 @@ class Dashboard():
             }
             .fa-crosshairs {
             font-size: 15 px;
-            margin: 5px 5px 0px 0px;
+            
             }
             .dealer_name {
             width: 350px;
+            }
+            .fa-fire-alt {
+            font-size:30px;
+            }
+            .fire_button_client {
+            position: relative;
+            top: 10px;
+            }
+            .fire_button_dealer {
+            position: relative;
+            top: 0px;
             }
             """, is_pretty = True)
             
@@ -172,66 +183,77 @@ class Dashboard():
                         with div( cls='btn btn-primary', data_toggle="collapse", data_target=f"#ClientID{c.ClientID}"):
                             i(cls="far fa-arrow-alt-circle-down")
                             a(c.Name)
-                        with div(cls="d-flex flex-wrap "):
-                            with div(cls="d-flex flex-column ",style="margin: 0px 10px 0px 0px;"):
-                                div(f'ClientID: {c.ClientID}')
-                                div(f'Location: {c.Location}')
-                                div(f'Phone: {c.Phone}')
-                                div(f'Website: {c.Website}')
-                                with div():
-                                    if f'{c.IsActive}' == 'True':
-                                        emoji = i(cls="far fa-grin-beam")
-                                    else:
-                                        emoji = i(cls="far fa-sad-tear")
-                                    a(f'IsActive: {c.IsActive}')
-                                div(f'CreatedDT: {c.CreatedDT.strftime("%Y/%m/%d")}')
-                            with div(cls="d-flex flex-column ",style="margin: 0px 10px 0px 0px;"):
-                                if c.Batch == None:
-                                    div(f'BatchID: Shit Broke')
-                                else:
+                        with a(cls="fire_button_client" , style="margin: 0px 0px 0px 0px;",href=f"https://dealermarketingportal.azurewebsites.net/Authenticate?userID={c.WebID}&dealerWebID=None"):
+                            if c.IsActive == False:
+                                i(cls="fas fa-fire-alt" , style="color:black;")
+                            else:
+                                i(cls="fas fa-fire-alt" , style="color:red;")
+                        with div(cls='collapse', id=f"ClientID{c.ClientID}"):
+                            with div(cls="d-flex flex-wrap"):
+                                with div(cls="d-flex flex-column ",style="margin: 0px 10px 0px 0px;"):
+                                    div(f'ClientID: {c.ClientID}')
+                                    div(f'Location: {c.Location}')
+                                    div(f'Phone: {c.Phone}')
+                                    div(f'Website: {c.Website}')
                                     with div():
-                                        try:
-                                            if c.Batch.BatchDetails.ExportJobEndDT.strftime("%Y/%m/%d") == datetime.datetime.today().strftime("%Y/%m/%d"):
-                                                emoji = i(cls="far fa-grin-beam")
-                                            else:
+                                        if f'{c.IsActive}' == 'True':
+                                            emoji = i(cls="far fa-grin-beam")
+                                        else:
+                                            emoji = i(cls="far fa-sad-tear")
+                                        a(f'IsActive: {c.IsActive}')
+                                    div(f'CreatedDT: {c.CreatedDT.strftime("%Y/%m/%d")}')
+                                with div(cls="d-flex flex-column ",style="margin: 0px 10px 0px 0px;"):
+                                    if c.Batch == None:
+                                        div(f'BatchID: Shit Broke')
+                                    else:
+                                        with div():
+                                            try:
+                                                if c.Batch.BatchDetails.ExportJobEndDT.strftime("%Y/%m/%d") == datetime.datetime.today().strftime("%Y/%m/%d"):
+                                                    emoji = i(cls="far fa-grin-beam")
+                                                else:
+                                                    emoji = i(cls="far fa-angry")
+                                            except:
                                                 emoji = i(cls="far fa-angry")
+                                            a(f'BatchID: {c.Batch.BatchID}')
+                                        try:
+                                            div(f'VehicleJobStartDT: {c.Batch.BatchDetails.VehicleJobStartDT.strftime("%Y/%m/%d")}')
                                         except:
-                                            emoji = i(cls="far fa-angry")
-                                        a(f'BatchID: {c.Batch.BatchID}')
-                                    try:
-                                        div(f'VehicleJobStartDT: {c.Batch.BatchDetails.VehicleJobStartDT.strftime("%Y/%m/%d")}')
-                                    except:
-                                        div(f'VehicleJobStartDT: {c.Batch.BatchDetails.VehicleJobStartDT}')
-                                    try:
-                                        div(f'VehicleJobEndDT: {c.Batch.BatchDetails.VehicleJobEndDT.strftime("%Y/%m/%d")}')
-                                    except:
-                                        div(f'VehicleJobStartDT: {c.Batch.BatchDetails.VehicleJobEndDT}')
-                                    try:
-                                        div(f'OfferJobStartDT: {c.Batch.BatchDetails.OfferJobStartDT.strftime("%Y/%m/%d")}')
-                                    except:
-                                        div(f'OfferJobStartDT: {c.Batch.BatchDetails.OfferJobStartDT}')
-                                    try:
-                                        div(f'OfferJobEndDT: {c.Batch.BatchDetails.OfferJobEndDT.strftime("%Y/%m/%d")}')
-                                    except:
-                                        div(f'OfferJobEndDT: {c.Batch.BatchDetails.OfferJobEndDT}')
-                                    try:
-                                        div(f'ExportJobStartDT: {c.Batch.BatchDetails.ExportJobStartDT.strftime("%Y/%m/%d")}')
-                                    except:
-                                        div(f'ExportJobStartDT: {c.Batch.BatchDetails.ExportJobStartDT}')
-                                    try:
-                                        div(f'ExportJobEndDT: {c.Batch.BatchDetails.ExportJobEndDT.strftime("%Y/%m/%d")}')
-                                    except:
-                                        div(f'ExportJobEndDT: {c.Batch.BatchDetails.ExportJobEndDT}')
+                                            div(f'VehicleJobStartDT: {c.Batch.BatchDetails.VehicleJobStartDT}')
+                                        try:
+                                            div(f'VehicleJobEndDT: {c.Batch.BatchDetails.VehicleJobEndDT.strftime("%Y/%m/%d")}')
+                                        except:
+                                            div(f'VehicleJobStartDT: {c.Batch.BatchDetails.VehicleJobEndDT}')
+                                        try:
+                                            div(f'OfferJobStartDT: {c.Batch.BatchDetails.OfferJobStartDT.strftime("%Y/%m/%d")}')
+                                        except:
+                                            div(f'OfferJobStartDT: {c.Batch.BatchDetails.OfferJobStartDT}')
+                                        try:
+                                            div(f'OfferJobEndDT: {c.Batch.BatchDetails.OfferJobEndDT.strftime("%Y/%m/%d")}')
+                                        except:
+                                            div(f'OfferJobEndDT: {c.Batch.BatchDetails.OfferJobEndDT}')
+                                        try:
+                                            div(f'ExportJobStartDT: {c.Batch.BatchDetails.ExportJobStartDT.strftime("%Y/%m/%d")}')
+                                        except:
+                                            div(f'ExportJobStartDT: {c.Batch.BatchDetails.ExportJobStartDT}')
+                                        try:
+                                            div(f'ExportJobEndDT: {c.Batch.BatchDetails.ExportJobEndDT.strftime("%Y/%m/%d")}')
+                                        except:
+                                            div(f'ExportJobEndDT: {c.Batch.BatchDetails.ExportJobEndDT}')
 
                         
 
-                        with div(cls='collapse', id=f"ClientID{c.ClientID}"):
+                            
                             with div(cls='d-flex flex-wrap '):
                                 for d in c.Dealers:
                                     with div(cls="d-flex flex-wrap dealer_name" ,style="margin: 10px 10px 0px 0px;"):
                                         with div(cls=""):
-                                            i(cls="far fa-arrow-alt-circle-down", data_toggle="collapse", data_target=f"#DealerID{d.DealerID}")
+                                            i(cls="far fa-arrow-alt-circle-down",style="font-size:25px", data_toggle="collapse", data_target=f"#DealerID{d.DealerID}")
                                             a(f'Name: {d.Name}')
+                                        with a(cls="fire_button_dealer",style="margin: 0px 0px 0px 0px;",href=f"https://dealermarketingportal.azurewebsites.net/Authenticate?userID={c.WebID}&dealerWebID={d.WebID}"):
+                                            if d.IsActive == False:
+                                                i(cls="fas fa-fire-alt", style="color:black; margin: 0px 0px 0px 10px;")
+                                            else:
+                                                i(cls="fas fa-fire-alt", style="color:red; margin: 0px 0px 0px 10px;")
                                         with div(cls='collapse', id=f"DealerID{d.DealerID}"):
                                             with div(cls="d-flex flex-row"):
                                                 for st in d.StockTypes:

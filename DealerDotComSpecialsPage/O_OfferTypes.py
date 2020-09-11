@@ -1,4 +1,5 @@
 class OfferType():
+    #Project DealerDotComSpecialsPage
     def __init__(self, **kwargs):
         self.OfferTypeID = kwargs['OfferTypeID']
         self.Name = kwargs['Name']

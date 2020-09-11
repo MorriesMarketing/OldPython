@@ -25,6 +25,10 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "WalserApp", "WalserApp\Wals
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "IgniteStatusDashboard", "IgniteStatusDashboard\IgniteStatusDashboard.pyproj", "{6820CB42-6F11-4E49-8022-05D31225FE61}"
 EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "DjangoIgnite", "DjangoIgnite\DjangoIgnite.pyproj", "{7A9EDAD7-2B1D-4754-8BA6-4ECDDE58703E}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "GM_Specials_Excel_Email", "GM_Specials_Excel_Email\GM_Specials_Excel_Email.pyproj", "{3B5DA609-0289-4403-863C-764D5B3CD33A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +57,12 @@ Global
 		{19E7A5DF-FDEF-41DB-928A-DF6A866908E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6820CB42-6F11-4E49-8022-05D31225FE61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6820CB42-6F11-4E49-8022-05D31225FE61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A9EDAD7-2B1D-4754-8BA6-4ECDDE58703E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A9EDAD7-2B1D-4754-8BA6-4ECDDE58703E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A9EDAD7-2B1D-4754-8BA6-4ECDDE58703E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A9EDAD7-2B1D-4754-8BA6-4ECDDE58703E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B5DA609-0289-4403-863C-764D5B3CD33A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B5DA609-0289-4403-863C-764D5B3CD33A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

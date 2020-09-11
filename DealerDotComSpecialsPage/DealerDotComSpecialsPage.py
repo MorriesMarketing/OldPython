@@ -6,11 +6,10 @@ from Pages import *
 TestActive = False
 
 class SpecialsPage():
-     def __init__(self,TestActive):
-         self.clients = ObjectCreator.create_clients_dealers_vehicles_offers(TestActive)
+    def __init__(self, TestActive):
+        self.object = ObjectCreator()
+        self.clients = self.object.create_clients_dealers_vehicles_offers(TestActive)
     
-    
-
 def main(TestActive):
     print('Running Main Function')
     specials = SpecialsPage(TestActive)

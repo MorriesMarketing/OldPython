@@ -18,6 +18,7 @@ class Dealer():
         self.ExportFilename = kwargs['ExportFilename']
         self.IsActive = kwargs['IsActive']
         self.CreatedDT = kwargs['CreatedDT']
+        self.WebID = kwargs['WebID']
 
         self.StockTypes = []
 

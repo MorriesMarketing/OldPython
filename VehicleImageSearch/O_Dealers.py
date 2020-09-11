@@ -2,23 +2,14 @@
 
 
 class Dealer():
+    #Project VehicleImageSearch
     def __init__(self, **kwargs):
+        self.WebsiteID = kwargs['WebsiteID']
         self.ClientID = kwargs['ClientID']
         self.DealerID = kwargs['DealerID']
         self.DealerName = kwargs['DealerName']
         self.Domain = kwargs['Domain']
         self.SpecialsPage = kwargs['SpecialsPage']
-        self.SRP = kwargs['SRP1']
-        if self.SRP == None:
-            pass
-        elif ',' in self.SRP:
-            self.SRP = list(self.SRP.split(','))
-        else:
-            self.SRP = list(self.SRP)
-        self.FirstSearchQueryItem = kwargs['FirstSearchQueryItem']
-        self.FirstImageSelector = kwargs['FirstImageSelector']
-        self.FirstImageSelector = list(self.FirstImageSelector.split(','))
-        self.FirstImageSelector2 = kwargs['FirstImageSelector2']
         self.UserName = kwargs['UserName']
         self.Password = kwargs['Password']
         self.GroupSite = kwargs['GroupSite']
@@ -39,6 +30,7 @@ class Dealer():
         self.Years = []
         self.Makes = []
         self.Models = []
+        self.Pages = []
 
     def __repr__(self):
         return f"{self.ClientID} {self.DealerID} {self.DealerName} {self.Domain}"

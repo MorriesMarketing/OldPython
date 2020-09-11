@@ -58,7 +58,7 @@ class SqlLight():
             return database.access_table()
 
     @staticmethod
-    def DeskTop_VehiclePhotos_Write(ClientID,DealerID,VIN,url,image):
+    def DeskTop_VehiclePhotos_Write(ClientID,DealerID,Domain,VIN,url,image):
         Sql = Database.SQLITE3
         conn = Sql.connect(f"F:\SQLiteStudio-3.2.1\SQLiteStudio\Database1.db")
         database_look = conn.execute(f"""
@@ -86,7 +86,7 @@ class SqlLight():
         conn.cursor()
         conn.execute(f"""
                     INSERT INTO VehiclePhotos 
-                    VALUES ('{max_count}','{ClientID}','{DealerID}','{VIN}', '{url}' , '{image}')
+                    VALUES ('{max_count}','{ClientID}','{DealerID}','{Domain}','{VIN}', '{url}' , '{image}')
                     """)
         conn.commit()
         conn.close()

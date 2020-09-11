@@ -9,6 +9,7 @@ class Client():
         self.Website = kwargs['Website']
         self.IsActive = kwargs['IsActive']
         self.CreatedDT = kwargs['CreatedDT']
+        self.WebID = kwargs['WebID']
         self.Batch = None
 
         self.Dealers = []

@@ -29,6 +29,9 @@
     <Compile Include="O_Days.py" />
     <Compile Include="O_Dealers.py" />
     <Compile Include="O_Images.py" />
+    <Compile Include="O_Pages.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="O_Selenium.py" />
     <Compile Include="O_Vehicles.py" />
     <Compile Include="R_VehicleImageSearch.py" />

@@ -95,7 +95,32 @@ class SqlServer(Database):
         while True:
             database = Database(SqlQueryConnect, SqlQueryExcecute, Database.FETCHALL, Sql)
             return database.access_table()
-
+    
+    @staticmethod
+    def PRD_ClientVehicles_ReadData():
+        Sql = Database.SQLSERVER
+        SqlQueryConnect = """
+            Driver={SQL Server};
+            Server=dealermarketing.database.windows.net;
+            Database=PRD_DigitalMarketing;
+            UID=ApplicationRead;
+            PWD=TheW@lserW@y;
+            """
+        SqlQueryExcecute = """
+            SELECT 
+                * 
+            FROM 
+                ClientVehicles
+            WHERE
+                ClientID != 5
+            ORDER BY 
+                ClientID,
+	            DealerID,
+	            VehicleID
+            """
+        while True:
+            database = Database(SqlQueryConnect, SqlQueryExcecute, Database.FETCHALL, Sql)
+            return database.access_table()
 
     @staticmethod
     def PRD_ExternalVehicles_AgedUsed_ReadData():
@@ -255,7 +280,7 @@ class SqlServer(Database):
 
     # This method is used to see if a photo is available for a VehicleID. 
     # Seperate process is used to identify this occurence and check dealers website to obtain photo.
-    def PRD_Vehicles_Photos():
+    def PRD_ClientVehicles_Photos():
         Sql = Database.SQLSERVER
         SqlQueryConnect = """
             Driver={SQL Server};
@@ -274,6 +299,10 @@ class SqlServer(Database):
                 ClientVehicles
             WHERE
                 ClientID != 5
+            ORDER BY 
+                ClientID,
+	            DealerID,
+	            VehicleID
 
             """
         while True:
