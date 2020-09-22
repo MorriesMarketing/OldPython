@@ -29,6 +29,16 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="O_Days.py" />
+    <Compile Include="O_Files.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="O_MarketData.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="O_Paths.py" />
+    <Compile Include="Page.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="scratch.txt" />

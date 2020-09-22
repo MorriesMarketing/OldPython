@@ -44,6 +44,19 @@ class Today():
         time_elapsed = time_end - time_start
         print(f'\nSUCCESS! {function.__name__} Elapsed: \t{time_elapsed}\n')
 
+    def date_x_days_ago(Minus_Days, Year, Month, Day):
+        today_date = datetime.datetime.today().strftime("%Y/%m/%d")
+        calculated_date = datetime.datetime.today() - datetime.timedelta(Minus_Days)
+        formated_calculated_date = calculated_date.strftime("%Y/%m/%d")
+        provided_date = datetime.datetime(Year,Month,Day).strftime("%Y/%m/%d")
+
+        if today_date >= filename_date >= last_weeks_date:
+            return True
+        else:
+            return False
+
+
+
 today = Today()
 x = today.today_date_format
 print(x)

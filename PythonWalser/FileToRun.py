@@ -1,8 +1,17 @@
 #import R_VehicleSpecialsNew
+import datetime
 
 def main():
-    text = 'https://www.audiwichita.com/new/Audi/2020-Audi-SQ7-wichita-ks-e183d98c0a0e0adf56634e93abd86202.htm'
-    text = text.split('https://www.audiwichita.com/')
-    print(text)
+    today_date = datetime.datetime.today().strftime("%Y/%m/%d")
+    calculated_date = datetime.datetime.today() - datetime.timedelta(7)
+    last_weeks_date = calculated_date.strftime("%Y/%m/%d")
+    filename_date = datetime.datetime(2020,9,15).strftime("%Y/%m/%d")
+    test_date = datetime.datetime(int('2020-09-15')).strftime("%Y/%m/%d")
 
+    print(today_date)
+    print(last_weeks_date)
+    print(filename_date)
+    print(test_date)
+    if today_date >= filename_date >= last_weeks_date:
+        print('True')
 main()
