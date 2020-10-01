@@ -29,6 +29,8 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "DjangoIgnite", "DjangoIgnit
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "GM_Specials_Excel_Email", "GM_Specials_Excel_Email\GM_Specials_Excel_Email.pyproj", "{3B5DA609-0289-4403-863C-764D5B3CD33A}"
 EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "ClassLibrary", "ClassLibrary\ClassLibrary.pyproj", "{24C7CAC6-BDA8-4F7F-91DC-7BADDF62368B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,8 @@ Global
 		{7A9EDAD7-2B1D-4754-8BA6-4ECDDE58703E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3B5DA609-0289-4403-863C-764D5B3CD33A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3B5DA609-0289-4403-863C-764D5B3CD33A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24C7CAC6-BDA8-4F7F-91DC-7BADDF62368B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24C7CAC6-BDA8-4F7F-91DC-7BADDF62368B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,9 +1,7 @@
-from Excel import *
+from Excel import Excel
 from Outlook import *
 from Page import *
-import pause
 from O_Days import *
-
 TestActive = False
 
 def main(TestActive):
@@ -15,8 +13,8 @@ def main(TestActive):
         Subject = 'New Inventory Specials'
         Body = Page()
     else:
-        To = 'MNGeneralManagers@walser.com'
-        CC = 'awalser@walser.com;pswenson@walser.com;cswenson@walser.com;cray@walser.com;mprice@walser.com;psilovich@walser.com'
+        To = 'MNGeneralManagers@walser.com;KSGeneralManagers@walser.com'
+        CC = 'awalser@walser.com;pswenson@walser.com;cswenson@walser.com;rlammle@walser.com;cray@walser.com;mprice@walser.com;psilovich@walser.com;klumsden@walser.com'
         Subject = 'Ignite New Inventory Specials'
         #Body = Page()
         #str(Body.doc())

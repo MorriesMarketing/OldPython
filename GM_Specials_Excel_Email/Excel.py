@@ -1,3 +1,7 @@
+#import sys
+# insert at 1, 0 is the script path (or '' in REPL)
+#sys.path.insert(1, 'C:/Users/gamer/source/repos/MMuhlenkort/PythonWalser/ClassLibrary')
+
 import win32com.client
 from pathlib import Path
 import datetime
@@ -5,7 +9,7 @@ from O_Days import *
 from O_Paths import *
 from O_Files import *
 import os
-import openpyxl
+#import openpyxl
 from O_MarketData import *
 
 # Computer
@@ -30,15 +34,16 @@ class Excel():
         wb.Save()
         self.xl.DisplayAlerts = False
         self.xl.Quit()
-
+    
+    @staticmethod
     def split_filename_to_identify_date(filename):
         filename_strings = filename.split('_')
         date_strings = filename_strings[2].split('-')
-        
+        day_split = date_strings[2].split('.')
         date = {
             'Year': int(date_strings[0]),
             'Month': int(date_strings[1]),
-            'Day': int(date_strings[2])
+            'Day': int(day_split[0])
             }
         return date
 
@@ -46,31 +51,32 @@ class Excel():
         list_of_valid_files = []
         for filename in os.listdir(Directory):
             today = Today()
-            filename_date = split_filename_to_identify_date(filename)
-            file_date_valid = today.date_x_days_ago(Minus_Days=7,Year=filename_date['Year'],Month=filename_date['Month'],Day=filename_date['Day'])
-            file = File()
-            file.Directory = Directory
-            file.FileName = filename
-            if 'MarketData' in file.FileName and file_date_valid:
-                print(os.path.join(file.Directory, file.FileName))
-                valid_filenames.append(file)
-            else:
-                print(filename)
+            if 'csv#' in filename:
+                filename_date = self.split_filename_to_identify_date(filename)
+                file_date_valid = today.date_x_days_ago(Minus_Days=7,Year=filename_date['Year'],Month=filename_date['Month'],Day=filename_date['Day'])
+                file = File()
+                file.Directory = Directory
+                file.FileName = filename
+                if 'MarketData' in file.FileName and file_date_valid:
+                    print(os.path.join(file.Directory, file.FileName))
+                    valid_filenames.append(file)
+                else:
+                    print(filename)
 
         return list_of_valid_files
 
     def gather_market_data_files(self):
         list_of_valid_files = []
-        folder_1 = self.gather_files(Directory=self.inventory_path_1)
+        folder_1 = self.gather_files(Directory=path.inventory_path_1)
         for f in folder_1:
             list_of_valid_files.append(f)
-        folder_2 = self.gather_files(Directory=self.inventory_path_2)
+        folder_2 = self.gather_files(Directory=path.inventory_path_2)
         for f in folder_2:
             list_of_valid_files.append(f)
-        folder_3 = self.gather_files(Directory=self.inventory_path_3)
+        folder_3 = self.gather_files(Directory=path.inventory_path_3)
         for f in folder_3:
             list_of_valid_files.append(f)
-        folder_4 = self.gather_files(Directory=self.inventory_path_4)
+        folder_4 = self.gather_files(Directory=path.inventory_path_4)
         for f in folder_4:
             list_of_valid_files.append(f)
 
